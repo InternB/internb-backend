@@ -1,7 +1,9 @@
 {
   "type": "sqlite",
   "database": "./src/shared/infra/typeorm/internb-dev.sqlite",
-  "entities": [],
+  "entities": [
+    "./src/modules/users/infra/typeorm/entities/*.ts"
+  ],
   "migrations": [
     "./src/shared/infra/typeorm/migrations/*.ts"
   ],
