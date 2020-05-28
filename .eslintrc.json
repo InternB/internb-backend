@@ -23,6 +23,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/camelcase": "off",
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
     "no-useless-return": "off",
