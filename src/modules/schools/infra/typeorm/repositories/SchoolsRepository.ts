@@ -14,6 +14,7 @@ export default class SchoolsRepository implements ISchoolsRepository {
 
   public async create({
     name,
+    type,
     adm_region_id,
     cep,
     address,
@@ -22,6 +23,7 @@ export default class SchoolsRepository implements ISchoolsRepository {
   }: ICreateSchoolDTO): Promise<School> {
     const school = this.ormRepository.create({
       name,
+      type,
       adm_region_id,
       cep,
       address,

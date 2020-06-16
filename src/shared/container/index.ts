@@ -13,6 +13,12 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import IAdmRegionsRepository from '@modules/schools/repositories/IAdmRegionsRepository';
 import AdmRegionsRepository from '@modules/schools/infra/typeorm/repositories/AdmRegionsRepository';
 
+import ISchoolsRepository from '@modules/schools/repositories/ISchoolsRepository';
+import SchoolsRepository from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
+
+import ISchoolManagersRepository from '@modules/schools/repositories/ISchoolManagersRepository';
+import SchoolManagersRepository from '@modules/schools/infra/typeorm/repositories/SchoolManagersRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -26,4 +32,14 @@ container.registerSingleton<IUserTokensRepository>(
 container.registerSingleton<IAdmRegionsRepository>(
   'AdmRegionsRepository',
   AdmRegionsRepository,
+);
+
+container.registerSingleton<ISchoolsRepository>(
+  'SchoolsRepository',
+  SchoolsRepository,
+);
+
+container.registerSingleton<ISchoolManagersRepository>(
+  'SchoolManagersRepository',
+  SchoolManagersRepository,
 );
