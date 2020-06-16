@@ -33,4 +33,10 @@ export default class SchoolsRepository implements ISchoolsRepository {
 
     return school;
   }
+
+  public async findById(id: string): Promise<School | undefined> {
+    const findId = await this.ormRepository.findOne({ where: { id } });
+
+    return findId;
+  }
 }

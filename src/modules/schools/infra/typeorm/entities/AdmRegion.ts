@@ -6,8 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('schools')
-class School {
+@Entity('adm_regions')
+class AdmRegion {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,4 +24,4 @@ class School {
   updated_at: Date;
 }
 
-export default School;
+export default AdmRegion;

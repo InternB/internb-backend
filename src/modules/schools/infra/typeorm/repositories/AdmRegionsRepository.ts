@@ -19,4 +19,10 @@ export default class AdmRegionsRepository implements IAdmRegionsRepository {
 
     return adm_region;
   }
+
+  public async findById(id: string): Promise<AdmRegion | undefined> {
+    const findId = await this.ormRepository.findOne({ where: { id } });
+
+    return findId;
+  }
 }
