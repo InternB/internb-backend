@@ -30,6 +30,9 @@ class User {
   @Column('integer')
   role: number;
 
+  @Column('varchar')
+  contractFiles: string;
+
   @CreateDateColumn()
   created_at: Date;
 
