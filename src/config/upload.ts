@@ -33,23 +33,43 @@ export default {
   },
 } as IFolders;
 
+const wordPDFFileFilter = (
+  _: Request,
+  file: Express.Multer.File,
+  cb: Function,
+): Function => {
+  if (!intershipFormats[`${path.extname(file.originalname)}`])
+    return cb(new Error('Only PDF and Word files are allowed'));
+
+  return cb(null, true);
+};
+
+const uuidFilename = (
+  _: Request,
+  file: Express.Multer.File,
+  cb: Function,
+): void => {
+  const id = uuid();
+  const ext = path.extname(file.originalname);
+  cb(null, `${id}${ext}`);
+};
+
 export const internshipDocsUpload = {
   upload: multer({
-    fileFilter: (_: Request, file, cb) => {
-      if (!intershipFormats[`${path.extname(file.originalname)}`])
-        return cb(new Error('Only PDF and Word files are allowed'));
-
-      return cb(null, true);
-    },
+    fileFilter: wordPDFFileFilter,
     storage: diskStorage({
       destination: tmpFolder,
-      filename: (_: Request, file, cb) => {
-        const id = uuid();
-        const ext = path.extname(file.originalname);
-        cb(null, `${id}${ext}`);
-      },
+      filename: uuidFilename,
     }),
   }),
 };
 
-// export const;
+export const internshipWorkPLan = {
+  upload: multer({
+    fileFilter: wordPDFFileFilter,
+    storage: diskStorage({
+      destination: tmpFolder,
+      filename: uuidFilename,
+    }),
+  }),
+};

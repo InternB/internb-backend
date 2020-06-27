@@ -1,16 +1,19 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import { internshipDocsUpload } from '@config/upload';
+import { internshipDocsUpload, internshipWorkPLan } from '@config/upload';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 import UsersController from '../controllers/UsersController';
-import StudentIntershipContractsController from '../controllers/StudentIntershipContractsController';
+import StudentContractsController from '../controllers/StudentContractsController';
+import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
 
 const usersRouter = Router();
+
 const usersController = new UsersController();
-const studentIntershipContractsController = new StudentIntershipContractsController();
+const studentContractsController = new StudentContractsController();
+const studentWorkPlansController = new StudentWorkPlansController();
 
 usersRouter.post(
   '/',
@@ -48,7 +51,14 @@ usersRouter.patch(
       maxCount: 1,
     },
   ]),
-  studentIntershipContractsController.update,
+  studentContractsController.update,
+);
+
+usersRouter.patch(
+  '/:id/work-plan',
+  ensureAuthenticated,
+  internshipWorkPLan.upload.single('work_plan'),
+  studentWorkPlansController.patch,
 );
 
 export default usersRouter;

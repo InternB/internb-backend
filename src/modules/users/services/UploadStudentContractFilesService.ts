@@ -19,7 +19,7 @@ interface IRequest {
 }
 
 @injectable()
-class UploadStudentContractFiles {
+class UploadStudentContractFilesService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -42,11 +42,11 @@ class UploadStudentContractFiles {
         secondCopy,
         thirdCopy,
       ]);
-
-      if (!user) throw new AppError('Student does not exist');
-
-      if (user.role !== 3) throw new AppError('User is not a student');
     }
+
+    if (!user) throw new AppError('Student does not exist');
+
+    if (user.role !== 3) throw new AppError('User is not a student');
 
     const commitmentFile = await this.storageProvider.saveFile(
       path.extname(commitmentTerm),
@@ -61,11 +61,11 @@ class UploadStudentContractFiles {
 
     const updatedUser = this.usersRepository.save({
       ...user,
-      contractFiles: `${commitmentFile};${contractFiles[0]};${contractFiles[1]};${contractFiles[2]}`,
+      contract_files: `${commitmentFile};${contractFiles[0]};${contractFiles[1]};${contractFiles[2]}`,
     });
 
     return updatedUser;
   }
 }
 
-export default UploadStudentContractFiles;
+export default UploadStudentContractFilesService;

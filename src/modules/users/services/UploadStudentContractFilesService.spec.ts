@@ -4,18 +4,18 @@ import AppError from '@shared/errors/AppError';
 
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 
-import UploadStudentContractFiles from './UploadStudentContractFiles';
+import UploadStudentContractFilesService from './UploadStudentContractFilesService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 
-let uploadStudentContractFiles: UploadStudentContractFiles;
+let uploadStudentContractFiles: UploadStudentContractFilesService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeStorageProvider: FakeStorageProvider;
 
-describe('', () => {
+describe('UploadStudentContractFiles', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeStorageProvider = new FakeStorageProvider();
-    uploadStudentContractFiles = new UploadStudentContractFiles(
+    uploadStudentContractFiles = new UploadStudentContractFilesService(
       fakeUsersRepository,
       fakeStorageProvider,
     );
@@ -31,7 +31,7 @@ describe('', () => {
       role: 3,
     });
 
-    const { contractFiles } = await uploadStudentContractFiles.execute({
+    const { contract_files } = await uploadStudentContractFiles.execute({
       student_id,
       commitmentTerm: 'wordexample.docx',
       contract: {
@@ -41,7 +41,7 @@ describe('', () => {
       },
     });
 
-    expect(contractFiles.split(';')).toEqual(
+    expect(contract_files.split(';')).toEqual(
       expect.arrayContaining([
         'wordexample.docx',
         'pdfexample.pdf',
