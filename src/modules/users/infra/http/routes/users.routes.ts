@@ -23,7 +23,7 @@ usersRouter.post(
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
       fullname: Joi.string().required(),
-      phone: Joi.string().optional(),
+      phone: Joi.string().allow('').optional(),
       role: Joi.number().min(0).max(3).required(),
     },
   }),
