@@ -58,4 +58,10 @@ export default class FakeUsersRepository implements IUsersRepository {
 
     return findEmail;
   }
+
+  public async userExists(id: string): Promise<boolean> {
+    const any = this.users.findIndex(user => user.id === id);
+
+    return any !== -1;
+  }
 }

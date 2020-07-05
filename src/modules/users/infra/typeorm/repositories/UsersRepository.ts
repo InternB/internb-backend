@@ -57,4 +57,10 @@ export default class UsersRepository implements IUsersRepository {
 
     return findEmail;
   }
+
+  public async userExists(id: string): Promise<boolean> {
+    const any = await this.ormRepository.count({ where: { id } });
+
+    return any === 1;
+  }
 }
