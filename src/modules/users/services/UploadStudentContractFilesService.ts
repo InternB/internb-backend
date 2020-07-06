@@ -67,7 +67,7 @@ class UploadStudentContractFilesService {
     const updatedUser = this.usersRepository.save({
       ...user,
       contract_files: `${commitmentFile};${contractFiles[0]};${contractFiles[1]};${contractFiles[2]}`,
-    });
+    } as User);
 
     return updatedUser;
   }

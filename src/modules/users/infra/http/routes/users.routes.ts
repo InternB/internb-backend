@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import { internshipDocsUpload, internshipWorkPLan } from '@config/upload';
+import { internshipDocsUpload, internshipWorkPlan } from '@config/upload';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
@@ -34,8 +34,6 @@ usersRouter.post(
   usersController.create,
 );
 
-usersRouter.put('/', ensureAuthenticated, usersController.update);
-
 usersRouter.patch(
   '/contract-files',
   ensureAuthenticated,
@@ -63,7 +61,7 @@ usersRouter.patch(
 usersRouter.patch(
   '/work-plan',
   ensureAuthenticated,
-  internshipWorkPLan.upload.single('work_plan'),
+  internshipWorkPlan.upload.single('work_plan'),
   studentWorkPlansController.patch,
 );
 

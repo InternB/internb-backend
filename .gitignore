@@ -10,4 +10,5 @@ coverage/
 
 tmp/**/*.*
 !tmp/**/.gitkeep
+!tmp/images/profiles/default.png
 !tmp/__tests__/*.*

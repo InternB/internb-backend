@@ -28,6 +28,7 @@ export default class FakeUsersRepository implements IUsersRepository {
       phone,
       role,
       active,
+      avatar: 'default.png',
     });
 
     this.users.push(user);

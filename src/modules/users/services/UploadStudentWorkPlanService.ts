@@ -38,7 +38,10 @@ class UploadStudentWorkPlanService {
 
     user.updated_at = new Date();
 
-    const updatedUser = this.usersRepository.save({ ...user, work_plan });
+    const updatedUser = this.usersRepository.save({
+      ...user,
+      work_plan,
+    } as User);
 
     return updatedUser;
   }
