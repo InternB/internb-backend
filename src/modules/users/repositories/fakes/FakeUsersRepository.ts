@@ -76,4 +76,9 @@ export default class FakeUsersRepository implements IUsersRepository {
 
     return any !== -1;
   }
+
+  public async deleteUser(user: User): Promise<void> {
+    const idx = this.users.findIndex(savedUser => savedUser.id === user.id);
+    this.users[idx].deleted_at = new Date();
+  }
 }

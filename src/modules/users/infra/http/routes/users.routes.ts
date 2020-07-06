@@ -6,12 +6,14 @@ import { internshipDocsUpload, internshipWorkPLan } from '@config/upload';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 import UsersController from '../controllers/UsersController';
+import AdminsController from '../controllers/AdminsController';
 import StudentContractsController from '../controllers/StudentContractsController';
 import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
 
 const usersRouter = Router();
 
 const usersController = new UsersController();
+const adminsController = new AdminsController();
 const studentContractsController = new StudentContractsController();
 const studentWorkPlansController = new StudentWorkPlansController();
 
@@ -65,6 +67,6 @@ usersRouter.patch(
 
 usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
-// usersRouter.delete('/:id', ensureAuthenticated, adminsController.delete);
+usersRouter.delete('/:id', ensureAuthenticated, adminsController.delete);
 
 export default usersRouter;

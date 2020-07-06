@@ -47,7 +47,6 @@ describe('ShowUsers', () => {
 
     const users = await showUsersService.execute({
       user_id: user.id,
-      role: user.role,
     });
 
     expect(users.length).toEqual(2);
@@ -67,7 +66,6 @@ describe('ShowUsers', () => {
     await expect(
       showUsersService.execute({
         user_id: 'non-existing-user',
-        role: 0,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -106,7 +104,6 @@ describe('ShowUsers', () => {
     await expect(
       showUsersService.execute({
         user_id: user.id,
-        role: user.role,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
