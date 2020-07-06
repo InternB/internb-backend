@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 
 import User from '../entities/User';
 
@@ -19,6 +19,7 @@ export default class UsersRepository implements IUsersRepository {
     password,
     phone,
     role,
+    active,
   }: ICreateUserDTO): Promise<User> {
     const user = this.ormRepository.create({
       cpf,
@@ -27,6 +28,7 @@ export default class UsersRepository implements IUsersRepository {
       password,
       phone,
       role,
+      active,
     });
 
     await this.ormRepository.save(user);
@@ -56,5 +58,11 @@ export default class UsersRepository implements IUsersRepository {
     const findEmail = await this.ormRepository.findOne({ where: { email } });
 
     return findEmail;
+  }
+
+  public async getAllUsers(user_id: string): Promise<User[]> {
+    const users = await this.ormRepository.find({ where: Not(user_id) });
+
+    return users;
   }
 }

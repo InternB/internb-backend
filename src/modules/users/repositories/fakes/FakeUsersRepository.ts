@@ -1,5 +1,6 @@
 import { uuid } from 'uuidv4';
 
+import { promises } from 'fs';
 import User from '../../infra/typeorm/entities/User';
 
 import ICreateUserDTO from '../../dtos/ICreateUserDTO';
@@ -15,6 +16,7 @@ export default class FakeUsersRepository implements IUsersRepository {
     fullname,
     phone,
     role,
+    active,
   }: ICreateUserDTO): Promise<User> {
     const user = new User();
 
@@ -26,6 +28,7 @@ export default class FakeUsersRepository implements IUsersRepository {
       fullname,
       phone,
       role,
+      active,
     });
 
     this.users.push(user);
@@ -57,5 +60,15 @@ export default class FakeUsersRepository implements IUsersRepository {
     const findEmail = this.users.find(user => user.email === email);
 
     return findEmail;
+  }
+
+  public async getAllUsers(user_id: string): Promise<User[]> {
+    const users: User[] = [];
+
+    this.users.forEach(user => {
+      if (user.id !== user_id) users.push(user);
+    });
+
+    return users;
   }
 }

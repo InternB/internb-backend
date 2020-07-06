@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import AdmRegion from './AdmRegion';
@@ -45,6 +46,9 @@ class School {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }
 
 export default School;

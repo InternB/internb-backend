@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
@@ -30,6 +31,9 @@ class User {
   @Column('integer')
   role: number;
 
+  @Column('boolean')
+  active: boolean;
+
   @Column('varchar')
   contract_files: string;
 
@@ -41,6 +45,9 @@ class User {
 
   @CreateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }
 
 export default User;

@@ -35,7 +35,7 @@ class UploadStudentContractFilesService {
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(student_id);
 
-    if (!user || user.role !== 3) {
+    if (!user || user.role !== 3 || !user.active) {
       this.storageProvider.deleteTmpFiles([
         commitmentTerm,
         firstCopy,
@@ -47,6 +47,9 @@ class UploadStudentContractFilesService {
     if (!user) throw new AppError('Student does not exist');
 
     if (user.role !== 3) throw new AppError('User is not a student');
+
+    if (!user.active)
+      throw new AppError("Can't upload files for an inactive user");
 
     const commitmentFile = await this.storageProvider.saveFile(
       path.extname(commitmentTerm),

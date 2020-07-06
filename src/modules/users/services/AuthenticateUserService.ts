@@ -34,6 +34,8 @@ class AuthenticateUserService {
 
     if (!user) throw new AppError('Invalid e-mail/password combination', 401);
 
+    if (!user.active) throw new AppError("Can't login with an inactive user");
+
     const verifyPassword = await this.hashProvider.compareHash(
       password,
       user.password,
@@ -44,10 +46,16 @@ class AuthenticateUserService {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
-      subject: user.id,
-      expiresIn,
-    });
+    const token = sign(
+      {
+        role: user.role,
+      },
+      secret,
+      {
+        subject: user.id,
+        expiresIn,
+      },
+    );
 
     return { user, token };
   }

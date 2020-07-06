@@ -33,7 +33,8 @@ describe('ResetPassword', () => {
       password: '123456',
       fullname: 'John Doe',
       phone: '61999999999',
-      role: 0,
+      role: Math.floor(Math.random() * 3),
+      active: true,
     });
 
     const { token } = await fakeUserTokensRepository.generate(user.id);
@@ -76,7 +77,8 @@ describe('ResetPassword', () => {
       password: '123456',
       fullname: 'John Doe',
       phone: '61999999999',
-      role: 0,
+      role: Math.floor(Math.random() * 4),
+      active: true,
     });
 
     const { token } = await fakeUserTokensRepository.generate(user.id);

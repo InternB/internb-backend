@@ -29,6 +29,7 @@ describe('UploadStudentContractFiles', () => {
       password: '123456',
       phone: 'some-phone',
       role: 3,
+      active: true,
     });
 
     const { contract_files } = await uploadStudentContractFiles.execute({
@@ -73,6 +74,31 @@ describe('UploadStudentContractFiles', () => {
       password: '123456',
       phone: 'some-phone',
       role: Math.floor(Math.random() * 3), // 0 through 2
+      active: true,
+    });
+
+    await expect(
+      uploadStudentContractFiles.execute({
+        student_id,
+        commitmentTerm: 'wordexample.docx',
+        contract: {
+          firstCopy: 'pdfexample.pdf',
+          secondCopy: 'pdfexample.pdf',
+          thirdCopy: 'pdfexample.pdf',
+        },
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to store the contract files in the definitive folders if user is inactive', async () => {
+    const { id: student_id } = await fakeUsersRepository.create({
+      cpf: '72831300045',
+      email: 'johndoe@example.com',
+      fullname: 'John Doe',
+      password: '123456',
+      phone: 'some-phone',
+      role: 3,
+      active: false,
     });
 
     await expect(

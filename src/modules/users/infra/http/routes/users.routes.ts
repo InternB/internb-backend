@@ -15,6 +15,8 @@ const usersController = new UsersController();
 const studentContractsController = new StudentContractsController();
 const studentWorkPlansController = new StudentWorkPlansController();
 
+usersRouter.get('/', ensureAuthenticated, usersController.index);
+
 usersRouter.post(
   '/',
   celebrate({
@@ -29,6 +31,8 @@ usersRouter.post(
   }),
   usersController.create,
 );
+
+usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
 usersRouter.patch(
   '/:id/contract-files',

@@ -54,6 +54,7 @@ export default class CreateUserService {
       fullname,
       phone,
       role,
+      active: role === 3,
     });
 
     return user;
