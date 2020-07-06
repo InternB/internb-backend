@@ -62,6 +62,8 @@ class UploadStudentContractFilesService {
       thirdCopy,
     ]);
 
+    user.updated_at = new Date();
+
     const updatedUser = this.usersRepository.save({
       ...user,
       contract_files: `${commitmentFile};${contractFiles[0]};${contractFiles[1]};${contractFiles[2]}`,

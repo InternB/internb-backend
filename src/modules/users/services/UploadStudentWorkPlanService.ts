@@ -36,6 +36,8 @@ class UploadStudentWorkPlanService {
 
     await this.storageProvider.saveFile(path.extname(work_plan), work_plan);
 
+    user.updated_at = new Date();
+
     const updatedUser = this.usersRepository.save({ ...user, work_plan });
 
     return updatedUser;

@@ -1,8 +1,10 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
 
 import ShowUserService from '../../../services/ShowUsersService';
 import CreateUserService from '../../../services/CreateUserService';
+import UpdateUserService from '../../../services/UpdateUserService';
 import DeleteUserService from '../../../services/DeleteUserService';
 
 export default class UsersController {
@@ -32,9 +34,25 @@ export default class UsersController {
       role,
     });
 
-    delete user.password;
+    return response.json(classToClass(user));
+  }
 
-    return response.json(user);
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user;
+    const { fullname, email, phone, old_password, new_password } = request.body;
+
+    const updateUserService = container.resolve(UpdateUserService);
+
+    const user = await updateUserService.execute({
+      id,
+      fullname,
+      email,
+      phone,
+      old_password,
+      new_password,
+    });
+
+    return response.json(classToClass(user));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {

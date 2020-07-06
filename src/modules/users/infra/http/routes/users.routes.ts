@@ -34,6 +34,8 @@ usersRouter.post(
   usersController.create,
 );
 
+usersRouter.put('/', ensureAuthenticated, usersController.update);
+
 usersRouter.patch(
   '/contract-files',
   ensureAuthenticated,
