@@ -6,7 +6,7 @@ import UploadStudentWorkPlanService from '../../../services/UploadStudentWorkPla
 
 export default class StudentWorkPlansController {
   public async patch(request: Request, response: Response): Promise<Response> {
-    const { id: student_id } = request.params;
+    const { id: student_id } = request.user;
     const work_plan = request.file;
 
     const uploadStudentWorkPlanService = container.resolve(

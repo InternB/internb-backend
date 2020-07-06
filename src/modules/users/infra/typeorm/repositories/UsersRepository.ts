@@ -61,8 +61,16 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   public async getAllUsers(user_id: string): Promise<User[]> {
-    const users = await this.ormRepository.find({ where: Not(user_id) });
+    const users = await this.ormRepository.find({
+      where: { id: Not(user_id) },
+    });
 
     return users;
+  }
+
+  public async userExists(id: string): Promise<boolean> {
+    const any = await this.ormRepository.count({ where: { id } });
+
+    return any === 1;
   }
 }

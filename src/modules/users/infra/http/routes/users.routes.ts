@@ -32,10 +32,8 @@ usersRouter.post(
   usersController.create,
 );
 
-usersRouter.delete('/', ensureAuthenticated, usersController.delete);
-
 usersRouter.patch(
-  '/:id/contract-files',
+  '/contract-files',
   ensureAuthenticated,
   internshipDocsUpload.upload.fields([
     {
@@ -59,10 +57,14 @@ usersRouter.patch(
 );
 
 usersRouter.patch(
-  '/:id/work-plan',
+  '/work-plan',
   ensureAuthenticated,
   internshipWorkPLan.upload.single('work_plan'),
   studentWorkPlansController.patch,
 );
+
+usersRouter.delete('/', ensureAuthenticated, usersController.delete);
+
+// usersRouter.delete('/:id', ensureAuthenticated, adminsController.delete);
 
 export default usersRouter;

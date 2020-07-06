@@ -6,7 +6,7 @@ import UploadStudentContractFilesService from '../../../services/UploadStudentCo
 
 export default class StudentContractsController {
   public async update(request: Request, response: Response): Promise<Response> {
-    const student_id = request.params.id;
+    const student_id = request.user.id;
 
     const { commitmentTerm, firstCopy, secondCopy, thirdCopy } = request.files;
 

@@ -1,6 +1,5 @@
 import { uuid } from 'uuidv4';
 
-import { promises } from 'fs';
 import User from '../../infra/typeorm/entities/User';
 
 import ICreateUserDTO from '../../dtos/ICreateUserDTO';
@@ -70,5 +69,11 @@ export default class FakeUsersRepository implements IUsersRepository {
     });
 
     return users;
+  }
+
+  public async userExists(id: string): Promise<boolean> {
+    const any = this.users.findIndex(user => user.id === id);
+
+    return any !== -1;
   }
 }

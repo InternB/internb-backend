@@ -9,4 +9,5 @@ export default interface IUsersRepository {
   findByEmail(email: string): Promise<User | undefined>;
   findByCPF(cpf: string): Promise<User | undefined>;
   getAllUsers(user_id: string): Promise<User[]>;
+  userExists(id: string): Promise<boolean>;
 }
