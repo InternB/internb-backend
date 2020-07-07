@@ -5,6 +5,7 @@ import CreateSchoolManagerService from '../../../services/CreateSchoolManagerSer
 
 export default class SchoolManagerssController {
   public async create(request: Request, response: Response): Promise<Response> {
+    const { id: admin_id } = request.user;
     const { role, fullname, phone, email, school_id } = request.body;
 
     const createSchoolManagerService = container.resolve(
@@ -12,6 +13,7 @@ export default class SchoolManagerssController {
     );
 
     const school_manager = await createSchoolManagerService.execute({
+      admin_id,
       role,
       fullname,
       phone,

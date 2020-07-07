@@ -25,4 +25,16 @@ export default class AdmRegionsRepository implements IAdmRegionsRepository {
 
     return findId;
   }
+
+  public async findAllRegions(): Promise<AdmRegion[]> {
+    const regions = await this.ormRepository.find();
+
+    return regions;
+  }
+
+  public async findAllRegionsOfType(cre: boolean): Promise<AdmRegion[]> {
+    const regionsOfType = await this.ormRepository.find({ where: { cre } });
+
+    return regionsOfType;
+  }
 }
