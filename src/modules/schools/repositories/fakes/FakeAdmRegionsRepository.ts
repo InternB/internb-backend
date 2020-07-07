@@ -27,4 +27,14 @@ export default class FakeAdmRegionsRepository implements IAdmRegionsRepository {
 
     return findId;
   }
+
+  public async findAllRegions(): Promise<AdmRegion[]> {
+    return this.AdmRegions;
+  }
+
+  public async findAllRegionsOfType(cre: boolean): Promise<AdmRegion[]> {
+    const regionsOfType = this.AdmRegions.filter(region => region.cre === cre);
+
+    return regionsOfType;
+  }
 }

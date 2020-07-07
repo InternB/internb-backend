@@ -5,4 +5,5 @@ export default interface ICreateUserDTO {
   phone: string;
   password: string;
   role: number;
+  active: boolean;
 }

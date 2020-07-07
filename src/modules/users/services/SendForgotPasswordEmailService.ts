@@ -28,6 +28,9 @@ export default class SendForgotPasswordEmailService {
 
     if (!user) throw new AppError('User does not exist', 400);
 
+    if (!user.active)
+      throw new AppError("Can't recover the password of inactive user");
+
     const { token } = await this.userTokensRepository.generate(user.id);
 
     const forgotPasswordTemplate = path.resolve(

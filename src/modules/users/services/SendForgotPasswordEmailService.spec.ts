@@ -33,7 +33,8 @@ describe('ForgotPassword', () => {
       password: '123456',
       fullname: 'John Doe',
       phone: '61999999999',
-      role: 0,
+      role: Math.floor(Math.random() * 4),
+      active: true,
     });
 
     await sendForgotPasswordEmailService.execute({ email: user.email });
@@ -42,6 +43,22 @@ describe('ForgotPassword', () => {
   });
 
   it('should not be able to recover the password if the user does not exist', async () => {
+    await expect(
+      sendForgotPasswordEmailService.execute({ email: 'johndoe@gmail.com' }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to recover the password if the user is inactive', async () => {
+    await fakeUserRepository.create({
+      cpf: '06516661120',
+      email: 'johndoe@gmail.com',
+      password: '123456',
+      fullname: 'John Doe',
+      phone: '61999999999',
+      role: Math.floor(Math.random() * 4),
+      active: false,
+    });
+
     await expect(
       sendForgotPasswordEmailService.execute({ email: 'johndoe@gmail.com' }),
     ).rejects.toBeInstanceOf(AppError);

@@ -1,5 +1,4 @@
 export default interface ICreateSchoolDTO {
-  type: number;
   name: string;
   adm_region_id: string;
   cep: string;

@@ -29,6 +29,7 @@ describe('UploadStudentContractFiles', () => {
       password: '123456',
       phone: 'some-phone',
       role: 3,
+      active: true,
     });
 
     const { contract_files } = await uploadStudentContractFiles.execute({
@@ -55,29 +56,6 @@ describe('UploadStudentContractFiles', () => {
     await expect(
       uploadStudentContractFiles.execute({
         student_id: 'non-existing-user',
-        commitmentTerm: 'wordexample.docx',
-        contract: {
-          firstCopy: 'pdfexample.pdf',
-          secondCopy: 'pdfexample.pdf',
-          thirdCopy: 'pdfexample.pdf',
-        },
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it("should not move the contract files from the 'tmp' folder to the definitive folders if the user is not a student", async () => {
-    const { id: student_id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role: Math.floor(Math.random() * 3), // 0 through 2
-    });
-
-    await expect(
-      uploadStudentContractFiles.execute({
-        student_id,
         commitmentTerm: 'wordexample.docx',
         contract: {
           firstCopy: 'pdfexample.pdf',

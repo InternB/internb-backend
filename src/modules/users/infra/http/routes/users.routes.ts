@@ -1,19 +1,27 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import { internshipDocsUpload, internshipWorkPLan } from '@config/upload';
+import { internshipDocsUpload, internshipWorkPlan } from '@config/upload';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import {
+  ensureStudentAuthenticated,
+  ensureAdminAuthenticated,
+} from '../middlewares/ensureRoleAuthenticated';
 
 import UsersController from '../controllers/UsersController';
+import AdminsController from '../controllers/AdminsController';
 import StudentContractsController from '../controllers/StudentContractsController';
 import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
 
 const usersRouter = Router();
 
 const usersController = new UsersController();
+const adminsController = new AdminsController();
 const studentContractsController = new StudentContractsController();
 const studentWorkPlansController = new StudentWorkPlansController();
+
+usersRouter.get('/', ensureAuthenticated, usersController.index);
 
 usersRouter.post(
   '/',
@@ -30,9 +38,12 @@ usersRouter.post(
   usersController.create,
 );
 
+usersRouter.patch('/activate/:id', adminsController.update);
+
 usersRouter.patch(
-  '/:id/contract-files',
+  '/contract-files',
   ensureAuthenticated,
+  ensureStudentAuthenticated,
   internshipDocsUpload.upload.fields([
     {
       name: 'commitmentTerm',
@@ -55,10 +66,20 @@ usersRouter.patch(
 );
 
 usersRouter.patch(
-  '/:id/work-plan',
+  '/work-plan',
   ensureAuthenticated,
-  internshipWorkPLan.upload.single('work_plan'),
+  ensureStudentAuthenticated,
+  internshipWorkPlan.upload.single('work_plan'),
   studentWorkPlansController.patch,
+);
+
+usersRouter.delete('/', ensureAuthenticated, usersController.delete);
+
+usersRouter.delete(
+  '/:id',
+  ensureAuthenticated,
+  ensureAdminAuthenticated,
+  adminsController.delete,
 );
 
 export default usersRouter;

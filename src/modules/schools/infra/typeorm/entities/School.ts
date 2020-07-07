@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import AdmRegion from './AdmRegion';
@@ -14,9 +15,6 @@ import AdmRegion from './AdmRegion';
 class School {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column('integer')
-  type: number;
 
   @Column()
   name: string;
@@ -45,6 +43,9 @@ class School {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }
 
 export default School;

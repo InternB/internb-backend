@@ -14,7 +14,6 @@ export default class SchoolsRepository implements ISchoolsRepository {
 
   public async create({
     name,
-    type,
     adm_region_id,
     cep,
     address,
@@ -23,7 +22,6 @@ export default class SchoolsRepository implements ISchoolsRepository {
   }: ICreateSchoolDTO): Promise<School> {
     const school = this.ormRepository.create({
       name,
-      type,
       adm_region_id,
       cep,
       address,
@@ -36,9 +34,27 @@ export default class SchoolsRepository implements ISchoolsRepository {
     return school;
   }
 
+  public async save(school: School): Promise<School> {
+    const updatedSchool = this.ormRepository.save(school);
+
+    return updatedSchool;
+  }
+
   public async findById(id: string): Promise<School | undefined> {
     const findId = await this.ormRepository.findOne({ where: { id } });
 
     return findId;
+  }
+
+  public async findAllSchoolsRegion(adm_region_id: string): Promise<School[]> {
+    const schools = await this.ormRepository.find({ where: { adm_region_id } });
+
+    return schools;
+  }
+
+  public async getAllSchools(): Promise<School[]> {
+    const schools = await this.ormRepository.find();
+
+    return schools;
   }
 }

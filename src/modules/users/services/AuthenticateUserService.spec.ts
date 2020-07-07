@@ -21,13 +21,16 @@ describe('AuthenticateUser', () => {
   });
 
   it('should authenticate the user', async () => {
+    const randomRole = Math.floor(Math.random() * 4);
+
     await fakeUsersRepository.create({
       cpf: '06516661120',
       email: 'johndoe@gmail.com',
       password: '123456',
       fullname: 'John Doe',
       phone: '61999999999',
-      role: 0,
+      role: randomRole,
+      active: true,
     });
 
     const auth = await authenticateUserService.execute({
@@ -42,7 +45,7 @@ describe('AuthenticateUser', () => {
           email: 'johndoe@gmail.com',
           fullname: 'John Doe',
           phone: '61999999999',
-          role: 0,
+          role: randomRole,
         }),
         token: expect.any(String),
       }),
@@ -65,13 +68,33 @@ describe('AuthenticateUser', () => {
       password: '123456',
       fullname: 'John Doe',
       phone: '61999999999',
-      role: 0,
+      role: Math.floor(Math.random() * 4),
+      active: true,
     });
 
     await expect(
       authenticateUserService.execute({
         email: 'johndoe@gmail.com',
         password: '654321',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not authenticate if user is not active', async () => {
+    await fakeUsersRepository.create({
+      cpf: '06516661120',
+      email: 'johndoe@gmail.com',
+      password: '123456',
+      fullname: 'John Doe',
+      phone: '61999999999',
+      role: Math.floor(Math.random() * 3),
+      active: false,
+    });
+
+    await expect(
+      authenticateUserService.execute({
+        email: 'johndoe@gmail.com',
+        password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

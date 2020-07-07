@@ -35,18 +35,16 @@ class UploadStudentContractFilesService {
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(student_id);
 
-    if (!user || user.role !== 3) {
+    if (!user) {
       this.storageProvider.deleteTmpFiles([
         commitmentTerm,
         firstCopy,
         secondCopy,
         thirdCopy,
       ]);
+
+      throw new AppError('Student does not exist');
     }
-
-    if (!user) throw new AppError('Student does not exist');
-
-    if (user.role !== 3) throw new AppError('User is not a student');
 
     const commitmentFile = await this.storageProvider.saveFile(
       path.extname(commitmentTerm),
@@ -59,10 +57,12 @@ class UploadStudentContractFilesService {
       thirdCopy,
     ]);
 
+    user.updated_at = new Date();
+
     const updatedUser = this.usersRepository.save({
       ...user,
       contract_files: `${commitmentFile};${contractFiles[0]};${contractFiles[1]};${contractFiles[2]}`,
-    });
+    } as User);
 
     return updatedUser;
   }

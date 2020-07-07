@@ -1,13 +1,14 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import School from '../infra/typeorm/entities/School';
 
 import ISchoolsRepository from '../repositories/ISchoolsRepository';
 import IAdmRegionsRepository from '../repositories/IAdmRegionsRepository';
 
 interface IRequest {
-  type: number;
+  admin_id: string;
   name: string;
   adm_region_id: string;
   cep: string;
@@ -24,10 +25,13 @@ class CreateSchoolService {
 
     @inject('AdmRegionsRepository')
     private admRegionsRepository: IAdmRegionsRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
-    type,
+    admin_id,
     name,
     adm_region_id,
     cep,
@@ -35,22 +39,15 @@ class CreateSchoolService {
     phone,
     email,
   }: IRequest): Promise<School> {
+    const user = await this.usersRepository.findById(admin_id);
+
+    if (!user) throw new AppError('Admin does not exist', 400);
+
     const adm_region = await this.admRegionsRepository.findById(adm_region_id);
 
     if (!adm_region) throw new AppError('Região Adminstrativa não cadastrada');
 
-    if (type === 0 && !adm_region.cre)
-      throw new AppError(
-        'Não é possível adicionar uma escola pública fora da CRE',
-      );
-
-    if (type !== 0 && adm_region.cre)
-      throw new AppError(
-        'Não é possível adicionar uma escola privada, instuto federal ou outra em uma CRE',
-      );
-
     const school = await this.schoolsRepository.create({
-      type,
       name,
       adm_region_id,
       cep,

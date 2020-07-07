@@ -1,20 +1,19 @@
-import { container } from 'tsyringe';
 import { verify } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 interface ITokenPayload {
   iat: number;
   exp: number;
   sub: string;
+  role: number;
 }
 
 export default async function ensureAuthenticated(
   request: Request,
-  response: Response,
+  _: Response,
   next: NextFunction,
 ): Promise<void> {
   const { authorization } = request.headers;
@@ -28,22 +27,12 @@ export default async function ensureAuthenticated(
   try {
     const decoded = verify(token, secret);
 
-    const { sub } = decoded as ITokenPayload;
+    const { sub, role } = decoded as ITokenPayload;
 
-    const usersRepository = container.resolve<IUsersRepository>(
-      'UsersRepository',
-    );
-
-    const user = await usersRepository.userExists(sub);
-
-    if (!user) throw new AppError('User blocked from the service', 401);
-
-    request.user = { id: sub };
+    request.user = { id: sub, role };
 
     return next();
   } catch (err) {
-    if (err instanceof AppError) throw err;
-
     throw new AppError('Invalid JWT token', 401);
   }
 }

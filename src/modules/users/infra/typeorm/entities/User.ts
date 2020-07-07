@@ -3,8 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 @Entity('users')
 class User {
@@ -30,6 +31,9 @@ class User {
   @Column('integer')
   role: number;
 
+  @Column('boolean')
+  active: boolean;
+
   @Column('varchar')
   contract_files: string;
 
@@ -41,6 +45,19 @@ class User {
 
   @CreateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
+
+  @Column('varchar')
+  avatar: string;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    return this.avatar
+      ? `${process.env.APP_API_URL}/images/profiles/${this.avatar}`
+      : null;
+  }
 }
 
 export default User;

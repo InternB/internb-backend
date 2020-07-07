@@ -1,9 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+
+import AppError from '@shared/errors/AppError';
 import AdmRegion from '../infra/typeorm/entities/AdmRegion';
 import IAdmRegionsRepository from '../repositories/IAdmRegionsRepository';
 
 interface IRequest {
+  admin_id: string;
   name: string;
   cre: boolean;
 }
@@ -13,9 +17,16 @@ class CreateAdmRegionService {
   constructor(
     @inject('AdmRegionsRepository')
     private admRegionsRepository: IAdmRegionsRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ name, cre }: IRequest): Promise<AdmRegion> {
+  public async execute({ admin_id, name, cre }: IRequest): Promise<AdmRegion> {
+    const user = await this.usersRepository.findById(admin_id);
+
+    if (!user) throw new AppError('Admin does not exist');
+
     const adm_region = await this.admRegionsRepository.create({ name, cre });
 
     return adm_region;

@@ -15,6 +15,7 @@ export default class FakeUsersRepository implements IUsersRepository {
     fullname,
     phone,
     role,
+    active,
   }: ICreateUserDTO): Promise<User> {
     const user = new User();
 
@@ -26,6 +27,8 @@ export default class FakeUsersRepository implements IUsersRepository {
       fullname,
       phone,
       role,
+      active,
+      avatar: 'default.png',
     });
 
     this.users.push(user);
@@ -59,9 +62,24 @@ export default class FakeUsersRepository implements IUsersRepository {
     return findEmail;
   }
 
+  public async getAllUsers(user_id: string): Promise<User[]> {
+    const users: User[] = [];
+
+    this.users.forEach(user => {
+      if (user.id !== user_id) users.push(user);
+    });
+
+    return users;
+  }
+
   public async userExists(id: string): Promise<boolean> {
     const any = this.users.findIndex(user => user.id === id);
 
     return any !== -1;
+  }
+
+  public async deleteUser(user: User): Promise<void> {
+    const idx = this.users.findIndex(savedUser => savedUser.id === user.id);
+    this.users[idx].deleted_at = new Date();
   }
 }
