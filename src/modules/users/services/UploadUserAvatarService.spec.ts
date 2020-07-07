@@ -53,23 +53,4 @@ describe('UploadUserAvatar', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  it("should not be able to upload a new user's avatar image if user is inactive", async () => {
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role: 3,
-      active: false,
-    });
-
-    await expect(
-      uploadUserAvatar.execute({
-        id,
-        avatar: 'avatar-filename.png',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
 });

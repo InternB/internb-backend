@@ -43,7 +43,6 @@ describe('CreateSchool', () => {
 
     const school = await createSchoolService.execute({
       admin_id,
-      type: 0,
       name: 'school-name',
       adm_region_id,
       cep: 'school-cep',
@@ -54,7 +53,6 @@ describe('CreateSchool', () => {
 
     expect(school).toEqual(
       expect.objectContaining({
-        type: 0,
         name: 'school-name',
         adm_region_id,
         cep: 'school-cep',
@@ -85,7 +83,6 @@ describe('CreateSchool', () => {
 
     const school = await createSchoolService.execute({
       admin_id,
-      type,
       name: 'school-name',
       adm_region_id,
       cep: 'school-cep',
@@ -96,7 +93,6 @@ describe('CreateSchool', () => {
 
     expect(school).toEqual(
       expect.objectContaining({
-        type,
         name: 'school-name',
         adm_region_id,
         cep: 'school-cep',
@@ -127,7 +123,6 @@ describe('CreateSchool', () => {
 
     const school = await createSchoolService.execute({
       admin_id,
-      type,
       name: 'school-name',
       adm_region_id,
       cep: 'school-cep',
@@ -137,7 +132,6 @@ describe('CreateSchool', () => {
 
     expect(school).toEqual(
       expect.objectContaining({
-        type,
         name: 'school-name',
         adm_region_id,
         cep: 'school-cep',
@@ -168,7 +162,6 @@ describe('CreateSchool', () => {
 
     const school = await createSchoolService.execute({
       admin_id,
-      type,
       name: 'school-name',
       adm_region_id,
       cep: 'school-cep',
@@ -178,7 +171,6 @@ describe('CreateSchool', () => {
 
     expect(school).toEqual(
       expect.objectContaining({
-        type,
         name: 'school-name',
         adm_region_id,
         cep: 'school-cep',
@@ -200,71 +192,6 @@ describe('CreateSchool', () => {
     await expect(
       createSchoolService.execute({
         admin_id: 'non-existing-admin-id',
-        type: Math.floor(Math.random() * 4),
-        name: 'school-name',
-        adm_region_id,
-        cep: 'school-cep',
-        address: 'school-address',
-        phone: 'school-phone',
-        email: 'school-email',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a school if user is not an Admin', async () => {
-    const type = Math.floor(Math.random() * 4);
-
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3 + 1),
-      active: true,
-    });
-
-    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-      name: 'adm-region-name',
-      cre: type === 0,
-    });
-
-    await expect(
-      createSchoolService.execute({
-        admin_id,
-        type: Math.floor(Math.random() * 4),
-        name: 'school-name',
-        adm_region_id,
-        cep: 'school-cep',
-        address: 'school-address',
-        phone: 'school-phone',
-        email: 'school-email',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a if the Admin is inactive', async () => {
-    const type = Math.floor(Math.random() * 4);
-
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: false,
-    });
-
-    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-      name: 'adm-region-name',
-      cre: type === 0,
-    });
-
-    await expect(
-      createSchoolService.execute({
-        admin_id,
-        type: Math.floor(Math.random() * 4),
         name: 'school-name',
         adm_region_id,
         cep: 'school-cep',
@@ -289,69 +216,8 @@ describe('CreateSchool', () => {
     await expect(
       createSchoolService.execute({
         admin_id,
-        type: Math.floor(Math.random() * 4),
         name: 'school-name',
         adm_region_id: 'non-existing-adm-region-id',
-        cep: 'school-cep',
-        address: 'school-address',
-        phone: 'school-phone',
-        email: 'school-email',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it("should not create a public school if the Admnistrative Region isn't a CRE", async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
-
-    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-      name: 'adm-region-name',
-      cre: false,
-    });
-
-    await expect(
-      createSchoolService.execute({
-        admin_id,
-        type: 0,
-        name: 'school-name',
-        adm_region_id,
-        cep: 'school-cep',
-        address: 'school-address',
-        phone: 'school-phone',
-        email: 'school-email',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a private school, FI or other, if the Adminstrative Region is a CRE', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
-
-    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-      name: 'adm-region-name',
-      cre: true,
-    });
-
-    await expect(
-      createSchoolService.execute({
-        admin_id,
-        type: Math.floor(Math.random() * 3 + 1),
-        name: 'school-name',
-        adm_region_id,
         cep: 'school-cep',
         address: 'school-address',
         phone: 'school-phone',

@@ -54,44 +54,4 @@ describe('CreateAdmRegion', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  it('should not create a new Adminstrative Region if the user is not an Admin', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3 + 1),
-      active: true,
-    });
-
-    await expect(
-      createAdmRegionService.execute({
-        admin_id,
-        name: 'adm-region-name',
-        cre: true,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a new Adminstrative Region if the Admin is inactive', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: false,
-    });
-
-    await expect(
-      createAdmRegionService.execute({
-        admin_id,
-        name: 'adm-region-name',
-        cre: true,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
 });

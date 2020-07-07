@@ -1,14 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import School from '../infra/typeorm/entities/School';
 
+import School from '../infra/typeorm/entities/School';
 import ISchoolsRepository from '../repositories/ISchoolsRepository';
 import IAdmRegionsRepository from '../repositories/IAdmRegionsRepository';
 
 interface IRequest {
-  admin_id: string;
+  id: string;
   name: string;
   adm_region_id: string;
   cep: string;
@@ -18,20 +17,17 @@ interface IRequest {
 }
 
 @injectable()
-class CreateSchoolService {
+class UpdateSchoolService {
   constructor(
     @inject('SchoolsRepository')
     private schoolsRepository: ISchoolsRepository,
 
     @inject('AdmRegionsRepository')
     private admRegionsRepository: IAdmRegionsRepository,
-
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
-    admin_id,
+    id,
     name,
     adm_region_id,
     cep,
@@ -39,25 +35,28 @@ class CreateSchoolService {
     phone,
     email,
   }: IRequest): Promise<School> {
-    const user = await this.usersRepository.findById(admin_id);
-
-    if (!user) throw new AppError('Admin does not exist', 400);
-
     const adm_region = await this.admRegionsRepository.findById(adm_region_id);
 
-    if (!adm_region) throw new AppError('Região Adminstrativa não cadastrada');
+    if (!adm_region)
+      throw new AppError('Adminstrative Region does not exist', 400);
 
-    const school = await this.schoolsRepository.create({
+    const school = await this.schoolsRepository.findById(id);
+
+    if (!school) throw new AppError('School does not exist', 404);
+
+    Object.assign(school, {
       name,
       adm_region_id,
       cep,
       address,
       phone,
       email,
+      updated_at: new Date(),
     });
 
-    return school;
+    const updatedSchool = await this.schoolsRepository.save(school);
+    return updatedSchool;
   }
 }
 
-export default CreateSchoolService;
+export default UpdateSchoolService;

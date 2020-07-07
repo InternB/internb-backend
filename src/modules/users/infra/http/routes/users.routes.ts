@@ -4,6 +4,10 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import { internshipDocsUpload, internshipWorkPlan } from '@config/upload';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import {
+  ensureStudentAuthenticated,
+  ensureAdminAuthenticated,
+} from '../middlewares/ensureRoleAuthenticated';
 
 import UsersController from '../controllers/UsersController';
 import AdminsController from '../controllers/AdminsController';
@@ -34,9 +38,12 @@ usersRouter.post(
   usersController.create,
 );
 
+usersRouter.patch('/activate/:id', adminsController.update);
+
 usersRouter.patch(
   '/contract-files',
   ensureAuthenticated,
+  ensureStudentAuthenticated,
   internshipDocsUpload.upload.fields([
     {
       name: 'commitmentTerm',
@@ -61,12 +68,18 @@ usersRouter.patch(
 usersRouter.patch(
   '/work-plan',
   ensureAuthenticated,
+  ensureStudentAuthenticated,
   internshipWorkPlan.upload.single('work_plan'),
   studentWorkPlansController.patch,
 );
 
 usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
-usersRouter.delete('/:id', ensureAuthenticated, adminsController.delete);
+usersRouter.delete(
+  '/:id',
+  ensureAuthenticated,
+  ensureAdminAuthenticated,
+  adminsController.delete,
+);
 
 export default usersRouter;

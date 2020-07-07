@@ -24,15 +24,11 @@ class UploadStudentWorkPlanService {
   public async execute({ student_id, work_plan }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(student_id);
 
-    if (!user || user.role !== 3 || !user.active)
+    if (!user) {
       this.storageProvider.deleteTmpFiles([work_plan]);
 
-    if (!user) throw new AppError('Student does not exist');
-
-    if (user.role !== 3) throw new AppError('User is not a student');
-
-    if (!user.active)
-      throw new AppError("Can't upload files for an inactive user");
+      throw new AppError('Student does not exist');
+    }
 
     await this.storageProvider.saveFile(path.extname(work_plan), work_plan);
 

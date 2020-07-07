@@ -32,27 +32,9 @@ describe('DeleteUser', () => {
     await expect(deleteUser).toHaveBeenCalledWith(user);
   });
 
-  it('should not delete the user if he/she is inactive', async () => {
+  it("should not delete the user if he/she doesn't exist", async () => {
     await expect(
       deleteUserService.execute({ id: 'non-existing-user-id' }),
     ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it("should not delete the user if he/she doesn't exist", async () => {
-    const randomRole = Math.floor(Math.random() * 4);
-
-    const { id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: randomRole,
-      active: false,
-    });
-
-    await expect(deleteUserService.execute({ id })).rejects.toBeInstanceOf(
-      AppError,
-    );
   });
 });

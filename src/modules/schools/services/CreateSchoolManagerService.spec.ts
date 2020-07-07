@@ -37,7 +37,6 @@ describe('CreateSchoolManager', () => {
 
     const { id: school_id } = await fakeSchoolsRepository.create({
       name: 'school-name',
-      type: 0,
       adm_region_id: 'adm-region-id',
       address: 'school-address',
       cep: 'school-cep',
@@ -66,7 +65,6 @@ describe('CreateSchoolManager', () => {
   it('should not create a school manager if the Admin does not exist', async () => {
     const { id: school_id } = await fakeSchoolsRepository.create({
       name: 'school-name',
-      type: 0,
       adm_region_id: 'adm-region-id',
       address: 'school-address',
       cep: 'school-cep',
@@ -75,68 +73,6 @@ describe('CreateSchoolManager', () => {
     await expect(
       createSchoolManager.execute({
         admin_id: 'non-existing-admin-id',
-        role: 0,
-        fullname: 'John Doe',
-        email: 'johndoe@gmail.com',
-        phone: 'manager-phone',
-        school_id,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a school manager if the user is not an Admin', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3 + 1),
-      active: true,
-    });
-
-    const { id: school_id } = await fakeSchoolsRepository.create({
-      name: 'school-name',
-      type: 0,
-      adm_region_id: 'adm-region-id',
-      address: 'school-address',
-      cep: 'school-cep',
-    });
-
-    await expect(
-      createSchoolManager.execute({
-        admin_id,
-        role: 0,
-        fullname: 'John Doe',
-        email: 'johndoe@gmail.com',
-        phone: 'manager-phone',
-        school_id,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not create a school manager if the Admin is inactive', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: false,
-    });
-
-    const { id: school_id } = await fakeSchoolsRepository.create({
-      name: 'school-name',
-      type: 0,
-      adm_region_id: 'adm-region-id',
-      address: 'school-address',
-      cep: 'school-cep',
-    });
-
-    await expect(
-      createSchoolManager.execute({
-        admin_id,
         role: 0,
         fullname: 'John Doe',
         email: 'johndoe@gmail.com',

@@ -16,9 +16,6 @@ class School {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('integer')
-  type: number;
-
   @Column()
   name: string;
 

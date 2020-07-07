@@ -33,4 +33,20 @@ export default class FakeSchoolManagersRepository
 
     return school_manager;
   }
+
+  public async save(schoolManager: SchoolManager): Promise<SchoolManager> {
+    const idx = this.managers.findIndex(
+      manager => manager.id === schoolManager.id,
+    );
+
+    this.managers[idx] = schoolManager;
+
+    return schoolManager;
+  }
+
+  public async findById(id: string): Promise<SchoolManager | undefined> {
+    const schoolManager = this.managers.find(manager => manager.id === id);
+
+    return schoolManager;
+  }
 }

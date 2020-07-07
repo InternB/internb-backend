@@ -28,9 +28,6 @@ class UploadUserAvatarService {
 
     if (!user) throw new AppError('User does not exist');
 
-    if (!user.active)
-      throw new AppError('User must be active to upload a new avatar');
-
     await this.storageProvider.saveFile(path.extname(avatar), avatar);
 
     user.avatar = avatar;

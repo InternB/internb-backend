@@ -32,4 +32,16 @@ export default class SchoolManagersRepository
 
     return school_manager;
   }
+
+  public async save(schoolManager: SchoolManager): Promise<SchoolManager> {
+    const updatedSchoolManager = await this.ormRepository.save(schoolManager);
+
+    return updatedSchoolManager;
+  }
+
+  public async findById(id: string): Promise<SchoolManager | undefined> {
+    const schoolManager = await this.ormRepository.findOne({ where: { id } });
+
+    return schoolManager;
+  }
 }

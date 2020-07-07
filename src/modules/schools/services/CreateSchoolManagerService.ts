@@ -42,14 +42,6 @@ class CreateSchoolManagerService {
 
     if (!user) throw new AppError('Admin does not exist', 400);
 
-    if (user.role !== 0)
-      throw new AppError(
-        'Only Admins can register Administrative Regions',
-        403,
-      );
-
-    if (!user.active) throw new AppError('Admin account must be active');
-
     const school = await this.schoolsRepository.findById(school_id);
 
     if (!school) throw new AppError('Escola não cadastrada');

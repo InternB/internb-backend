@@ -21,12 +21,6 @@ class AdminDeletesUserService {
 
     if (!admin) throw new AppError('Admin does not exist');
 
-    if (admin.role !== 0)
-      throw new AppError(
-        "You must be an Admin to delete another user's account",
-        403,
-      );
-
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) throw new AppError('User does not exist');

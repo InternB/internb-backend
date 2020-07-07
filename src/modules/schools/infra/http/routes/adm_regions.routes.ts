@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import { ensureAdminAuthenticated } from '@modules/users/infra/http/middlewares/ensureRoleAuthenticated';
 
 import AdmRegionsController from '../controllers/AdmRegionsController';
 
@@ -11,6 +12,10 @@ admRegionsRouter.use(ensureAuthenticated);
 
 admRegionsRouter.get('/', admRegionsController.index);
 
-admRegionsRouter.post('/', admRegionsController.create);
+admRegionsRouter.post(
+  '/',
+  ensureAdminAuthenticated,
+  admRegionsController.create,
+);
 
 export default admRegionsRouter;

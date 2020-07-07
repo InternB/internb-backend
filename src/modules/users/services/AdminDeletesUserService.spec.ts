@@ -56,25 +56,6 @@ describe('AdminDeletesUser', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not delete the user if the requester is not an Admin', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3 + 1),
-      active: true,
-    });
-
-    await expect(
-      adminDeletesUserService.execute({
-        admin_id,
-        user_id: 'user-id',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
   it("should not delete the user if the user doesn't exist", async () => {
     const { id: admin_id } = await fakeUsersRepository.create({
       cpf: '06516661120',
