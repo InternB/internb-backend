@@ -29,6 +29,7 @@ export default class UsersRepository implements IUsersRepository {
       phone,
       role,
       active,
+      avatar: 'default.png',
     });
 
     await this.ormRepository.save(user);

@@ -5,6 +5,7 @@ import { classToClass } from 'class-transformer';
 import ShowUserService from '../../../services/ShowUsersService';
 import CreateUserService from '../../../services/CreateUserService';
 import DeleteUserService from '../../../services/DeleteUserService';
+import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export default class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {

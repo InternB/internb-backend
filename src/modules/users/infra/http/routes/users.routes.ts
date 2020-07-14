@@ -38,7 +38,12 @@ usersRouter.post(
   usersController.create,
 );
 
-usersRouter.patch('/activate/:id', adminsController.update);
+usersRouter.patch(
+  '/activate/:id',
+  ensureAuthenticated,
+  ensureAdminAuthenticated,
+  adminsController.update,
+);
 
 usersRouter.patch(
   '/contract-files',
