@@ -9,6 +9,8 @@ import schoolsRouter from '@modules/schools/infra/http/routes/schools.routes';
 import schoolManagersRouter from '@modules/schools/infra/http/routes/school_managers.routes';
 import admRegionsRouter from '@modules/schools/infra/http/routes/adm_regions.routes';
 
+import disciplinesRouter from '@modules/disciplines/infra/http/routes/disciplines.routes';
+
 const routes = Router();
 
 routes.use('/users', usersRouter);
@@ -19,5 +21,7 @@ routes.use('/profiles', profilesRouter);
 routes.use('/schools', schoolsRouter);
 routes.use('/school-managers', schoolManagersRouter);
 routes.use('/adm-regions', admRegionsRouter);
+
+routes.use('/disciplines', disciplinesRouter);
 
 export default routes;

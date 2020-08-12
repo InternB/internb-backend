@@ -19,6 +19,9 @@ import SchoolsRepository from '@modules/schools/infra/typeorm/repositories/Schoo
 import ISchoolManagersRepository from '@modules/schools/repositories/ISchoolManagersRepository';
 import SchoolManagersRepository from '@modules/schools/infra/typeorm/repositories/SchoolManagersRepository';
 
+import IDisciplinesRepository from '@modules/disciplines/repositories/IDisciplinesRepository';
+import DisciplinesRepository from '@modules/disciplines/infra/typeorm/repositories/DisciplinesRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -42,4 +45,9 @@ container.registerSingleton<ISchoolsRepository>(
 container.registerSingleton<ISchoolManagersRepository>(
   'SchoolManagersRepository',
   SchoolManagersRepository,
+);
+
+container.registerSingleton<IDisciplinesRepository>(
+  'DisciplinesRepository',
+  DisciplinesRepository,
 );
