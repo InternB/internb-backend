@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import User from '../../infra/typeorm/entities/User';
 
@@ -20,7 +20,7 @@ export default class FakeUsersRepository implements IUsersRepository {
     const user = new User();
 
     Object.assign(user, {
-      id: uuid(),
+      id: v4(),
       cpf,
       email,
       password,

@@ -2,9 +2,10 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import ListDisciplinesService from '../../../services/ListDisciplinesService';
+import CreateDisciplineService from '../../../services/CreateDisciplineService';
 
 export default class DisciplinesController {
-  public async index(request: Request, response: Response): Promise<Response> {
+  public async index(_: Request, response: Response): Promise<Response> {
     const listDisciplines = container.resolve(ListDisciplinesService);
 
     const disciplines = await listDisciplines.execute();
@@ -13,6 +14,12 @@ export default class DisciplinesController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    return response.status(201).json();
+    const { id, name } = request.body;
+
+    const createDiscipline = container.resolve(CreateDisciplineService);
+
+    const discipline = await createDiscipline.execute({ id, name });
+
+    return response.status(201).json(discipline);
   }
 }

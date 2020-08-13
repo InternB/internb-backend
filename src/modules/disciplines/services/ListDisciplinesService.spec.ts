@@ -13,12 +13,11 @@ describe('ListDisciplines', () => {
   });
 
   it('should return all registered disciplines', async () => {
-    // Arrange
+    fakeDisciplinesRepository.create({ id: 'CIC0124', name: 'Estágio 1' });
+    fakeDisciplinesRepository.create({ id: 'CIC473', name: 'Estágio 2' });
 
-    // Act
     const disciplines = await listDisciplines.execute();
 
-    // Assert
     expect(disciplines.length).toEqual(2);
     expect(disciplines).toEqual(
       expect.arrayContaining([
