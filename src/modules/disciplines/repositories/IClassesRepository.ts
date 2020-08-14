@@ -3,5 +3,5 @@ import ICreateClassDTO from '../dtos/ICreateClassDTO';
 
 export default interface IClassesRepository {
   create(data: ICreateClassDTO): Promise<Class>;
-  findByClass(name: string): Promise<Class | undefined>;
+  findById(id: string): Promise<Class | undefined>;
 }

@@ -1,5 +1,5 @@
 export default interface ICreateClassDTO {
-  class: string;
+  id: string;
   semester: string;
   total_students_enrolled: number;
   discipline_id: string;

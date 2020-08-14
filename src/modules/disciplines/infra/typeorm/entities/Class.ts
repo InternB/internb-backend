@@ -1,36 +1,38 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+
 import Discipline from './Discipline';
 
 @Entity('classes')
 class Class {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
-
-  @Column()
-  class: string;
 
   @Column()
   semester: string;
 
   @Column('integer')
-  total_student_enrolled: number;
+  total_students_enrolled: number;
 
-  @Column('integer')
-  total_student_registered: number;
+  @Column('integer', { default: 0 })
+  total_students_registered: number;
 
   @Column()
   pdf_guide: string;
 
   @Column()
   discipline_id: string;
+
+  @ManyToOne(() => Discipline, discipline => discipline.classes)
+  @JoinColumn({ name: 'discipline_id' })
+  discipline: Discipline;
 
   @Column()
   professor_id: string;
@@ -40,9 +42,6 @@ class Class {
 
   @UpdateDateColumn()
   updated_at: string;
-
-  @ManyToOne(_ => Discipline, discipline => discipline.classes)
-  discipline: Discipline;
 }
 
 export default Class;

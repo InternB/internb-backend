@@ -2,6 +2,7 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import CreateClassService from '@modules/disciplines/services/CreateClassService';
+import ClassesRepository from '../../typeorm/repositories/ClassesRepository';
 
 export default class ClassesController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -10,7 +11,7 @@ export default class ClassesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const {
-      class: name,
+      id,
       semester,
       total_students_enrolled,
       discipline_id,
@@ -21,7 +22,7 @@ export default class ClassesController {
     const createClass = container.resolve(CreateClassService);
 
     const newClass = await createClass.execute({
-      class: name,
+      id,
       semester,
       total_students_enrolled,
       discipline_id,

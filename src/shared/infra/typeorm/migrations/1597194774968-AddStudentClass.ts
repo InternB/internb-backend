@@ -14,7 +14,7 @@ export default class AddStudentClass1597194774968
           },
           {
             name: 'class_id',
-            type: 'uuid',
+            type: 'varchar(5)',
             isNullable: false,
           },
           {

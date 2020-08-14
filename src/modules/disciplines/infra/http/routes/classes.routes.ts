@@ -20,7 +20,7 @@ classesRouter.post(
   ensureProfessorAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      class: Joi.string().min(1).max(3),
+      id: Joi.string().min(1).max(3),
       semester: Joi.string().length(6),
       total_students_enrolled: Joi.number().integer().min(1),
       discipline_id: Joi.string().min(5).max(10),

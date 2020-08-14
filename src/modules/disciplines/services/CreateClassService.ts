@@ -8,7 +8,7 @@ import IClassesRepository from '../repositories/IClassesRepository';
 import IDisciplinesRepository from '../repositories/IDisciplinesRepository';
 
 interface IRequest {
-  class: string;
+  id: string;
   semester: string;
   total_students_enrolled: number;
   discipline_id: string;
@@ -33,7 +33,7 @@ class CreateClassService {
   ) {}
 
   public async execute({
-    class: name,
+    id,
     semester,
     total_students_enrolled,
     discipline_id,
@@ -48,13 +48,13 @@ class CreateClassService {
     const professorById = await this.usersRepository.findById(professor_id);
     if (!professorById) throw new AppError('Professor não cadastrado', 404);
 
-    const classExists = await this.classesRepository.findByClass(name);
+    const classExists = await this.classesRepository.findById(id);
     if (classExists) throw new AppError('Turma já cadastrada', 400);
 
-    const file = await this.storageProvider.saveFile('pdf', pdf_guide);
+    const file = await this.storageProvider.saveFile('.pdf', pdf_guide);
 
     const newClass = await this.classesRepository.create({
-      class: name,
+      id,
       semester,
       total_students_enrolled,
       discipline_id,

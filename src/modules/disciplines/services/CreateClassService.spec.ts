@@ -47,7 +47,7 @@ describe('CreateClass', () => {
     });
 
     const createdClass = await createClassService.execute({
-      class: 'A',
+      id: 'A',
       semester: '2/2020',
       total_students_enrolled: enrolled,
       discipline_id,
@@ -57,8 +57,7 @@ describe('CreateClass', () => {
 
     expect(createdClass).toEqual(
       expect.objectContaining({
-        id: expect.any(String),
-        class: 'A',
+        id: 'A',
         semester: '2/2020',
         total_students_enrolled: enrolled,
         total_students_registered: 0,
@@ -74,7 +73,7 @@ describe('CreateClass', () => {
 
     await expect(
       createClassService.execute({
-        class: 'A',
+        id: 'A',
         semester: '2/2020',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
@@ -94,7 +93,7 @@ describe('CreateClass', () => {
 
     await expect(
       createClassService.execute({
-        class: 'A',
+        id: 'A',
         semester: '2/2020',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
@@ -123,7 +122,7 @@ describe('CreateClass', () => {
     });
 
     await fakeClassesRepository.create({
-      class: 'A',
+      id: 'A',
       semester: '2/2020',
       discipline_id,
       professor_id,
@@ -133,7 +132,7 @@ describe('CreateClass', () => {
 
     await expect(
       createClassService.execute({
-        class: 'A',
+        id: 'A',
         semester: '2/2020',
         total_students_enrolled: enrolled,
         discipline_id,

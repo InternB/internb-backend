@@ -37,15 +37,8 @@ export default class AddDisciplineAndClass1597192549268
         columns: [
           {
             name: 'id',
-            type: 'uuid',
-            isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
-          },
-          {
-            name: 'class',
             type: 'varchar(5)',
-            isNullable: false,
+            isPrimary: true,
           },
           {
             name: 'semester',
@@ -60,7 +53,6 @@ export default class AddDisciplineAndClass1597192549268
           {
             name: 'total_students_registered',
             type: 'integer',
-            default: '0',
           },
           {
             name: 'pdf_guide',
