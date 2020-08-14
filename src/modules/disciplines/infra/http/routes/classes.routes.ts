@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import pdfGuide from '@config/uploadsConfig/pdf_guide';
@@ -13,7 +13,7 @@ const classesController = new ClassesController();
 
 classesRouter.use(ensureAuthenticated);
 
-classesRouter.get('/discipline/:discipline_id', classesController.index);
+classesRouter.get('/discipline', classesController.index);
 
 classesRouter.post(
   '/',

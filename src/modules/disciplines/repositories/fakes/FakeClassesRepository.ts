@@ -30,9 +30,36 @@ export default class FakeClassesRepository implements IClassesRepository {
     return newClass;
   }
 
+  public async getAll(): Promise<Class[]> {
+    return this.classes;
+  }
+
   public async findById(id: string): Promise<Class | undefined> {
     const foundClass = this.classes.find(x => x.id === id);
 
     return foundClass;
+  }
+
+  public async findByDiscipline(discipline_id: string): Promise<Class[]> {
+    const classes = this.classes.filter(x => x.discipline_id === discipline_id);
+
+    return classes;
+  }
+
+  public async findByProfessor(professor_id: string): Promise<Class[]> {
+    const classes = this.classes.filter(x => x.professor_id === professor_id);
+
+    return classes;
+  }
+
+  public async findByDisciplineProfessor(
+    discipline_id: string,
+    professor_id: string,
+  ): Promise<Class[]> {
+    const classes = this.classes.filter(
+      x => x.discipline_id === discipline_id && x.professor_id === professor_id,
+    );
+
+    return classes;
   }
 }

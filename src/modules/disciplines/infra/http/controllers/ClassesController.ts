@@ -2,11 +2,25 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import CreateClassService from '@modules/disciplines/services/CreateClassService';
-import ClassesRepository from '../../typeorm/repositories/ClassesRepository';
+import ListClassesDisciplineService from '@modules/disciplines/services/ListClassesDisciplineService';
 
 export default class ClassesController {
   public async index(request: Request, response: Response): Promise<Response> {
-    return response.json();
+    const { discipline_id, professor_id } = request.query as {
+      discipline_id: string;
+      professor_id: string;
+    };
+
+    const listClassesDiscipline = container.resolve(
+      ListClassesDisciplineService,
+    );
+
+    const classes = await listClassesDiscipline.execute({
+      discipline_id,
+      professor_id,
+    });
+
+    return response.json(classes);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
