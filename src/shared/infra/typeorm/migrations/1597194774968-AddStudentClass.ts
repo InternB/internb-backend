@@ -32,8 +32,8 @@ export default class AddStudentClass1597194774968
           {
             name: 'fk_student',
             columnNames: ['student_id'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'users',
+            referencedColumnNames: ['user_id'],
+            referencedTableName: 'students',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },

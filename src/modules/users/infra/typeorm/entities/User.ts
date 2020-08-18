@@ -28,17 +28,11 @@ class User {
   @Column('varchar')
   phone: string;
 
-  @Column('integer')
+  @Column('smallint')
   role: number;
 
   @Column('boolean')
   active: boolean;
-
-  @Column('varchar')
-  contract_files: string;
-
-  @Column('varchar')
-  work_plan: string;
 
   @CreateDateColumn()
   created_at: Date;

@@ -16,7 +16,7 @@ export default class CreateAdmRegion1592348227085
           },
           {
             name: 'name',
-            type: 'varchar',
+            type: 'varchar(50)',
             isNullable: false,
           },
           {
@@ -33,6 +33,12 @@ export default class CreateAdmRegion1592348227085
             name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
+          },
+          {
+            name: 'deleted_at',
+            type: 'timestamp',
+            isNullable: true,
+            default: null,
           },
         ],
       }),

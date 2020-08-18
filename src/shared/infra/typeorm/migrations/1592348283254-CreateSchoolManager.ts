@@ -16,22 +16,22 @@ export default class CreateSchoolManager1592348283254
           },
           {
             name: 'role',
-            type: 'varchar',
+            type: 'bool',
             isNullable: false,
           },
           {
             name: 'fullname',
-            type: 'varchar',
+            type: 'varchar(100)',
             isNullable: false,
           },
           {
             name: 'phone',
-            type: 'varchar',
+            type: 'varchar(20)',
             isNullable: true,
           },
           {
             name: 'email',
-            type: 'varchar',
+            type: 'varchar(100)',
             isNullable: true,
           },
           {
