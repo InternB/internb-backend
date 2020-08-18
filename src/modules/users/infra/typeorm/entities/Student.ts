@@ -7,10 +7,9 @@ import {
 } from 'typeorm';
 
 import User from './User';
-import School from '../../../../schools/infra/typeorm/entities/School';
 
-@Entity('preceptors')
-class Preceptor {
+@Entity('students')
+class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -21,15 +20,11 @@ class Preceptor {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToOne(() => School)
-  @JoinColumn({ name: 'school_id' })
-  school: School;
-
-  @Column('smallint')
-  experience: number;
+  @Column()
+  enrollment: number;
 
   @Column()
-  formation: string;
+  semester: string;
 }
 
-export default Preceptor;
+export default Student;

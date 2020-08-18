@@ -43,7 +43,7 @@ class User {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @Column('varchar')
+  @Column('varchar', { default: 'default.png ' })
   avatar: string;
 
   @Expose({ name: 'avatar_url' })

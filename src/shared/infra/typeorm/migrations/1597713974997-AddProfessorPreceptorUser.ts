@@ -8,6 +8,13 @@ export default class AddProfessorPreceptorUser1597713974997
         name: 'professors',
         columns: [
           {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
+          {
             name: 'user_id',
             type: 'uuid',
             isNullable: false,
@@ -30,6 +37,13 @@ export default class AddProfessorPreceptorUser1597713974997
       new Table({
         name: 'preceptors',
         columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
           {
             name: 'user_id',
             type: 'uuid',
@@ -65,7 +79,7 @@ export default class AddProfessorPreceptorUser1597713974997
             columnNames: ['school_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'schools',
-            onDelete: 'CASCADE',
+            onDelete: 'SET NULL',
             onUpdate: 'CASCADE',
           },
         ],
@@ -76,6 +90,13 @@ export default class AddProfessorPreceptorUser1597713974997
       new Table({
         name: 'students',
         columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
           {
             name: 'user_id',
             type: 'uuid',

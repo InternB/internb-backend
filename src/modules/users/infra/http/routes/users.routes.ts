@@ -18,8 +18,8 @@ const usersRouter = Router();
 
 const usersController = new UsersController();
 const adminsController = new AdminsController();
-const studentContractsController = new StudentContractsController();
-const studentWorkPlansController = new StudentWorkPlansController();
+// const studentContractsController = new StudentContractsController();
+// const studentWorkPlansController = new StudentWorkPlansController();
 
 usersRouter.get('/', ensureAuthenticated, usersController.index);
 
@@ -45,38 +45,38 @@ usersRouter.patch(
   adminsController.update,
 );
 
-usersRouter.patch(
-  '/contract-files',
-  ensureAuthenticated,
-  ensureStudentAuthenticated,
-  internshipDocsUpload.upload.fields([
-    {
-      name: 'commitmentTerm',
-      maxCount: 1,
-    },
-    {
-      name: 'firstCopy',
-      maxCount: 1,
-    },
-    {
-      name: 'secondCopy',
-      maxCount: 1,
-    },
-    {
-      name: 'thirdCopy',
-      maxCount: 1,
-    },
-  ]),
-  studentContractsController.update,
-);
+// usersRouter.patch(
+//   '/contract-files',
+//   ensureAuthenticated,
+//   ensureStudentAuthenticated,
+//   internshipDocsUpload.upload.fields([
+//     {
+//       name: 'commitmentTerm',
+//       maxCount: 1,
+//     },
+//     {
+//       name: 'firstCopy',
+//       maxCount: 1,
+//     },
+//     {
+//       name: 'secondCopy',
+//       maxCount: 1,
+//     },
+//     {
+//       name: 'thirdCopy',
+//       maxCount: 1,
+//     },
+//   ]),
+//   studentContractsController.update,
+// );
 
-usersRouter.patch(
-  '/work-plan',
-  ensureAuthenticated,
-  ensureStudentAuthenticated,
-  internshipWorkPlan.upload.single('work_plan'),
-  studentWorkPlansController.patch,
-);
+// usersRouter.patch(
+//   '/work-plan',
+//   ensureAuthenticated,
+//   ensureStudentAuthenticated,
+//   internshipWorkPlan.upload.single('work_plan'),
+//   studentWorkPlansController.patch,
+// );
 
 usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
