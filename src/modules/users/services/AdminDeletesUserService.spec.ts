@@ -1,105 +1,102 @@
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
-// import AdminDeletesUserService from './AdminDeletesUserService';
-// import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import AdminDeletesUserService from './AdminDeletesUserService';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
-// let fakeUsersRepository: FakeUsersRepository;
-// let adminDeletesUserService: AdminDeletesUserService;
+let fakeUsersRepository: FakeUsersRepository;
+let adminDeletesUserService: AdminDeletesUserService;
 
-// describe('AdminDeletesUser', () => {
-//   beforeEach(() => {
-//     fakeUsersRepository = new FakeUsersRepository();
-//     adminDeletesUserService = new AdminDeletesUserService(fakeUsersRepository);
-//   });
+function createAdmin(): User {
+  const admin = new User();
+  Object.assign(admin, {
+    cpf: '06516661120',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role: 0,
+    active: true,
+  });
 
-//   it('should delete another User', async () => {
-//     // const deleteUser = jest.spyOn(fakeUsersRepository, 'deleteUser');
-//     const randomRole = Math.floor(Math.random() * 4);
+  return admin;
+}
 
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
 
-//     const userToBeDeleted = await fakeUsersRepository.create({
-//       cpf: '29676193020',
-//       email: 'johntre@gmail.com',
-//       password: '123456',
-//       fullname: 'John Tré',
-//       phone: '61999999999',
-//       role: randomRole,
-//       active: true,
-//     });
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johntre@gmail.com',
+    password: '123456',
+    fullname: 'John Tré',
+    phone: '61999999999',
+    role,
+    active,
+  });
 
-//     await expect(
-//       adminDeletesUserService.execute({
-//         admin_id,
-//         user_id: userToBeDeleted.id,
-//       }),
-//     ).resolves;
-//     // await expect(deleteUser).toHaveBeenCalledWith(userToBeDeleted);
-//   });
+  return user;
+}
 
-//   it("should not delete the user if the admin doesn't exist", async () => {
-//     await expect(
-//       adminDeletesUserService.execute({
-//         admin_id: 'non-existing-admin-id',
-//         user_id: 'user-id',
-//       }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
+describe('AdminDeletesUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    adminDeletesUserService = new AdminDeletesUserService(fakeUsersRepository);
+  });
 
-//   it("should not delete the user if the user doesn't exist", async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+  it('should delete another User', async () => {
+    const admin = createAdmin();
 
-//     await expect(
-//       adminDeletesUserService.execute({
-//         admin_id,
-//         user_id: 'non-existing-user-id',
-//       }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
+    const user = createUser();
 
-//   it('should not delete the user if he/she is inactive', async () => {
-//     const randomRole = Math.floor(Math.random() * 4);
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+    const userToBeDeleted = await fakeUsersRepository.create(user);
 
-//     const { id: user_id } = await fakeUsersRepository.create({
-//       cpf: '29676193020',
-//       email: 'johntre@gmail.com',
-//       password: '123456',
-//       fullname: 'John Tré',
-//       phone: '61999999999',
-//       role: randomRole,
-//       active: false,
-//     });
+    await expect(
+      adminDeletesUserService.execute({
+        admin_id,
+        user_id: userToBeDeleted.id,
+      }),
+    ).resolves;
+  });
 
-//     await expect(
-//       adminDeletesUserService.execute({ admin_id, user_id }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
-// });
+  it("should not delete the user if the admin doesn't exist", async () => {
+    await expect(
+      adminDeletesUserService.execute({
+        admin_id: 'non-existing-admin-id',
+        user_id: 'user-id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("should not delete the user if the user doesn't exist", async () => {
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
+
+    await expect(
+      adminDeletesUserService.execute({
+        admin_id,
+        user_id: 'non-existing-user-id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not delete the user if he/she is inactive', async () => {
+    const admin = createAdmin();
+
+    const user = createUser(false);
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
+
+    const { id: user_id } = await fakeUsersRepository.create(user);
+
+    await expect(
+      adminDeletesUserService.execute({ admin_id, user_id }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});

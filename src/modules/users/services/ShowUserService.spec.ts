@@ -1,53 +1,63 @@
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
-// import ShowUserService from './ShowUserService';
-// import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import ShowUserService from './ShowUserService';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
-// let fakeUsersRepository: FakeUsersRepository;
-// let showUserService: ShowUserService;
+let fakeUsersRepository: FakeUsersRepository;
+let showUserService: ShowUserService;
 
-// describe('ShowUser', () => {
-//   beforeEach(() => {
-//     fakeUsersRepository = new FakeUsersRepository();
-//     showUserService = new ShowUserService(fakeUsersRepository);
-//   });
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
 
-//   it("should show the user's profile information", async () => {
-//     const role = Math.floor(Math.random() * 4);
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
 
-//     const { id } = await fakeUsersRepository.create({
-//       cpf: '90207045089',
-//       email: 'johndoe@gmail.com',
-//       fullname: 'John Doe',
-//       password: '123456',
-//       phone: '61999999999',
-//       role,
-//       active: true,
-//     });
+  return user;
+}
 
-//     const user = await showUserService.execute({
-//       id,
-//     });
+describe('ShowUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    showUserService = new ShowUserService(fakeUsersRepository);
+  });
 
-//     expect(user).toEqual(
-//       expect.objectContaining({
-//         cpf: '90207045089',
-//         email: 'johndoe@gmail.com',
-//         fullname: 'John Doe',
-//         phone: '61999999999',
-//         role,
-//         active: true,
-//       }),
-//     );
-//   });
+  it("should show the user's profile information", async () => {
+    const user = createUser();
 
-//   it('should not show the profile information if user does not exist', async () => {
-//     await expect(
-//       showUserService.execute({
-//         id: 'non-existing-user-id',
-//       }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
-// });
+    const { id } = await fakeUsersRepository.create(user);
+
+    const response = await showUserService.execute({
+      id,
+    });
+
+    expect(response).toEqual(
+      expect.objectContaining({
+        cpf: '29676193020',
+        email: 'johndoe@gmail.com',
+        fullname: 'John Doe',
+        phone: '61999999999',
+        // role: expect.any(Number),
+        active: true,
+      }),
+    );
+  });
+
+  it('should not show the profile information if user does not exist', async () => {
+    await expect(
+      showUserService.execute({
+        id: 'non-existing-user-id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});

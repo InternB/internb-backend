@@ -1,40 +1,51 @@
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
-// import DeleteUserService from './DeleteUserService';
-// import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import DeleteUserService from './DeleteUserService';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
-// let deleteUserService: DeleteUserService;
-// let fakeUsersRepository: FakeUsersRepository;
+let deleteUserService: DeleteUserService;
+let fakeUsersRepository: FakeUsersRepository;
 
-// describe('DeleteUser', () => {
-//   beforeEach(() => {
-//     fakeUsersRepository = new FakeUsersRepository();
-//     deleteUserService = new DeleteUserService(fakeUsersRepository);
-//   });
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
 
-//   it("should delete the authenticated user's account", async () => {
-//     const deleteUser = jest.spyOn(fakeUsersRepository, 'deleteUser');
-//     const randomRole = Math.floor(Math.random() * 4);
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
 
-//     const user = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: randomRole,
-//       active: true,
-//     });
+  return user;
+}
 
-//     await expect(deleteUserService.execute({ id: user.id })).resolves;
-//     await expect(deleteUser).toHaveBeenCalledWith(user);
-//   });
+describe('DeleteUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    deleteUserService = new DeleteUserService(fakeUsersRepository);
+  });
 
-//   it("should not delete the user if he/she doesn't exist", async () => {
-//     await expect(
-//       deleteUserService.execute({ id: 'non-existing-user-id' }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
-// });
+  it("should delete the authenticated user's account", async () => {
+    const deleteUser = jest.spyOn(fakeUsersRepository, 'deleteUser');
+
+    const user = createUser();
+
+    const { id } = await fakeUsersRepository.create(user);
+
+    await expect(deleteUserService.execute({ id })).resolves;
+    await expect(deleteUser).toHaveBeenCalledWith(user);
+  });
+
+  it("should not delete the user if he/she doesn't exist", async () => {
+    await expect(
+      deleteUserService.execute({ id: 'non-existing-user-id' }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});

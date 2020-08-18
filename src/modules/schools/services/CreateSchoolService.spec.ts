@@ -1,228 +1,212 @@
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
-// import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
-// import CreateSchoolService from './CreateSchoolService';
-// import FakeSchoolsRepository from '../repositories/fakes/FakeSchoolsRepository';
-// import FakeAdmRegionsRepository from '../repositories/fakes/FakeAdmRegionsRepository';
+import User from '@modules/users/infra/typeorm/entities/User';
+import CreateSchoolService from './CreateSchoolService';
+import FakeSchoolsRepository from '../repositories/fakes/FakeSchoolsRepository';
+import FakeAdmRegionsRepository from '../repositories/fakes/FakeAdmRegionsRepository';
 
-// let createSchoolService: CreateSchoolService;
-// let fakeSchoolsRepository: FakeSchoolsRepository;
-// let fakeAdmRegionsRepository: FakeAdmRegionsRepository;
-// let fakeUsersRepository: FakeUsersRepository;
+let createSchoolService: CreateSchoolService;
+let fakeSchoolsRepository: FakeSchoolsRepository;
+let fakeAdmRegionsRepository: FakeAdmRegionsRepository;
+let fakeUsersRepository: FakeUsersRepository;
 
-// describe('CreateSchool', () => {
-//   beforeEach(() => {
-//     fakeSchoolsRepository = new FakeSchoolsRepository();
-//     fakeAdmRegionsRepository = new FakeAdmRegionsRepository();
-//     fakeUsersRepository = new FakeUsersRepository();
-//     createSchoolService = new CreateSchoolService(
-//       fakeSchoolsRepository,
-//       fakeAdmRegionsRepository,
-//       fakeUsersRepository,
-//     );
-//   });
+function createAdmin(active = true): User {
+  const admin = new User();
+  Object.assign(admin, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role: 0,
+    active,
+  });
 
-//   it('should create a public school in a specific Adminstrative Region', async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+  return admin;
+}
 
-//     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-//       name: 'adm-region-name',
-//       cre: true,
-//     });
+describe('CreateSchool', () => {
+  beforeEach(() => {
+    fakeSchoolsRepository = new FakeSchoolsRepository();
+    fakeAdmRegionsRepository = new FakeAdmRegionsRepository();
+    fakeUsersRepository = new FakeUsersRepository();
+    createSchoolService = new CreateSchoolService(
+      fakeSchoolsRepository,
+      fakeAdmRegionsRepository,
+      fakeUsersRepository,
+    );
+  });
 
-//     const school = await createSchoolService.execute({
-//       admin_id,
-//       name: 'school-name',
-//       adm_region_id,
-//       cep: 'school-cep',
-//       address: 'school-address',
-//       phone: 'school-phone',
-//       email: 'school-email',
-//     });
+  it('should create a public school in a specific Adminstrative Region', async () => {
+    const admin = createAdmin();
 
-//     expect(school).toEqual(
-//       expect.objectContaining({
-//         name: 'school-name',
-//         adm_region_id,
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: 'school-phone',
-//         email: 'school-email',
-//       }),
-//     );
-//   });
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
-//   it('should create a private school in a specific Admnistrative Region', async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
+      name: 'adm-region-name',
+      cre: true,
+    });
 
-//     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-//       name: 'adm-region-name',
-//       cre: false,
-//     });
+    const school = await createSchoolService.execute({
+      admin_id,
+      name: 'school-name',
+      adm_region_id,
+      cep: 'school-cep',
+      address: 'school-address',
+      phone: 'school-phone',
+      email: 'school-email',
+    });
 
-//     const type = Math.floor(Math.random() * 3 + 1);
+    expect(school).toEqual(
+      expect.objectContaining({
+        name: 'school-name',
+        adm_region_id,
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: 'school-phone',
+        email: 'school-email',
+      }),
+    );
+  });
 
-//     const school = await createSchoolService.execute({
-//       admin_id,
-//       name: 'school-name',
-//       adm_region_id,
-//       cep: 'school-cep',
-//       address: 'school-address',
-//       phone: 'school-phone',
-//       email: 'school-email',
-//     });
+  it('should create a private school in a specific Admnistrative Region', async () => {
+    const admin = createAdmin();
 
-//     expect(school).toEqual(
-//       expect.objectContaining({
-//         name: 'school-name',
-//         adm_region_id,
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: 'school-phone',
-//         email: 'school-email',
-//       }),
-//     );
-//   });
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
-//   it("should create a school if there's no phone to attach", async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
+      name: 'adm-region-name',
+      cre: false,
+    });
 
-//     const type = Math.floor(Math.random() * 4);
+    const school = await createSchoolService.execute({
+      admin_id,
+      name: 'school-name',
+      adm_region_id,
+      cep: 'school-cep',
+      address: 'school-address',
+      phone: 'school-phone',
+      email: 'school-email',
+    });
 
-//     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-//       name: 'adm-region-name',
-//       cre: type === 0,
-//     });
+    expect(school).toEqual(
+      expect.objectContaining({
+        name: 'school-name',
+        adm_region_id,
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: 'school-phone',
+        email: 'school-email',
+      }),
+    );
+  });
 
-//     const school = await createSchoolService.execute({
-//       admin_id,
-//       name: 'school-name',
-//       adm_region_id,
-//       cep: 'school-cep',
-//       address: 'school-address',
-//       phone: 'school-phone',
-//     });
+  it("should create a school if there's no phone to attach", async () => {
+    const admin = createAdmin();
 
-//     expect(school).toEqual(
-//       expect.objectContaining({
-//         name: 'school-name',
-//         adm_region_id,
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: 'school-phone',
-//         email: undefined,
-//       }),
-//     );
-//   });
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
-//   it("should create a school if there's no email to attach", async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+    const type = Math.floor(Math.random() * 4);
 
-//     const type = Math.floor(Math.random() * 4);
+    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
+      name: 'adm-region-name',
+      cre: type === 0,
+    });
 
-//     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-//       name: 'adm-region-name',
-//       cre: type === 0,
-//     });
+    const school = await createSchoolService.execute({
+      admin_id,
+      name: 'school-name',
+      adm_region_id,
+      cep: 'school-cep',
+      address: 'school-address',
+      phone: 'school-phone',
+    });
 
-//     const school = await createSchoolService.execute({
-//       admin_id,
-//       name: 'school-name',
-//       adm_region_id,
-//       cep: 'school-cep',
-//       address: 'school-address',
-//       email: 'school-email',
-//     });
+    expect(school).toEqual(
+      expect.objectContaining({
+        name: 'school-name',
+        adm_region_id,
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: 'school-phone',
+        email: undefined,
+      }),
+    );
+  });
 
-//     expect(school).toEqual(
-//       expect.objectContaining({
-//         name: 'school-name',
-//         adm_region_id,
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: undefined,
-//         email: 'school-email',
-//       }),
-//     );
-//   });
+  it("should create a school if there's no email to attach", async () => {
+    const admin = createAdmin();
 
-//   it('should not create a school if the Admin does not exist', async () => {
-//     const type = Math.floor(Math.random() * 4);
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
-//     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
-//       name: 'adm-region-name',
-//       cre: type === 0,
-//     });
+    const type = Math.floor(Math.random() * 4);
 
-//     await expect(
-//       createSchoolService.execute({
-//         admin_id: 'non-existing-admin-id',
-//         name: 'school-name',
-//         adm_region_id,
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: 'school-phone',
-//         email: 'school-email',
-//       }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
+    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
+      name: 'adm-region-name',
+      cre: type === 0,
+    });
 
-//   it('should not create a school if the Adminstrative Region does not exist', async () => {
-//     const { id: admin_id } = await fakeUsersRepository.create({
-//       cpf: '06516661120',
-//       email: 'johndoe@gmail.com',
-//       password: '123456',
-//       fullname: 'John Doe',
-//       phone: '61999999999',
-//       role: 0,
-//       active: true,
-//     });
+    const school = await createSchoolService.execute({
+      admin_id,
+      name: 'school-name',
+      adm_region_id,
+      cep: 'school-cep',
+      address: 'school-address',
+      email: 'school-email',
+    });
 
-//     await expect(
-//       createSchoolService.execute({
-//         admin_id,
-//         name: 'school-name',
-//         adm_region_id: 'non-existing-adm-region-id',
-//         cep: 'school-cep',
-//         address: 'school-address',
-//         phone: 'school-phone',
-//         email: 'school-email',
-//       }),
-//     ).rejects.toBeInstanceOf(AppError);
-//   });
-// });
+    expect(school).toEqual(
+      expect.objectContaining({
+        name: 'school-name',
+        adm_region_id,
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: undefined,
+        email: 'school-email',
+      }),
+    );
+  });
+
+  it('should not create a school if the Admin does not exist', async () => {
+    const type = Math.floor(Math.random() * 4);
+
+    const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
+      name: 'adm-region-name',
+      cre: type === 0,
+    });
+
+    await expect(
+      createSchoolService.execute({
+        admin_id: 'non-existing-admin-id',
+        name: 'school-name',
+        adm_region_id,
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: 'school-phone',
+        email: 'school-email',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not create a school if the Adminstrative Region does not exist', async () => {
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
+
+    await expect(
+      createSchoolService.execute({
+        admin_id,
+        name: 'school-name',
+        adm_region_id: 'non-existing-adm-region-id',
+        cep: 'school-cep',
+        address: 'school-address',
+        phone: 'school-phone',
+        email: 'school-email',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});
