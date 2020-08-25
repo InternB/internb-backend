@@ -46,6 +46,11 @@ export default class AddDisciplineAndClass1597192549268
             isNullable: false,
           },
           {
+            name: 'password',
+            type: 'varchar(255)',
+            isNullable: false,
+          },
+          {
             name: 'total_students_enrolled',
             type: 'integer',
             isNullable: false,
