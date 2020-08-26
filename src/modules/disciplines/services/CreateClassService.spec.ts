@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
+import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import CreateClassService from './CreateClassService';
 import FakeClassesRepository from '../repositories/fakes/FakeClassesRepository';
 import FakeDisciplinesRepository from '../repositories/fakes/FakeDisciplinesRepository';
@@ -12,7 +12,7 @@ import FakeDisciplinesRepository from '../repositories/fakes/FakeDisciplinesRepo
 let fakeClassesRepository: FakeClassesRepository;
 let fakeDisciplinesRepository: FakeDisciplinesRepository;
 let fakeUsersRepository: FakeUsersRepository;
-let fakeStorageProvider: FakeStorageProvider;
+let fakeHashProvider: FakeHashProvider;
 let createClassService: CreateClassService;
 
 function createProfessor(active = true): User {
@@ -35,12 +35,12 @@ describe('CreateClass', () => {
     fakeClassesRepository = new FakeClassesRepository();
     fakeDisciplinesRepository = new FakeDisciplinesRepository();
     fakeUsersRepository = new FakeUsersRepository();
-    fakeStorageProvider = new FakeStorageProvider();
+    fakeHashProvider = new FakeHashProvider();
     createClassService = new CreateClassService(
       fakeClassesRepository,
       fakeDisciplinesRepository,
       fakeUsersRepository,
-      fakeStorageProvider,
+      fakeHashProvider,
     );
   });
 
@@ -59,10 +59,10 @@ describe('CreateClass', () => {
     const createdClass = await createClassService.execute({
       id: 'A',
       semester: '2/2020',
+      password: '123456',
       total_students_enrolled: enrolled,
       discipline_id,
       professor_id,
-      pdf_guide: 'class_pdf_guide',
     });
 
     expect(createdClass).toEqual(
@@ -73,7 +73,6 @@ describe('CreateClass', () => {
         total_students_registered: 0,
         discipline_id,
         professor_id,
-        pdf_guide: 'class_pdf_guide',
       }),
     );
   });
@@ -85,10 +84,10 @@ describe('CreateClass', () => {
       createClassService.execute({
         id: 'A',
         semester: '2/2020',
+        password: '123456',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
         professor_id: 'professor-id',
-        pdf_guide: 'class_pdf_guide',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -105,10 +104,10 @@ describe('CreateClass', () => {
       createClassService.execute({
         id: 'A',
         semester: '2/2020',
+        password: '123456',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
         professor_id: 'professor-id',
-        pdf_guide: 'class_pdf_guide',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -128,20 +127,20 @@ describe('CreateClass', () => {
     await fakeClassesRepository.create({
       id: 'A',
       semester: '2/2020',
+      password: '123456',
       discipline_id,
       professor_id,
       total_students_enrolled: enrolled,
-      pdf_guide: 'pdf_guide.pdf',
     });
 
     await expect(
       createClassService.execute({
         id: 'A',
         semester: '2/2020',
+        password: '123456',
         total_students_enrolled: enrolled,
         discipline_id,
         professor_id,
-        pdf_guide: 'class_pdf_guide',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

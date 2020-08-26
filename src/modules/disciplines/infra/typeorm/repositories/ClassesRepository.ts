@@ -14,19 +14,19 @@ export default class ClassesRepository implements IClassesRepository {
   public async create({
     id,
     semester,
+    password,
     total_students_enrolled,
     discipline_id,
     professor_id,
-    pdf_guide,
   }: ICreateClassDTO): Promise<Class> {
     let newClass = new Class();
     Object.assign(newClass, {
       id,
       semester,
+      password,
       total_students_enrolled,
       discipline_id,
       professor_id,
-      pdf_guide,
     });
 
     this.ormRepository.create(newClass);

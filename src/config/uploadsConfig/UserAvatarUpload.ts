@@ -1,10 +1,10 @@
 import multer, { diskStorage } from 'multer';
 
-import upload, { wordPDFFileFilter, uuidFilename } from '../upload';
+import upload, { imageFileFilter, uuidFilename } from '../upload';
 
-const pdfGuide = {
+const UserAvatarUpload = {
   upload: multer({
-    fileFilter: wordPDFFileFilter,
+    fileFilter: imageFileFilter,
     storage: diskStorage({
       destination: upload.tmpFolder,
       filename: uuidFilename,
@@ -12,4 +12,4 @@ const pdfGuide = {
   }),
 };
 
-export default pdfGuide;
+export default UserAvatarUpload;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 // import { celebrate, Segments, Joi } from 'celebrate';
 
-import { userAvatar } from '@config/upload';
+// import { userAvatar } from '@config/upload';
 
 import ProfilesController from '../controllers/ProfilesController';
 // import UserAvatarsController from '../controllers/UserAvatarsController';

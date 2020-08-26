@@ -18,8 +18,8 @@ disciplinesRouter.post(
   ensureAdminAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      id: Joi.string().min(5).max(10),
-      name: Joi.string().min(8).max(50),
+      id: Joi.string().min(5).max(10).required(),
+      name: Joi.string().min(8).max(50).required(),
     },
   }),
   disciplinesController.create,

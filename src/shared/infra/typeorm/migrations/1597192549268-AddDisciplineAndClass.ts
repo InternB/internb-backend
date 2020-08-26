@@ -62,7 +62,7 @@ export default class AddDisciplineAndClass1597192549268
           {
             name: 'pdf_guide',
             type: 'varchar(100)',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'discipline_id',

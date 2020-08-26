@@ -1,7 +1,6 @@
 import path from 'path';
 import { v4 } from 'uuid';
 import { Request } from 'express';
-import multer, { diskStorage } from 'multer';
 
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 const profilesFolder = path.resolve(tmpFolder, 'images', 'profiles');
@@ -75,34 +74,4 @@ export const uuidFilename = (
   const id = v4();
   const ext = path.extname(file.originalname);
   cb(null, `${id}${ext}`);
-};
-
-export const internshipDocsUpload = {
-  upload: multer({
-    fileFilter: wordPDFFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
-};
-
-export const internshipWorkPlan = {
-  upload: multer({
-    fileFilter: wordPDFFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
-};
-
-export const userAvatar = {
-  upload: multer({
-    fileFilter: imageFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
 };

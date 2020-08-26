@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import IStorageProvider from '@shared/container/providers/StorageProvider/model/IStorageProvider';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
 import AppError from '@shared/errors/AppError';
 import Class from '../infra/typeorm/entities/Class';
 import IClassesRepository from '../repositories/IClassesRepository';
@@ -10,10 +10,10 @@ import IDisciplinesRepository from '../repositories/IDisciplinesRepository';
 interface IRequest {
   id: string;
   semester: string;
+  password: string;
   total_students_enrolled: number;
   discipline_id: string;
   professor_id: string;
-  pdf_guide: string;
 }
 
 @injectable()
@@ -28,17 +28,17 @@ class CreateClassService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('StorageProvider')
-    private storageProvider: IStorageProvider,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({
     id,
     semester,
+    password,
     total_students_enrolled,
     discipline_id,
     professor_id,
-    pdf_guide,
   }: IRequest): Promise<Class> {
     const disciplineById = await this.disciplinesRepository.findById(
       discipline_id,
@@ -51,15 +51,15 @@ class CreateClassService {
     const classExists = await this.classesRepository.findById(id);
     if (classExists) throw new AppError('Turma já cadastrada', 400);
 
-    const file = await this.storageProvider.saveFile('.pdf', pdf_guide);
+    const hashedPassword = await this.hashProvider.generate(password);
 
     const newClass = await this.classesRepository.create({
       id,
       semester,
+      password: hashedPassword,
       total_students_enrolled,
       discipline_id,
       professor_id,
-      pdf_guide: file,
     });
 
     return newClass;

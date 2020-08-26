@@ -17,26 +17,26 @@ describe('ListClassesDiscipline', () => {
     await fakeClassesRepository.create({
       id: 'A',
       semester: '2/2014',
+      password: '123456',
       total_students_enrolled: 40,
       discipline_id: 'CIC0123',
       professor_id: 'professor1-id',
-      pdf_guide: 'pdf-guide.pdf',
     });
     await fakeClassesRepository.create({
       id: 'B',
       semester: '2/2014',
+      password: '123456',
       total_students_enrolled: 40,
       discipline_id: 'CIC0123',
       professor_id: 'professor1-id',
-      pdf_guide: 'pdf-guide.pdf',
     });
     await fakeClassesRepository.create({
       id: 'A',
       semester: '2/2014',
+      password: '123456',
       total_students_enrolled: 40,
       discipline_id: 'CIC0124',
       professor_id: 'professor2-id',
-      pdf_guide: 'pdf-guide.pdf',
     });
   });
 
@@ -55,7 +55,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
         expect.objectContaining({
           id: 'B',
@@ -63,7 +62,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
         expect.objectContaining({
           id: 'A',
@@ -71,7 +69,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0124',
           professor_id: 'professor2-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
       ]),
     );
@@ -92,7 +89,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0124',
           professor_id: 'professor2-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
       ]),
     );
@@ -113,7 +109,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
         expect.objectContaining({
           id: 'B',
@@ -121,7 +116,6 @@ describe('ListClassesDiscipline', () => {
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
-          pdf_guide: 'pdf-guide.pdf',
         }),
       ]),
     );

@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 import Discipline from './Discipline';
 
@@ -17,6 +18,10 @@ class Class {
 
   @Column()
   semester: string;
+
+  @Column()
+  @Exclude()
+  password: string;
 
   @Column('integer')
   total_students_enrolled: number;

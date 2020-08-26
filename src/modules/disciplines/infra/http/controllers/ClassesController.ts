@@ -1,5 +1,6 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
 
 import CreateClassService from '@modules/disciplines/services/CreateClassService';
 import ListClassesDisciplineService from '@modules/disciplines/services/ListClassesDisciplineService';
@@ -20,17 +21,17 @@ export default class ClassesController {
       professor_id,
     });
 
-    return response.json(classes);
+    return response.json(classToClass(classes));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       id,
       semester,
+      password,
       total_students_enrolled,
       discipline_id,
     } = request.body;
-    const pdf_guide = request.file.filename;
     const professor_id = request.user.id;
 
     const createClass = container.resolve(CreateClassService);
@@ -38,12 +39,12 @@ export default class ClassesController {
     const newClass = await createClass.execute({
       id,
       semester,
+      password,
       total_students_enrolled,
       discipline_id,
       professor_id,
-      pdf_guide,
     });
 
-    return response.status(201).json(newClass);
+    return response.status(201).json(classToClass(newClass));
   }
 }

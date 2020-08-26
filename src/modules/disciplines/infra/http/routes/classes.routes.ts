@@ -1,7 +1,7 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import pdfGuide from '@config/uploadsConfig/pdf_guide';
+// import pdfGuide from '@config/uploadsConfig/PdfGuideUpload';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { ensureProfessorAuthenticated } from '@modules/users/infra/http/middlewares/ensureRoleAuthenticated';
@@ -20,13 +20,14 @@ classesRouter.post(
   ensureProfessorAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      id: Joi.string().min(1).max(3),
-      semester: Joi.string().length(6),
+      id: Joi.string().min(1).max(3).required(),
+      semester: Joi.string().length(6).required(),
+      password: Joi.string().min(6).max(12).required(),
+      password_confirmation: Joi.string().valid(Joi.ref('password')).required(),
       total_students_enrolled: Joi.number().integer().min(1),
       discipline_id: Joi.string().min(5).max(10),
     },
   }),
-  pdfGuide.upload.single('pdf_guide'),
   classesController.create,
 );
 
