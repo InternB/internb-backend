@@ -4,8 +4,10 @@ import {
   OneToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 
+import Internship from '@modules/disciplines/infra/typeorm/entities/Internship';
 import User from './User';
 
 @Entity('students')
@@ -25,6 +27,9 @@ class Student {
 
   @Column()
   semester: string;
+
+  @OneToMany(() => Internship, x => x.student)
+  internships: Internship[];
 }
 
 export default Student;

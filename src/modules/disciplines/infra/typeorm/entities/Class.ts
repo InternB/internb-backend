@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 import Discipline from './Discipline';
+import Internship from './Internship';
 
 @Entity('classes')
 class Class {
@@ -43,10 +45,13 @@ class Class {
   professor_id: string;
 
   @CreateDateColumn()
-  created_at: string;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: string;
+  updated_at: Date;
+
+  @OneToMany(() => Internship, x => x.class)
+  internships: Internship[];
 }
 
 export default Class;
