@@ -25,7 +25,7 @@ class Student {
   @Column({ type: 'varchar', length: 10, nullable: true })
   enrollment: number;
 
-  @Column({ type: 'varchar', length: 6, nullable: false })
+  @Column({ type: 'varchar', length: 6, nullable: true })
   semester: string;
 
   @OneToMany(() => Internship, x => x.student, { cascade: true })

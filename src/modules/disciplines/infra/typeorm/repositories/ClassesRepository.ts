@@ -12,7 +12,7 @@ export default class ClassesRepository implements IClassesRepository {
   }
 
   public async create({
-    id,
+    sign,
     semester,
     password,
     total_students_enrolled,
@@ -21,7 +21,7 @@ export default class ClassesRepository implements IClassesRepository {
   }: ICreateClassDTO): Promise<Class> {
     let newClass = new Class();
     Object.assign(newClass, {
-      id,
+      sign,
       semester,
       password,
       total_students_enrolled,
@@ -42,12 +42,15 @@ export default class ClassesRepository implements IClassesRepository {
     return classes;
   }
 
-  public async findById(id: string): Promise<Class | undefined> {
-    const foundClass = await this.ormRepository.findOne({
-      where: { id },
+  public async findBySignAndDisciplineId(
+    sign: string,
+    discipline_id: string,
+  ): Promise<Class | undefined> {
+    const classFound = await this.ormRepository.findOne({
+      where: { sign, discipline_id },
     });
 
-    return foundClass;
+    return classFound;
   }
 
   public async findByDiscipline(discipline_id: string): Promise<Class[]> {

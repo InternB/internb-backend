@@ -15,7 +15,7 @@ describe('ListClassesDiscipline', () => {
     );
 
     await fakeClassesRepository.create({
-      id: 'A',
+      sign: 'A',
       semester: '2/2014',
       password: '123456',
       total_students_enrolled: 40,
@@ -23,7 +23,7 @@ describe('ListClassesDiscipline', () => {
       professor_id: 'professor1-id',
     });
     await fakeClassesRepository.create({
-      id: 'B',
+      sign: 'B',
       semester: '2/2014',
       password: '123456',
       total_students_enrolled: 40,
@@ -31,7 +31,7 @@ describe('ListClassesDiscipline', () => {
       professor_id: 'professor1-id',
     });
     await fakeClassesRepository.create({
-      id: 'A',
+      sign: 'A',
       semester: '2/2014',
       password: '123456',
       total_students_enrolled: 40,
@@ -50,21 +50,21 @@ describe('ListClassesDiscipline', () => {
     expect(classes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: 'A',
+          sign: 'A',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
         }),
         expect.objectContaining({
-          id: 'B',
+          sign: 'B',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
         }),
         expect.objectContaining({
-          id: 'A',
+          sign: 'A',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0124',
@@ -84,7 +84,7 @@ describe('ListClassesDiscipline', () => {
     expect(classes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: 'A',
+          sign: 'A',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0124',
@@ -104,14 +104,14 @@ describe('ListClassesDiscipline', () => {
     expect(classes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: 'A',
+          sign: 'A',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',
           professor_id: 'professor1-id',
         }),
         expect.objectContaining({
-          id: 'B',
+          sign: 'B',
           semester: '2/2014',
           total_students_enrolled: 40,
           discipline_id: 'CIC0123',

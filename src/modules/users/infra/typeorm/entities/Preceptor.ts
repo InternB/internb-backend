@@ -25,10 +25,10 @@ class Preceptor {
   @JoinColumn({ name: 'school_id' })
   school: School;
 
-  @Column('smallint')
+  @Column({ type: 'smallint', nullable: true })
   experience: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 15, nullable: true })
   formation: string;
 }
 

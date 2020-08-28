@@ -26,7 +26,7 @@ export default class ClassesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const {
-      id,
+      sign,
       semester,
       password,
       total_students_enrolled,
@@ -37,7 +37,7 @@ export default class ClassesController {
     const createClass = container.resolve(CreateClassService);
 
     const newClass = await createClass.execute({
-      id,
+      sign,
       semester,
       password,
       total_students_enrolled,

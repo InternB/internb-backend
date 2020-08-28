@@ -7,7 +7,7 @@ export default class FakeClassesRepository implements IClassesRepository {
   private classes: Class[] = [];
 
   public async create({
-    id,
+    sign,
     semester,
     password,
     total_students_enrolled,
@@ -16,7 +16,7 @@ export default class FakeClassesRepository implements IClassesRepository {
   }: ICreateClassDTO): Promise<Class> {
     const newClass = new Class();
     Object.assign(newClass, {
-      id,
+      sign,
       semester,
       password,
       total_students_enrolled,
@@ -34,10 +34,15 @@ export default class FakeClassesRepository implements IClassesRepository {
     return this.classes;
   }
 
-  public async findById(id: string): Promise<Class | undefined> {
-    const foundClass = this.classes.find(x => x.id === id);
+  public async findBySignAndDisciplineId(
+    sign: string,
+    discipline_id: string,
+  ): Promise<Class | undefined> {
+    const classFound = this.classes.find(
+      x => x.sign === sign && x.discipline_id === discipline_id,
+    );
 
-    return foundClass;
+    return classFound;
   }
 
   public async findByDiscipline(discipline_id: string): Promise<Class[]> {
