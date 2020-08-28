@@ -13,6 +13,7 @@ import UsersController from '../controllers/UsersController';
 import AdminsController from '../controllers/AdminsController';
 import StudentContractsController from '../controllers/StudentContractsController';
 import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
+import StudentInternshipsController from '../controllers/StudentInternshipsController';
 
 const usersRouter = Router();
 
@@ -20,6 +21,7 @@ const usersController = new UsersController();
 const adminsController = new AdminsController();
 // const studentContractsController = new StudentContractsController();
 // const studentWorkPlansController = new StudentWorkPlansController();
+const studentInternshipsController = new StudentInternshipsController();
 
 usersRouter.get('/', ensureAuthenticated, usersController.index);
 
@@ -86,5 +88,7 @@ usersRouter.delete(
   ensureAdminAuthenticated,
   adminsController.delete,
 );
+
+usersRouter.get('/testando', studentInternshipsController.create);
 
 export default usersRouter;

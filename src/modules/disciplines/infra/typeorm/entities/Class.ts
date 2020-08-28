@@ -1,6 +1,6 @@
 import {
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
@@ -15,33 +15,36 @@ import Internship from './Internship';
 
 @Entity('classes')
 class Class {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 5, nullable: false })
+  sign: string;
+
+  @Column({ type: 'varchar', length: 6, nullable: false })
   semester: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   @Exclude()
   password: string;
 
-  @Column('integer')
+  @Column('smallint')
   total_students_enrolled: number;
 
-  @Column('integer', { default: 0 })
+  @Column('smallint', { default: 0 })
   total_students_registered: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, nullable: true })
   pdf_guide: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   discipline_id: string;
 
   @ManyToOne(() => Discipline, discipline => discipline.classes)
-  @JoinColumn({ name: 'discipline_id' })
+  @JoinColumn({ name: 'discipline_id', referencedColumnName: 'id' })
   discipline: Discipline;
 
-  @Column()
+  @Column({ type: 'uuid', nullable: false })
   professor_id: string;
 
   @CreateDateColumn()
@@ -50,7 +53,7 @@ class Class {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Internship, x => x.class)
+  @OneToMany(() => Internship, x => x.class, { cascade: true })
   internships: Internship[];
 }
 
