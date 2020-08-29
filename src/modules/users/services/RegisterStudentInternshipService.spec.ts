@@ -43,7 +43,7 @@ describe('RegisterStudentInternship', () => {
       semester: '2/2020',
     });
 
-    const { id: student_id } = await fakeStudentsRepository.createUserOfType({
+    const { id, user_id } = await fakeStudentsRepository.createUserOfType({
       id: v4(),
       user_id: 'user-id',
       semester: '2/2020',
@@ -53,14 +53,14 @@ describe('RegisterStudentInternship', () => {
     });
 
     const internship = await registerStudentInternshipService.execute({
-      student_id,
+      user_id,
       class_id,
       password: '123456',
     });
 
     expect(internship).toEqual(
       expect.objectContaining({
-        student_id,
+        student_id: id,
         class_id,
         class_discipline_id,
         class_professor_id,
@@ -69,7 +69,7 @@ describe('RegisterStudentInternship', () => {
   });
 
   it("should not be able to register student to internship if class doesn't exist", async () => {
-    const { id: student_id } = await fakeStudentsRepository.createUserOfType({
+    const { user_id } = await fakeStudentsRepository.createUserOfType({
       id: v4(),
       user_id: 'user-id',
       semester: '2/2020',
@@ -80,7 +80,7 @@ describe('RegisterStudentInternship', () => {
 
     await expect(
       registerStudentInternshipService.execute({
-        student_id,
+        user_id,
         class_id: 'invalid-class-id',
         password: '123456',
       }),
@@ -99,7 +99,7 @@ describe('RegisterStudentInternship', () => {
 
     await expect(
       registerStudentInternshipService.execute({
-        student_id: 'invalid-student-id',
+        user_id: 'invalid-user-id',
         class_id,
         password: '123456',
       }),
@@ -116,7 +116,7 @@ describe('RegisterStudentInternship', () => {
       semester: '2/2020',
     });
 
-    const { id: student_id } = await fakeStudentsRepository.createUserOfType({
+    const { user_id } = await fakeStudentsRepository.createUserOfType({
       id: v4(),
       user_id: 'user-id',
       semester: '2/2020',
@@ -127,7 +127,7 @@ describe('RegisterStudentInternship', () => {
 
     await expect(
       registerStudentInternshipService.execute({
-        student_id,
+        user_id,
         class_id,
         password: 'invalid-password',
       }),
@@ -150,7 +150,7 @@ describe('RegisterStudentInternship', () => {
       await fakeClassesRepository.save(classById);
     }
 
-    const { id: student_id } = await fakeStudentsRepository.createUserOfType({
+    const { user_id } = await fakeStudentsRepository.createUserOfType({
       id: v4(),
       user_id: 'user-id',
       semester: '2/2020',
@@ -161,7 +161,7 @@ describe('RegisterStudentInternship', () => {
 
     await expect(
       registerStudentInternshipService.execute({
-        student_id,
+        user_id,
         class_id,
         password: '123456',
       }),

@@ -23,7 +23,7 @@ export default class FakeStudentsRepository
   }
 
   public async findUserOfTypeById(id: string): Promise<Student | undefined> {
-    const student = this.students.find(x => x.id === id);
+    const student = this.students.find(x => x.user_id === id);
 
     return student;
   }

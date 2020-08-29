@@ -19,5 +19,5 @@
       "./src/shared/infra/typeorm/migrations"
     ]
   },
-  "logging": true
+  "logging": false
 }

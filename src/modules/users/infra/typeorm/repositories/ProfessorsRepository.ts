@@ -27,7 +27,9 @@ export default class ProfessorsRepository
   }
 
   public async findUserOfTypeById(id: string): Promise<Professor | undefined> {
-    const professor = await this.ormRepository.findOne({ where: { id } });
+    const professor = await this.ormRepository.findOne({
+      where: { user_id: id },
+    });
 
     return professor;
   }

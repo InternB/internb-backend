@@ -6,14 +6,14 @@ import RegisterStudentInternshipService from '@modules/users/services/RegisterSt
 export default class StudentInternshipsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { class_id, password } = request.body;
-    const student_id = '252354e6-a02b-44a5-b269-f19b763a61e2';
+    const { id: user_id } = request.user;
 
     const registerStudentInternship = container.resolve(
       RegisterStudentInternshipService,
     );
 
     const internship = await registerStudentInternship.execute({
-      student_id,
+      user_id,
       class_id,
       password,
     });

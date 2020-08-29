@@ -9,7 +9,7 @@ import IGenericUsersRepository from '../repositories/IGenericUsersRepository';
 import Student from '../infra/typeorm/entities/Student';
 
 interface IRequest {
-  student_id: string;
+  user_id: string;
   class_id: string;
   password: string;
 }
@@ -31,13 +31,11 @@ class RegisterStudentInternshipService {
   ) {}
 
   public async execute({
-    student_id,
+    user_id,
     class_id,
     password,
   }: IRequest): Promise<Internship> {
-    const student = await this.studentsRepository.findUserOfTypeById(
-      student_id,
-    );
+    const student = await this.studentsRepository.findUserOfTypeById(user_id);
     if (!student) throw new AppError('Student not found', 404);
 
     let classById = await this.classesRepository.findById(class_id);
@@ -58,7 +56,7 @@ class RegisterStudentInternshipService {
     classById = await this.classesRepository.save(classById);
 
     const internship = await this.internshipsRepository.create({
-      student_id,
+      student_id: student.id,
       class_id,
       class_discipline_id: classById.discipline_id,
       class_professor_id: classById.professor_id,
