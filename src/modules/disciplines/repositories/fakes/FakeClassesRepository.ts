@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 import ICreateClassDTO from '@modules/disciplines/dtos/ICreateClassDTO';
 import Class from '@modules/disciplines/infra/typeorm/entities/Class';
 
@@ -16,6 +18,7 @@ export default class FakeClassesRepository implements IClassesRepository {
   }: ICreateClassDTO): Promise<Class> {
     const newClass = new Class();
     Object.assign(newClass, {
+      id: v4(),
       sign,
       semester,
       password,
@@ -32,6 +35,12 @@ export default class FakeClassesRepository implements IClassesRepository {
 
   public async getAll(): Promise<Class[]> {
     return this.classes;
+  }
+
+  public async findById(id: string): Promise<Class | undefined> {
+    const classFound = this.classes.find(x => x.id === id);
+
+    return classFound;
   }
 
   public async findBySignAndDisciplineId(
@@ -66,5 +75,12 @@ export default class FakeClassesRepository implements IClassesRepository {
     );
 
     return classes;
+  }
+
+  public async save(classToSave: Class): Promise<Class> {
+    const idx = this.classes.findIndex(x => x.id === classToSave.id);
+    this.classes[idx] = classToSave;
+
+    return classToSave;
   }
 }

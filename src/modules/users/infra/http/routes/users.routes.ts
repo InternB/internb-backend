@@ -5,15 +5,14 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import {
-  ensureStudentAuthenticated,
+  // ensureStudentAuthenticated,
   ensureAdminAuthenticated,
 } from '../middlewares/ensureRoleAuthenticated';
 
 import UsersController from '../controllers/UsersController';
 import AdminsController from '../controllers/AdminsController';
-import StudentContractsController from '../controllers/StudentContractsController';
-import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
-import StudentInternshipsController from '../controllers/StudentInternshipsController';
+// import StudentContractsController from '../controllers/StudentContractsController';
+// import StudentWorkPlansController from '../controllers/StudentWorkPlansController';
 
 const usersRouter = Router();
 
@@ -21,7 +20,6 @@ const usersController = new UsersController();
 const adminsController = new AdminsController();
 // const studentContractsController = new StudentContractsController();
 // const studentWorkPlansController = new StudentWorkPlansController();
-const studentInternshipsController = new StudentInternshipsController();
 
 usersRouter.get('/', ensureAuthenticated, usersController.index);
 
@@ -89,6 +87,6 @@ usersRouter.delete(
   adminsController.delete,
 );
 
-usersRouter.get('/testando', studentInternshipsController.create);
+// usersRouter.get('/testando', studentInternshipsController.create);
 
 export default usersRouter;

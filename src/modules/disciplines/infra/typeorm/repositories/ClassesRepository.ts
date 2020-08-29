@@ -42,6 +42,12 @@ export default class ClassesRepository implements IClassesRepository {
     return classes;
   }
 
+  public async findById(id: string): Promise<Class | undefined> {
+    const foundClass = await this.ormRepository.findOne({ where: { id } });
+
+    return foundClass;
+  }
+
   public async findBySignAndDisciplineId(
     sign: string,
     discipline_id: string,
@@ -76,7 +82,7 @@ export default class ClassesRepository implements IClassesRepository {
     return classes;
   }
 
-  private async save(savingClass: Class): Promise<Class> {
+  public async save(savingClass: Class): Promise<Class> {
     return this.ormRepository.save(savingClass);
   }
 }

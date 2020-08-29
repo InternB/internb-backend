@@ -4,6 +4,7 @@ import ICreateClassDTO from '../dtos/ICreateClassDTO';
 export default interface IClassesRepository {
   create(data: ICreateClassDTO): Promise<Class>;
   getAll(): Promise<Class[]>;
+  findById(id: string): Promise<Class | undefined>;
   findBySignAndDisciplineId(
     sign: string,
     discipline_id: string,
@@ -14,4 +15,5 @@ export default interface IClassesRepository {
     discipline_id: string,
     professor_id: string,
   ): Promise<Class[]>;
+  save(classToSave: Class): Promise<Class>;
 }

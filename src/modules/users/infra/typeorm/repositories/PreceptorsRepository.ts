@@ -12,13 +12,21 @@ export default class PreceptorsRepository
     this.ormRepository = getRepository(Preceptor);
   }
 
-  public async createUserOfType(preceptor: Preceptor): Promise<void> {
+  public async createUserOfType(preceptor: Preceptor): Promise<Preceptor> {
     const createdPreceptor = await this.ormRepository.create(preceptor);
 
     await this.saveUserOfType(createdPreceptor);
+
+    return createdPreceptor;
   }
 
   public async saveUserOfType(preceptor: Preceptor): Promise<Preceptor> {
     return this.ormRepository.save(preceptor);
+  }
+
+  public async findUserOfTypeById(id: string): Promise<Preceptor | undefined> {
+    const preceptor = await this.ormRepository.findOne({ where: { id } });
+
+    return preceptor;
   }
 }

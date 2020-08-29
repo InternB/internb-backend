@@ -23,7 +23,7 @@ class Student {
   user: User;
 
   @Column({ type: 'varchar', length: 10, nullable: true })
-  enrollment: number;
+  enrollment: string;
 
   @Column({ type: 'varchar', length: 6, nullable: true })
   semester: string;

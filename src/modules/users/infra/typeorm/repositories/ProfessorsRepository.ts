@@ -12,15 +12,23 @@ export default class ProfessorsRepository
     this.ormRepository = getRepository(Professor);
   }
 
-  public async createUserOfType(professor: Professor): Promise<void> {
+  public async createUserOfType(professor: Professor): Promise<Professor> {
     const createdProfessor = await this.ormRepository.create(professor);
 
     await this.saveUserOfType(createdProfessor);
+
+    return createdProfessor;
   }
 
   public async saveUserOfType(professor: Professor): Promise<Professor> {
     return this.ormRepository.save(professor, {
       data: { user_id: professor.user.id },
     });
+  }
+
+  public async findUserOfTypeById(id: string): Promise<Professor | undefined> {
+    const professor = await this.ormRepository.findOne({ where: { id } });
+
+    return professor;
   }
 }

@@ -3,6 +3,10 @@ import { container } from 'tsyringe';
 import '@shared/container/providers';
 import '@modules/users/providers';
 
+import Professor from '@modules/users/infra/typeorm/entities/Professor';
+import Preceptor from '@modules/users/infra/typeorm/entities/Preceptor';
+import Student from '@modules/users/infra/typeorm/entities/Student';
+
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
@@ -28,9 +32,9 @@ import DisciplinesRepository from '@modules/disciplines/infra/typeorm/repositori
 
 import IClassesRepository from '@modules/disciplines/repositories/IClassesRepository';
 import ClassesRepository from '@modules/disciplines/infra/typeorm/repositories/ClassesRepository';
-import Professor from '@modules/users/infra/typeorm/entities/Professor';
-import Preceptor from '@modules/users/infra/typeorm/entities/Preceptor';
-import Student from '@modules/users/infra/typeorm/entities/Student';
+
+import IInternshipsRepository from '@modules/disciplines/repositories/IInternshipsRepository';
+import InternshipsRepository from '@modules/disciplines/infra/typeorm/repositories/InternshipsRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -80,4 +84,9 @@ container.registerSingleton<IDisciplinesRepository>(
 container.registerSingleton<IClassesRepository>(
   'ClassesRepository',
   ClassesRepository,
+);
+
+container.registerSingleton<IInternshipsRepository>(
+  'InternshipsRepository',
+  InternshipsRepository,
 );
