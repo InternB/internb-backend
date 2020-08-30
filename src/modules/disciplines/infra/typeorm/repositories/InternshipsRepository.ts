@@ -24,4 +24,10 @@ export default class InternshipsRepository implements IInternshipsRepository {
   public async save(internship: Internship): Promise<Internship> {
     return this.ormRepository.save(internship);
   }
+
+  public async findById(id: string): Promise<Internship | undefined> {
+    const internship = await this.ormRepository.findOne({ where: { id } });
+
+    return internship;
+  }
 }

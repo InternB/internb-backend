@@ -4,7 +4,7 @@ import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import profilesRouter from '@modules/users/infra/http/routes/profiles.routes';
-import internshipsRouter from '@modules/users/infra/http/routes/internships.routes';
+import internshipsRouter from '@modules/users/infra/http/routes/studentInternships.routes';
 
 import schoolsRouter from '@modules/schools/infra/http/routes/schools.routes';
 import schoolManagersRouter from '@modules/schools/infra/http/routes/school_managers.routes';
