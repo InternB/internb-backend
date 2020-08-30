@@ -9,11 +9,15 @@ import {
   DeleteDateColumn,
   ManyToMany,
   JoinTable,
+  OneToOne,
 } from 'typeorm';
 
 import Class from './Class';
 import Student from '../../../../users/infra/typeorm/entities/Student';
 import Activity from './Actvitity';
+import Assessment from './Assessment';
+import Calendar from './Calendar';
+import Realization from './Realization';
 
 @Entity('internships')
 class Internship {
@@ -83,6 +87,27 @@ class Internship {
     inverseJoinColumn: { name: 'activity_id', referencedColumnName: 'id' },
   })
   activities: Activity[];
+
+  @Column({ type: 'uuid', nullable: true })
+  assessment_id: string;
+
+  @OneToOne(() => Assessment)
+  @JoinColumn({ name: 'assessment_id', referencedColumnName: 'id' })
+  asssessment: Assessment;
+
+  @Column({ type: 'uuid', nullable: true })
+  calendar_id: string;
+
+  @OneToOne(() => Calendar)
+  @JoinColumn({ name: 'calendar_id', referencedColumnName: 'id' })
+  calendar: Calendar;
+
+  @Column({ type: 'uuid', nullable: true })
+  realization_id: string;
+
+  @OneToOne(() => Realization)
+  @JoinColumn({ name: 'realization_id', referencedColumnName: 'id' })
+  realization: Realization;
 }
 
 export default Internship;
