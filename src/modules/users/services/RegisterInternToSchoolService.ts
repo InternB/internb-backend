@@ -36,6 +36,8 @@ class RegisterInternToSchoolService {
 
     let internship = await this.internshipsRepository.findById(internship_id);
     if (!internship) throw new AppError('Internshipd not found', 404);
+    if (internship.school_id)
+      throw new AppError('Internship already registered to a school', 400);
 
     const school = await this.schoolsRepository.findById(school_id);
     if (!school) throw new AppError('School not found', 404);
