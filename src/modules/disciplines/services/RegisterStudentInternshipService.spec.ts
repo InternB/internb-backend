@@ -1,13 +1,14 @@
 import 'reflect-metadata';
 
 import { v4 } from 'uuid';
+
 import AppError from '@shared/errors/AppError';
+import FakeStudentsRepository from '@modules/users/repositories/fakes/FakeStudentsRepository';
+import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import User from '@modules/users/infra/typeorm/entities/User';
 import RegisterStudentInternshipService from './RegisterStudentInternshipService';
-import FakeStudentsRepository from '../repositories/fakes/FakeStudentsRepository';
-import FakeClassesRepository from '../../disciplines/repositories/fakes/FakeClassesRepository';
-import FakeInternshipsRepository from '../../disciplines/repositories/fakes/FakeInternshipsRepository';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
-import User from '../infra/typeorm/entities/User';
+import FakeClassesRepository from '../repositories/fakes/FakeClassesRepository';
+import FakeInternshipsRepository from '../repositories/fakes/FakeInternshipsRepository';
 
 let fakeStudentsRepository: FakeStudentsRepository;
 let fakeClassesRepository: FakeClassesRepository;

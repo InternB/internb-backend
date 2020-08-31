@@ -4,9 +4,9 @@ import Internship from '@modules/disciplines/infra/typeorm/entities/Internship';
 import IClassesRepository from '@modules/disciplines/repositories/IClassesRepository';
 import IInternshipsRepository from '@modules/disciplines/repositories/IInternshipsRepository';
 import AppError from '@shared/errors/AppError';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
-import IGenericUsersRepository from '../repositories/IGenericUsersRepository';
-import Student from '../infra/typeorm/entities/Student';
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import IGenericUsersRepository from '@modules/users/repositories/IGenericUsersRepository';
+import Student from '@modules/users/infra/typeorm/entities/Student';
 
 interface IRequest {
   user_id: string;

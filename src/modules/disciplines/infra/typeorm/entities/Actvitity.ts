@@ -21,6 +21,9 @@ class Activity {
   @Column({ type: 'text', nullable: false })
   description: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  photo: string;
+
   @CreateDateColumn()
   created_at: Date;
 

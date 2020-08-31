@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
 import Internship from '@modules/disciplines/infra/typeorm/entities/Internship';
 import ISchoolsRepository from '@modules/schools/repositories/ISchoolsRepository';
 import IInternshipsRepository from '@modules/disciplines/repositories/IInternshipsRepository';
-import AppError from '@shared/errors/AppError';
-import IGenericUsersRepository from '../repositories/IGenericUsersRepository';
-import Student from '../infra/typeorm/entities/Student';
+import IGenericUsersRepository from '@modules/users/repositories/IGenericUsersRepository';
+import Student from '@modules/users/infra/typeorm/entities/Student';
 
 interface IRequest {
   internship_id: string;
@@ -35,7 +35,7 @@ class RegisterInternToSchoolService {
     if (!student) throw new AppError('Student not found', 404);
 
     let internship = await this.internshipsRepository.findById(internship_id);
-    if (!internship) throw new AppError('Internshipd not found', 404);
+    if (!internship) throw new AppError('Internship not found', 404);
     if (internship.school_id)
       throw new AppError('Internship already registered to a school', 400);
 

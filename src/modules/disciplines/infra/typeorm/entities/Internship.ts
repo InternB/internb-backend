@@ -60,16 +60,10 @@ class Internship {
   compromise: string;
 
   @Column({ type: 'varchar', array: true, nullable: true })
-  contract_files: string;
+  contract_files: string[];
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   work_plan: string;
-
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  plan: string;
-
-  @Column({ type: 'varchar', array: true, nullable: true })
-  photos: string;
 
   @CreateDateColumn()
   created_at: Date;
