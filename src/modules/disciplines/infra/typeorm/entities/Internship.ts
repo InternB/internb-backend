@@ -27,7 +27,10 @@ class Internship {
   @Column({ type: 'uuid', nullable: false })
   student_id: string;
 
-  @ManyToOne(() => Student, x => x.internships)
+  @ManyToOne(() => Student, x => x.internships, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'student_id', referencedColumnName: 'id' })
   student: Student;
 
@@ -43,7 +46,10 @@ class Internship {
   @Column({ type: 'uuid', nullable: true })
   preceptor_id: string;
 
-  @ManyToOne(() => Class, x => x.internships)
+  @ManyToOne(() => Class, x => x.internships, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'class_id', referencedColumnName: 'id' })
   class: Class;
 
@@ -74,7 +80,7 @@ class Internship {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @ManyToMany(() => Activity)
+  @ManyToMany(() => Activity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinTable({
     name: 'intern_actvities',
     joinColumn: { name: 'internship_id', referencedColumnName: 'id' },
@@ -85,21 +91,21 @@ class Internship {
   @Column({ type: 'uuid', nullable: true })
   assessment_id: string;
 
-  @OneToOne(() => Assessment)
+  @OneToOne(() => Assessment, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'assessment_id', referencedColumnName: 'id' })
   asssessment: Assessment;
 
   @Column({ type: 'uuid', nullable: true })
   calendar_id: string;
 
-  @OneToOne(() => Calendar)
+  @OneToOne(() => Calendar, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'calendar_id', referencedColumnName: 'id' })
   calendar: Calendar;
 
   @Column({ type: 'uuid', nullable: true })
   realization_id: string;
 
-  @OneToOne(() => Realization)
+  @OneToOne(() => Realization, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'realization_id', referencedColumnName: 'id' })
   realization: Realization;
 }

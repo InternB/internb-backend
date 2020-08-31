@@ -53,7 +53,7 @@ class Class {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Internship, x => x.class, { cascade: true })
+  @OneToMany(() => Internship, x => x.class)
   internships: Internship[];
 }
 

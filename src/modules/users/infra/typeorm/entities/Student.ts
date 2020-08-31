@@ -28,7 +28,10 @@ class Student {
   @Column({ type: 'varchar', length: 6, nullable: true })
   semester: string;
 
-  @OneToMany(() => Internship, x => x.student, { cascade: true })
+  @OneToMany(() => Internship, x => x.student, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   internships: Internship[];
 }
 

@@ -9,4 +9,5 @@ export default interface IInternshipsRepository {
     student_id: string,
     class_id: string,
   ): Promise<Internship | undefined>;
+  findAllStudentInternships(student_id: string): Promise<Internship[]>;
 }

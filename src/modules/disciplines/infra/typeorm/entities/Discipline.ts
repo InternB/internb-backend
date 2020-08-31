@@ -22,7 +22,10 @@ class Discipline {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Class, x => x.discipline, {})
+  @OneToMany(() => Class, x => x.discipline, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   classes: Class[];
 }
 

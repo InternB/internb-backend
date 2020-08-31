@@ -7,8 +7,24 @@ import AppError from '@shared/errors/AppError';
 import UploadInternContractFilesService from '@modules/disciplines/services/UploadInternContractFilesService';
 import UploadInternWorkPlanService from '@modules/disciplines/services/UploadInternWorkPlanService';
 import UploadInternCompromiseService from '@modules/disciplines/services/UploadInternCompromiseService';
+import ListStudentInternshipsService from '@modules/disciplines/services/ListStudentInternshipsService';
 
 export default class InternshipsController {
+  public async studentInternships(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id: user_id } = request.user;
+
+    const listStudentInternships = container.resolve(
+      ListStudentInternshipsService,
+    );
+
+    const internships = await listStudentInternships.execute({ user_id });
+
+    return response.json(internships);
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { class_id, password } = request.body;
     const { id: user_id } = request.user;

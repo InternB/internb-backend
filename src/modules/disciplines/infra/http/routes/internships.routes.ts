@@ -13,6 +13,12 @@ const internshipsController = new InternshipsController();
 
 internshipsRouter.use(ensureAuthenticated);
 
+internshipsRouter.get(
+  '/student',
+  ensureStudentAuthenticated,
+  internshipsController.studentInternships,
+);
+
 internshipsRouter.post(
   '/',
   ensureStudentAuthenticated,
