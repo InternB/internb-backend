@@ -87,6 +87,45 @@ describe('RegisterStudentInternship', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
+  it('should not be able to register student if he/she is already registered in the class', async () => {
+    const {
+      id: class_id,
+      professor_id: class_professor_id,
+      discipline_id: class_discipline_id,
+    } = await fakeClassesRepository.create({
+      sign: 'A',
+      professor_id: 'professor-id',
+      discipline_id: 'CIC0123',
+      total_students_enrolled: 40,
+      password: '123456',
+      semester: '2/2020',
+    });
+
+    const { id, user_id } = await fakeStudentsRepository.createUserOfType({
+      id: v4(),
+      user_id: 'user-id',
+      semester: '2/2020',
+      enrollment: '99/9999999',
+      internships: [],
+      user: new User(),
+    });
+
+    await fakeIntershipsRepository.create({
+      student_id: id,
+      class_id,
+      class_discipline_id,
+      class_professor_id,
+    });
+
+    await expect(
+      registerStudentInternshipService.execute({
+        user_id,
+        class_id,
+        password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
   it("should not be able to register student to internship if he/she doesn't exist", async () => {
     const { id: class_id } = await fakeClassesRepository.create({
       sign: 'A',

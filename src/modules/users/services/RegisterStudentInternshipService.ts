@@ -41,6 +41,13 @@ class RegisterStudentInternshipService {
     let classById = await this.classesRepository.findById(class_id);
     if (!classById) throw new AppError('Class does not exist', 404);
 
+    const registeredStudent = await this.internshipsRepository.findByStudentAndClassIds(
+      student.id,
+      class_id,
+    );
+    if (registeredStudent)
+      throw new AppError('Student already registered in this class', 400);
+
     const correctPassword = await this.hashProvider.compareHash(
       password,
       classById.password,

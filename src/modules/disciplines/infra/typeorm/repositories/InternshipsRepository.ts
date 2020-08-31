@@ -30,4 +30,15 @@ export default class InternshipsRepository implements IInternshipsRepository {
 
     return internship;
   }
+
+  public async findByStudentAndClassIds(
+    student_id: string,
+    class_id: string,
+  ): Promise<Internship | undefined> {
+    const internship = await this.ormRepository.findOne({
+      where: { student_id, class_id },
+    });
+
+    return internship;
+  }
 }

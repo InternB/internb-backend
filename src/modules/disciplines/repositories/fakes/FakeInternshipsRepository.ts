@@ -35,4 +35,15 @@ export default class FakeInternshipsRepository
 
     return internship;
   }
+
+  public async findByStudentAndClassIds(
+    student_id: string,
+    class_id: string,
+  ): Promise<Internship | undefined> {
+    const internship = this.internships.find(
+      x => x.student_id === student_id && x.class_id === class_id,
+    );
+
+    return internship;
+  }
 }
