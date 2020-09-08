@@ -10,6 +10,7 @@ import {
   ManyToMany,
   JoinTable,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 
 import Class from './Class';
@@ -18,6 +19,7 @@ import Activity from './Actvitity';
 import Assessment from './Assessment';
 import Calendar from './Calendar';
 import Realization from './Realization';
+import School from '../../../../schools/infra/typeorm/entities/School';
 
 @Entity('internships')
 class Internship {
@@ -55,6 +57,10 @@ class Internship {
 
   @Column({ type: 'uuid', nullable: true })
   school_id: string;
+
+  @ManyToOne(() => School, x => x.interns, { eager: true, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
+  school: School;
 
   @Column({ type: 'timestamp', nullable: true })
   begins_at: Date;

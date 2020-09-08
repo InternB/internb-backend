@@ -7,9 +7,11 @@ import {
   OneToOne,
   JoinColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 import AdmRegion from './AdmRegion';
+import Internship from '../../../../disciplines/infra/typeorm/entities/Internship';
 
 @Entity('schools')
 class School {
@@ -22,7 +24,7 @@ class School {
   @Column('uuid')
   adm_region_id: string;
 
-  @OneToOne(() => AdmRegion)
+  @OneToOne(() => AdmRegion, { eager: true })
   @JoinColumn({ name: 'adm_region_id' })
   adm_region: AdmRegion;
 
@@ -46,6 +48,8 @@ class School {
 
   @DeleteDateColumn()
   deleted_at: Date;
+
+  interns: Internship[];
 }
 
 export default School;

@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 
 import Internship from '@modules/disciplines/infra/typeorm/entities/Internship';
 import ICreateInternshipDTO from '@modules/disciplines/dtos/ICreateInternshipDTO';
+import { Exception } from 'handlebars';
 import IInternshipsRepository from '../IInternshipsRepository';
 
 export default class FakeInternshipsRepository
@@ -55,5 +56,11 @@ export default class FakeInternshipsRepository
     );
 
     return internships;
+  }
+
+  public async findAllStudentsOfProfessor(
+    professor_id: string,
+  ): Promise<Internship[]> {
+    throw new Exception('Not implemented yet');
   }
 }

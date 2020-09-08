@@ -1,4 +1,3 @@
-import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
@@ -28,7 +27,7 @@ class UploadUserAvatarService {
 
     if (!user) throw new AppError('User does not exist');
 
-    await this.storageProvider.saveFile(path.extname(avatar), avatar);
+    await this.storageProvider.saveFile(avatar);
 
     user.avatar = avatar;
     user.updated_at = new Date();

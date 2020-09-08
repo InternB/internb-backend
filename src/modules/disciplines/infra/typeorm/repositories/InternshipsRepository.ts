@@ -51,4 +51,15 @@ export default class InternshipsRepository implements IInternshipsRepository {
 
     return internships;
   }
+
+  public async findAllStudentsOfProfessor(
+    professor_id: string,
+  ): Promise<Internship[]> {
+    const internships = await this.ormRepository.find({
+      where: { class_professor_id: professor_id },
+      relations: ['schools', 'adm_regions'],
+    });
+
+    return internships;
+  }
 }
