@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import fns from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 import UpdateInternshipDatesService from './UpdateInternshipDatesService';

@@ -1,8 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import fns from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
-import { date } from '@hapi/joi';
 import IInternshipsRepository from '../repositories/IInternshipsRepository';
 import Internship from '../infra/typeorm/entities/Internship';
 
