@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 
 import ShowUsersService from './ShowUsersService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
 let fakeUsersRepository: FakeUsersRepository;
 let showUsersService: ShowUsersService;
@@ -15,7 +16,8 @@ describe('ShowUsers', () => {
   });
 
   it('should list all the users, minus the one requesting it', async () => {
-    const { id: firstId } = await fakeUsersRepository.create({
+    const firstUser = new User();
+    Object.assign(firstUser, {
       cpf: '90207045089',
       email: 'johndoe@gmail.com',
       fullname: 'John Doe',
@@ -25,7 +27,8 @@ describe('ShowUsers', () => {
       active: true,
     });
 
-    const { id: secondId } = await fakeUsersRepository.create({
+    const secondUser = new User();
+    Object.assign(secondUser, {
       cpf: '60470393084',
       email: 'johntre@gmail.com',
       fullname: 'John Tré',
@@ -35,7 +38,8 @@ describe('ShowUsers', () => {
       active: true,
     });
 
-    const user = await fakeUsersRepository.create({
+    const admin = new User();
+    Object.assign(admin, {
       cpf: '42498355022',
       email: 'johnadmin@gmail.com',
       fullname: 'John Admin',
@@ -45,8 +49,14 @@ describe('ShowUsers', () => {
       active: true,
     });
 
+    const { id: firstId } = await fakeUsersRepository.create(firstUser);
+
+    const { id: secondId } = await fakeUsersRepository.create(secondUser);
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
+
     const users = await showUsersService.execute({
-      user_id: user.id,
+      user_id: admin_id,
     });
 
     expect(users.length).toEqual(2);
@@ -71,27 +81,8 @@ describe('ShowUsers', () => {
   });
 
   it('should not list all the users if the requester is not an Admin', async () => {
-    await fakeUsersRepository.create({
-      cpf: '90207045089',
-      email: 'johndoe@gmail.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
-
-    await fakeUsersRepository.create({
-      cpf: '60470393084',
-      email: 'johntre@gmail.com',
-      fullname: 'John Tré',
-      password: '123456',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
-
-    const user = await fakeUsersRepository.create({
+    const user = new User();
+    Object.assign(user, {
       cpf: '42498355022',
       email: 'johnadmin@gmail.com',
       fullname: 'John Admin',
@@ -101,9 +92,11 @@ describe('ShowUsers', () => {
       active: true,
     });
 
+    const { id: user_id } = await fakeUsersRepository.create(user);
+
     await expect(
       showUsersService.execute({
-        user_id: user.id,
+        user_id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

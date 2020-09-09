@@ -1,13 +1,33 @@
+import 'reflect-metadata';
+
 import AppError from '@shared/errors/AppError';
 
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
 import AuthenticateUserService from './AuthenticateUserService';
+import User from '../infra/typeorm/entities/User';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let authenticateUserService: AuthenticateUserService;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
@@ -21,17 +41,9 @@ describe('AuthenticateUser', () => {
   });
 
   it('should authenticate the user', async () => {
-    const randomRole = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: randomRole,
-      active: true,
-    });
+    await fakeUsersRepository.create(user);
 
     const auth = await authenticateUserService.execute({
       email: 'johndoe@gmail.com',
@@ -41,11 +53,9 @@ describe('AuthenticateUser', () => {
     expect(auth).toEqual(
       expect.objectContaining({
         user: expect.objectContaining({
-          cpf: '06516661120',
           email: 'johndoe@gmail.com',
           fullname: 'John Doe',
           phone: '61999999999',
-          role: randomRole,
         }),
         token: expect.any(String),
       }),
@@ -62,15 +72,9 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not authenticate if password is invalid', async () => {
-    await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
+    const user = createUser();
+
+    await fakeUsersRepository.create(user);
 
     await expect(
       authenticateUserService.execute({
@@ -81,15 +85,9 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not authenticate if user is not active', async () => {
-    await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3),
-      active: false,
-    });
+    const user = createUser(false);
+
+    await fakeUsersRepository.create(user);
 
     await expect(
       authenticateUserService.execute({

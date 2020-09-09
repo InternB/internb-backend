@@ -6,7 +6,9 @@ import uploadConfig from '@config/upload';
 import IStorageProvider from '../model/IStorageProvider';
 
 export default class DiksStorageProvider implements IStorageProvider {
-  public async saveFile(extension: string, file: string): Promise<string> {
+  public async saveFile(file: string): Promise<string> {
+    const extension = path.extname(file);
+
     await fs.promises.rename(
       path.resolve(uploadConfig.tmpFolder, file),
       path.resolve(uploadConfig.folders[extension], file),
@@ -15,13 +17,12 @@ export default class DiksStorageProvider implements IStorageProvider {
     return file;
   }
 
-  public async saveFiles(
-    extension: string,
-    files: string[],
-  ): Promise<string[]> {
+  public async saveFiles(files: string[]): Promise<string[]> {
     const filesToSave: Promise<void>[] = [];
 
     files.forEach(file => {
+      const extension = path.extname(file);
+
       filesToSave.push(
         fs.promises.rename(
           path.resolve(uploadConfig.tmpFolder, file),
@@ -35,16 +36,20 @@ export default class DiksStorageProvider implements IStorageProvider {
     return files;
   }
 
-  public async deleteFile(extension: string, file: string): Promise<void> {
+  public async deleteFile(file: string): Promise<void> {
+    const extension = path.extname(file);
+
     await fs.promises.unlink(
       path.resolve(uploadConfig.folders[extension], file),
     );
   }
 
-  public async deleteFiles(extension: string, files: string[]): Promise<void> {
+  public async deleteFiles(files: string[]): Promise<void> {
     const filesToDelete: Promise<void>[] = [];
 
     files.forEach(file => {
+      const extension = path.extname(file);
+
       filesToDelete.push(
         fs.promises.unlink(path.resolve(uploadConfig.folders[extension], file)),
       );

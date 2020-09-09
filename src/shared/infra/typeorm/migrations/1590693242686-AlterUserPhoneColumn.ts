@@ -8,7 +8,7 @@ export default class AlterUserPhoneColumn1590693242686
       'phone',
       new TableColumn({
         name: 'phone',
-        type: 'varchar',
+        type: 'varchar(20)',
         isNullable: true,
       }),
     );
@@ -20,7 +20,7 @@ export default class AlterUserPhoneColumn1590693242686
       'phone',
       new TableColumn({
         name: 'phone',
-        type: 'varchar',
+        type: 'varchar(20)',
         isNullable: false,
       }),
     );

@@ -1,7 +1,6 @@
 import path from 'path';
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 import { Request } from 'express';
-import multer, { diskStorage } from 'multer';
 
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 const profilesFolder = path.resolve(tmpFolder, 'images', 'profiles');
@@ -18,7 +17,7 @@ interface IFolders {
   };
 }
 
-const intershipFormats: IIntershipFormats = {
+const docFormats: IIntershipFormats = {
   '.pdf': true,
   '.doc': true,
   '.odt': true,
@@ -45,18 +44,18 @@ export default {
   },
 } as IFolders;
 
-const wordPDFFileFilter = (
+export const wordPDFFileFilter = (
   _: Request,
   file: Express.Multer.File,
   cb: Function,
 ): Function => {
-  if (!intershipFormats[`${path.extname(file.originalname)}`])
+  if (!docFormats[`${path.extname(file.originalname)}`])
     return cb(new Error('Only PDF and Word files are allowed'));
 
   return cb(null, true);
 };
 
-const imageFileFilter = (
+export const imageFileFilter = (
   _: Request,
   file: Express.Multer.File,
   cb: Function,
@@ -67,42 +66,12 @@ const imageFileFilter = (
   return cb(null, true);
 };
 
-const uuidFilename = (
+export const uuidFilename = (
   _: Request,
   file: Express.Multer.File,
   cb: Function,
 ): void => {
-  const id = uuid();
+  const id = v4();
   const ext = path.extname(file.originalname);
   cb(null, `${id}${ext}`);
-};
-
-export const internshipDocsUpload = {
-  upload: multer({
-    fileFilter: wordPDFFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
-};
-
-export const internshipWorkPlan = {
-  upload: multer({
-    fileFilter: wordPDFFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
-};
-
-export const userAvatar = {
-  upload: multer({
-    fileFilter: imageFileFilter,
-    storage: diskStorage({
-      destination: tmpFolder,
-      filename: uuidFilename,
-    }),
-  }),
 };

@@ -15,12 +15,12 @@ export default class CreateSchool1592348257044 implements MigrationInterface {
           },
           {
             name: 'type',
-            type: 'integer',
+            type: 'smallint',
             isNullable: false,
           },
           {
             name: 'name',
-            type: 'varchar',
+            type: 'varchar(100)',
             isNullable: false,
           },
           {
@@ -30,22 +30,22 @@ export default class CreateSchool1592348257044 implements MigrationInterface {
           },
           {
             name: 'cep',
-            type: 'varchar',
+            type: 'varchar(8)',
             isNullable: false,
           },
           {
             name: 'address',
-            type: 'varchar',
+            type: 'varchar(100)',
             isNullable: false,
           },
           {
             name: 'phone',
-            type: 'varchar',
+            type: 'varchar(20)',
             isNullable: true,
           },
           {
             name: 'email',
-            type: 'varchar',
+            type: 'varchar(100)',
             isNullable: true,
           },
           {

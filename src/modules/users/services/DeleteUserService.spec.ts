@@ -4,9 +4,27 @@ import AppError from '@shared/errors/AppError';
 
 import DeleteUserService from './DeleteUserService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
 let deleteUserService: DeleteUserService;
 let fakeUsersRepository: FakeUsersRepository;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('DeleteUser', () => {
   beforeEach(() => {
@@ -16,19 +34,12 @@ describe('DeleteUser', () => {
 
   it("should delete the authenticated user's account", async () => {
     const deleteUser = jest.spyOn(fakeUsersRepository, 'deleteUser');
-    const randomRole = Math.floor(Math.random() * 4);
 
-    const user = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: randomRole,
-      active: true,
-    });
+    const user = createUser();
 
-    await expect(deleteUserService.execute({ id: user.id })).resolves;
+    const { id } = await fakeUsersRepository.create(user);
+
+    await expect(deleteUserService.execute({ id })).resolves;
     await expect(deleteUser).toHaveBeenCalledWith(user);
   });
 

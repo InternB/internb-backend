@@ -1,19 +1,19 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export default class AddUserContractFiles1593203484463
+export default class AddRegistrationToUser1597194407791
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       'users',
       new TableColumn({
-        name: 'contract_files',
-        type: 'varchar',
+        name: 'registration',
+        type: 'varchar(10)',
         isNullable: true,
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('users', 'contract_files');
+    await queryRunner.dropColumn('users', 'registration');
   }
 }

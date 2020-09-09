@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import School from '@modules/schools/infra/typeorm/entities/School';
 import AdmRegion from '@modules/schools/infra/typeorm/entities/AdmRegion';
@@ -17,7 +17,7 @@ export default class FakeSchoolsRepository implements ISchoolsRepository {
     const school = new School();
 
     Object.assign(school, {
-      id: uuid(),
+      id: v4(),
       ...data,
       created_at: Date.now(),
       updated_at: Date.now(),

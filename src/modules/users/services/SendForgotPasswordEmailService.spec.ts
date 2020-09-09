@@ -5,11 +5,29 @@ import FakeUserRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeUserTokensRepository from '../repositories/fakes/FakeUserTokensRepository';
 
 import SendForgotPasswordEmailService from './SendForgotPasswordEmailService';
+import User from '../infra/typeorm/entities/User';
 
 let fakeMailProvider: FakeMailProvider;
 let fakeUserTokensRepository: FakeUserTokensRepository;
 let fakeUserRepository: FakeUserRepository;
 let sendForgotPasswordEmailService: SendForgotPasswordEmailService;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('ForgotPassword', () => {
   beforeEach(() => {
@@ -27,17 +45,11 @@ describe('ForgotPassword', () => {
   it('should be able to recover the password using the e-mail', async () => {
     const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
 
-    const user = await fakeUserRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
+    const user = createUser();
 
-    await sendForgotPasswordEmailService.execute({ email: user.email });
+    const { email } = await fakeUserRepository.create(user);
+
+    await sendForgotPasswordEmailService.execute({ email });
 
     expect(sendMail).toHaveBeenCalled();
   });
@@ -49,15 +61,9 @@ describe('ForgotPassword', () => {
   });
 
   it('should not be able to recover the password if the user is inactive', async () => {
-    await fakeUserRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: false,
-    });
+    const user = createUser(false);
+
+    await fakeUserRepository.create(user);
 
     await expect(
       sendForgotPasswordEmailService.execute({ email: 'johndoe@gmail.com' }),

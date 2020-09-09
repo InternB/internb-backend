@@ -6,10 +6,28 @@ import FakeStorageProvider from '@shared/container/providers/StorageProvider/fak
 
 import UploadUserAvatarService from './UploadUserAvatarService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
 let uploadUserAvatar: UploadUserAvatarService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeStorageProvider: FakeStorageProvider;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('UploadUserAvatar', () => {
   beforeEach(() => {
@@ -22,22 +40,16 @@ describe('UploadUserAvatar', () => {
   });
 
   it("should be able to upload a new user's avatar image", async () => {
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role: 3,
-      active: true,
-    });
+    const user = createUser();
 
-    const user = await uploadUserAvatar.execute({
+    const { id } = await fakeUsersRepository.create(user);
+
+    const response = await uploadUserAvatar.execute({
       id,
       avatar: 'avatar-filename.png',
     });
 
-    expect(user).toEqual(
+    expect(response).toEqual(
       expect.objectContaining({
         id,
         avatar: 'avatar-filename.png',

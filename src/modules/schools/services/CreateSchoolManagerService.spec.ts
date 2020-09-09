@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
+import User from '@modules/users/infra/typeorm/entities/User';
 import CreateSchoolManagerService from './CreateSchoolManagerService';
 import FakeSchoolManagersRepository from '../repositories/fakes/FakeSchoolManagersRepository';
 import FakeSchoolsRepository from '../repositories/fakes/FakeSchoolsRepository';
@@ -11,6 +12,21 @@ let createSchoolManager: CreateSchoolManagerService;
 let fakeSchoolManagersRepository: FakeSchoolManagersRepository;
 let fakeSchoolsRepository: FakeSchoolsRepository;
 let fakeUsersRepository: FakeUsersRepository;
+
+function createAdmin(active = true): User {
+  const admin = new User();
+  Object.assign(admin, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role: 0,
+    active,
+  });
+
+  return admin;
+}
 
 describe('CreateSchoolManager', () => {
   beforeEach(() => {
@@ -25,15 +41,9 @@ describe('CreateSchoolManager', () => {
   });
 
   it('should create a school manager for a given school', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     const { id: school_id } = await fakeSchoolsRepository.create({
       name: 'school-name',
@@ -83,15 +93,9 @@ describe('CreateSchoolManager', () => {
   });
 
   it('should not create a school manager if the given school does not exist', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     await expect(
       createSchoolManager.execute({

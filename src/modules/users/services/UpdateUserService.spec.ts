@@ -4,10 +4,28 @@ import AppError from '@shared/errors/AppError';
 import UpdateUserService from './UpdateUserService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import User from '../infra/typeorm/entities/User';
 
 let updateUserService: UpdateUserService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('UpdateUser', () => {
   beforeEach(() => {
@@ -20,17 +38,9 @@ describe('UpdateUser', () => {
   });
 
   it("should update the user's account information", async () => {
-    const role = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role,
-      active: true,
-    });
+    const { id } = await fakeUsersRepository.create(user);
 
     const updatedUser = await updateUserService.execute({
       id,
@@ -53,17 +63,9 @@ describe('UpdateUser', () => {
   });
 
   it("should update the user's account if old password and new password are not provided", async () => {
-    const role = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role,
-      active: true,
-    });
+    const { id } = await fakeUsersRepository.create(user);
 
     const updatedUser = await updateUserService.execute({
       id,
@@ -84,27 +86,21 @@ describe('UpdateUser', () => {
   });
 
   it("should not update the user's account if the provided e-mail is not unique", async () => {
-    const role = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role,
-      active: true,
-    });
+    const { id } = await fakeUsersRepository.create(user);
 
-    await fakeUsersRepository.create({
+    const otherUser = new User();
+    Object.assign(otherUser, {
       cpf: '29676193020',
       email: 'johntre@example.com',
       fullname: 'John Tré',
       password: '123456',
       phone: 'some-phone',
-      role,
       active: true,
     });
+
+    await fakeUsersRepository.create(otherUser);
 
     await expect(
       updateUserService.execute({
@@ -119,15 +115,9 @@ describe('UpdateUser', () => {
   });
 
   it("should not update the user's account information if it does not exist", async () => {
-    await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
+    const user = createUser();
+
+    await fakeUsersRepository.create(user);
 
     await expect(
       updateUserService.execute({
@@ -142,17 +132,9 @@ describe('UpdateUser', () => {
   });
 
   it("should not update the user's password if the old password does not match", async () => {
-    const role = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    const { id } = await fakeUsersRepository.create({
-      cpf: '72831300045',
-      email: 'johndoe@example.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: 'some-phone',
-      role,
-      active: true,
-    });
+    const { id } = await fakeUsersRepository.create(user);
 
     await expect(
       updateUserService.execute({

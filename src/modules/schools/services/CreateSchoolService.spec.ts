@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
+import User from '@modules/users/infra/typeorm/entities/User';
 import CreateSchoolService from './CreateSchoolService';
 import FakeSchoolsRepository from '../repositories/fakes/FakeSchoolsRepository';
 import FakeAdmRegionsRepository from '../repositories/fakes/FakeAdmRegionsRepository';
@@ -12,6 +13,21 @@ let createSchoolService: CreateSchoolService;
 let fakeSchoolsRepository: FakeSchoolsRepository;
 let fakeAdmRegionsRepository: FakeAdmRegionsRepository;
 let fakeUsersRepository: FakeUsersRepository;
+
+function createAdmin(active = true): User {
+  const admin = new User();
+  Object.assign(admin, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role: 0,
+    active,
+  });
+
+  return admin;
+}
 
 describe('CreateSchool', () => {
   beforeEach(() => {
@@ -26,15 +42,9 @@ describe('CreateSchool', () => {
   });
 
   it('should create a public school in a specific Adminstrative Region', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
       name: 'adm-region-name',
@@ -64,22 +74,14 @@ describe('CreateSchool', () => {
   });
 
   it('should create a private school in a specific Admnistrative Region', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     const { id: adm_region_id } = await fakeAdmRegionsRepository.create({
       name: 'adm-region-name',
       cre: false,
     });
-
-    const type = Math.floor(Math.random() * 3 + 1);
 
     const school = await createSchoolService.execute({
       admin_id,
@@ -104,15 +106,9 @@ describe('CreateSchool', () => {
   });
 
   it("should create a school if there's no phone to attach", async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     const type = Math.floor(Math.random() * 4);
 
@@ -143,15 +139,9 @@ describe('CreateSchool', () => {
   });
 
   it("should create a school if there's no email to attach", async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     const type = Math.floor(Math.random() * 4);
 
@@ -203,15 +193,9 @@ describe('CreateSchool', () => {
   });
 
   it('should not create a school if the Adminstrative Region does not exist', async () => {
-    const { id: admin_id } = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: 0,
-      active: true,
-    });
+    const admin = createAdmin();
+
+    const { id: admin_id } = await fakeUsersRepository.create(admin);
 
     await expect(
       createSchoolService.execute({

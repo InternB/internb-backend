@@ -11,7 +11,7 @@ export default class RemoveSchoolType1594132681833
       'schools',
       new TableColumn({
         name: 'type',
-        type: 'integer',
+        type: 'smallint',
         isNullable: false,
       }),
     );

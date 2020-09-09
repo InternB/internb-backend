@@ -4,9 +4,27 @@ import AppError from '@shared/errors/AppError';
 
 import ShowUserService from './ShowUserService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import User from '../infra/typeorm/entities/User';
 
 let fakeUsersRepository: FakeUsersRepository;
 let showUserService: ShowUserService;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('ShowUser', () => {
   beforeEach(() => {
@@ -15,29 +33,21 @@ describe('ShowUser', () => {
   });
 
   it("should show the user's profile information", async () => {
-    const role = Math.floor(Math.random() * 4);
+    const user = createUser();
 
-    const { id } = await fakeUsersRepository.create({
-      cpf: '90207045089',
-      email: 'johndoe@gmail.com',
-      fullname: 'John Doe',
-      password: '123456',
-      phone: '61999999999',
-      role,
-      active: true,
-    });
+    const { id } = await fakeUsersRepository.create(user);
 
-    const user = await showUserService.execute({
+    const response = await showUserService.execute({
       id,
     });
 
-    expect(user).toEqual(
+    expect(response).toEqual(
       expect.objectContaining({
-        cpf: '90207045089',
+        cpf: '29676193020',
         email: 'johndoe@gmail.com',
         fullname: 'John Doe',
         phone: '61999999999',
-        role,
+        // role: expect.any(Number),
         active: true,
       }),
     );

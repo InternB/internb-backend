@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import AdmRegion from '@modules/schools/infra/typeorm/entities/AdmRegion';
 import IAdmRegionsRepository from '../IAdmRegionsRepository';
@@ -11,7 +11,7 @@ export default class FakeAdmRegionsRepository implements IAdmRegionsRepository {
     const admRegion = new AdmRegion();
 
     Object.assign(admRegion, {
-      id: uuid(),
+      id: v4(),
       ...data,
       created_at: Date.now(),
       updated_at: Date.now(),

@@ -29,6 +29,6 @@ export default class AdmRegionsController {
       cre,
     });
 
-    return response.json(adm_region);
+    return response.status(201).json(adm_region);
   }
 }

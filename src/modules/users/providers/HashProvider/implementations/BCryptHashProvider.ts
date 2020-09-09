@@ -3,7 +3,7 @@ import { hash, compare } from 'bcryptjs';
 import IHashProvider from '../models/IHashProvider';
 
 export default class BCryptHashProvider implements IHashProvider {
-  public async generate(payload: string, salt = 8): Promise<string> {
+  public async generate(payload: string, salt = 10): Promise<string> {
     return hash(payload, salt);
   }
 

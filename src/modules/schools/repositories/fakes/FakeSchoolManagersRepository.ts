@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import SchoolManager from '@modules/schools/infra/typeorm/entities/SchoolManager';
 
@@ -19,7 +19,7 @@ export default class FakeSchoolManagersRepository
     const school_manager = new SchoolManager();
 
     Object.assign(school_manager, {
-      id: uuid(),
+      id: v4(),
       role,
       fullname,
       phone,

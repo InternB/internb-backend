@@ -23,7 +23,7 @@ export default class SchoolManagerssController {
       school_id,
     });
 
-    return response.json(school_manager);
+    return response.status(201).json(school_manager);
   }
 
   public async show(request: Request, response: Response): Promise<Response> {

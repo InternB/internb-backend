@@ -22,7 +22,7 @@ export default class SchoolsController {
 
     const school = await showSchoolService.execute({ id });
 
-    return response.json(school);
+    return response.status(201).json(school);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

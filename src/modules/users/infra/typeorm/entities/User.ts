@@ -28,17 +28,11 @@ class User {
   @Column('varchar')
   phone: string;
 
-  @Column('integer')
+  @Column('smallint')
   role: number;
 
   @Column('boolean')
   active: boolean;
-
-  @Column('varchar')
-  contract_files: string;
-
-  @Column('varchar')
-  work_plan: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -49,7 +43,7 @@ class User {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @Column('varchar')
+  @Column('varchar', { default: 'default.png ' })
   avatar: string;
 
   @Expose({ name: 'avatar_url' })

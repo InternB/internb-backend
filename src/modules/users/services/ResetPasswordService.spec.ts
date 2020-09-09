@@ -5,11 +5,29 @@ import FakeUserTokensRepository from '../repositories/fakes/FakeUserTokensReposi
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
 import ResetPasswordService from './ResetPasswordService';
+import User from '../infra/typeorm/entities/User';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokensRepository: FakeUserTokensRepository;
 let fakeHashProvider: FakeHashProvider;
 let resetPasswordService: ResetPasswordService;
+
+function createUser(active = true): User {
+  const role = Math.floor(Math.random() * 4);
+
+  const user = new User();
+  Object.assign(user, {
+    cpf: '29676193020',
+    email: 'johndoe@gmail.com',
+    password: '123456',
+    fullname: 'John Doe',
+    phone: '61999999999',
+    role,
+    active,
+  });
+
+  return user;
+}
 
 describe('ResetPassword', () => {
   beforeEach(() => {
@@ -27,17 +45,11 @@ describe('ResetPassword', () => {
   it('should be able to reset the password', async () => {
     const generateHash = jest.spyOn(fakeHashProvider, 'generate');
 
-    const user = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 3),
-      active: true,
-    });
+    const user = createUser();
 
-    const { token } = await fakeUserTokensRepository.generate(user.id);
+    const { id } = await fakeUsersRepository.create(user);
+
+    const { token } = await fakeUserTokensRepository.generate(id);
 
     await resetPasswordService.execute({ token, password: 'new-password' });
 
@@ -71,17 +83,11 @@ describe('ResetPassword', () => {
   });
 
   it('should not be able to reset the password if more than 2 hours have passed since token creation', async () => {
-    const user = await fakeUsersRepository.create({
-      cpf: '06516661120',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      fullname: 'John Doe',
-      phone: '61999999999',
-      role: Math.floor(Math.random() * 4),
-      active: true,
-    });
+    const user = createUser();
 
-    const { token } = await fakeUserTokensRepository.generate(user.id);
+    const { id } = await fakeUsersRepository.create(user);
+
+    const { token } = await fakeUserTokensRepository.generate(id);
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();

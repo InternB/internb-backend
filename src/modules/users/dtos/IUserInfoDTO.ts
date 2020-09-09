@@ -1,4 +1,4 @@
-export default interface ICreateUserDTO {
+export default interface IUserInfoDTO {
   cpf: string;
   email: string;
   fullname: string;

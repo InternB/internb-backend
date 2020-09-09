@@ -14,17 +14,17 @@ export async function ensureAdminAuthenticated(
   return next();
 }
 
-// export async function ensureProfessorAuthenticated(
-//   request: Request,
-//   _: Response,
-//   next: NextFunction,
-// ): Promise<void> {
-//   const { role } = request.user;
-//   if (role !== 1)
-//     throw new AppError('Must be a Professor to access this service', 403);
+export async function ensureProfessorAuthenticated(
+  request: Request,
+  _: Response,
+  next: NextFunction,
+): Promise<void> {
+  const { role } = request.user;
+  if (role !== 1)
+    throw new AppError('Must be a Professor to access this service', 403);
 
-//   return next();
-// }
+  return next();
+}
 
 // export async function ensurePreceptorAuthenticated(
 //   request: Request,

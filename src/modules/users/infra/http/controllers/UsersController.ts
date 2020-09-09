@@ -5,7 +5,6 @@ import { classToClass } from 'class-transformer';
 import ShowUserService from '../../../services/ShowUsersService';
 import CreateUserService from '../../../services/CreateUserService';
 import DeleteUserService from '../../../services/DeleteUserService';
-import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export default class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -34,7 +33,7 @@ export default class UsersController {
       role,
     });
 
-    return response.json(classToClass(user));
+    return response.status(201).json(classToClass(user));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
