@@ -62,6 +62,15 @@ export default class InternshipsController {
     return response.json(internship);
   }
 
+  public async updateBeginEndInternship(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    // TODO
+
+    return response.json();
+  }
+
   public async uploadStudentCompromise(
     request: Request,
     response: Response,

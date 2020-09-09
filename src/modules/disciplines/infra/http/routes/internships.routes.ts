@@ -43,6 +43,12 @@ internshipsRouter.post(
 );
 
 internshipsRouter.patch(
+  '/:id',
+  ensureStudentAuthenticated,
+  internshipsController.updateBeginEndInternship,
+);
+
+internshipsRouter.patch(
   '/:id/school/:school_id',
   ensureStudentAuthenticated,
   internshipsController.registerStudentToSchool,
