@@ -45,7 +45,7 @@ internshipsRouter.post(
 internshipsRouter.patch(
   '/:id',
   ensureStudentAuthenticated,
-  internshipsController.updateBeginEndInternship,
+  internshipsController.updateInternshipDates,
 );
 
 internshipsRouter.patch(

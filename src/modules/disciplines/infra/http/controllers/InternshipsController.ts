@@ -62,10 +62,12 @@ export default class InternshipsController {
     return response.json(internship);
   }
 
-  public async updateBeginEndInternship(
+  public async updateInternshipDates(
     request: Request,
     response: Response,
   ): Promise<Response> {
+    const { id } = request.params;
+
     // TODO
 
     return response.json();
