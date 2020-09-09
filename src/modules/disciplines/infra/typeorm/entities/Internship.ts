@@ -10,7 +10,6 @@ import {
   ManyToMany,
   JoinTable,
   OneToOne,
-  OneToMany,
 } from 'typeorm';
 
 import Class from './Class';

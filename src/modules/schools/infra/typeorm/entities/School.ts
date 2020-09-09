@@ -7,7 +7,6 @@ import {
   OneToOne,
   JoinColumn,
   DeleteDateColumn,
-  OneToMany,
 } from 'typeorm';
 
 import AdmRegion from './AdmRegion';

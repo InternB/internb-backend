@@ -58,9 +58,13 @@ export default class FakeInternshipsRepository
     return internships;
   }
 
-  public async findAllStudentsOfProfessor(
+  public async findAllInternsOfProfessor(
     professor_id: string,
   ): Promise<Internship[]> {
-    throw new Exception('Not implemented yet');
+    const interns = this.internships.filter(
+      x => x.class_professor_id === professor_id,
+    );
+
+    return interns;
   }
 }

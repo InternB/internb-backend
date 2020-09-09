@@ -10,5 +10,5 @@ export default interface IInternshipsRepository {
     class_id: string,
   ): Promise<Internship | undefined>;
   findAllStudentInternships(student_id: string): Promise<Internship[]>;
-  findAllStudentsOfProfessor(professor_id: string): Promise<Internship[]>;
+  findAllInternsOfProfessor(professor_id: string): Promise<Internship[]>;
 }

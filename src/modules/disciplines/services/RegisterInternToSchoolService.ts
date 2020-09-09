@@ -42,8 +42,9 @@ class RegisterInternToSchoolService {
     const school = await this.schoolsRepository.findById(school_id);
     if (!school) throw new AppError('School not found', 404);
 
-    internship.school_id = school.id;
+    internship.school = school;
     internship = await this.internshipsRepository.save(internship);
+    internship.school_id = school.id;
 
     return internship;
   }
