@@ -26,7 +26,10 @@ export default class InternshipsRepository implements IInternshipsRepository {
   }
 
   public async findById(id: string): Promise<Internship | undefined> {
-    const internship = await this.ormRepository.findOne({ where: { id } });
+    const internship = await this.ormRepository.findOne({
+      where: { id },
+      loadEagerRelations: false,
+    });
 
     return internship;
   }
@@ -47,6 +50,7 @@ export default class InternshipsRepository implements IInternshipsRepository {
   ): Promise<Internship[]> {
     const internships = await this.ormRepository.find({
       where: { student_id },
+      loadEagerRelations: false,
     });
 
     return internships;

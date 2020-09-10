@@ -8,6 +8,7 @@ import UploadInternContractFilesService from '@modules/disciplines/services/Uplo
 import UploadInternWorkPlanService from '@modules/disciplines/services/UploadInternWorkPlanService';
 import UploadInternCompromiseService from '@modules/disciplines/services/UploadInternCompromiseService';
 import ListStudentInternshipsService from '@modules/disciplines/services/ListStudentInternshipsService';
+import UpdateInternshipDatesService from '@modules/disciplines/services/UpdateInternshipDatesService';
 
 export default class InternshipsController {
   public async studentInternships(
@@ -57,6 +58,26 @@ export default class InternshipsController {
       internship_id,
       school_id,
       user_id,
+    });
+
+    return response.json(internship);
+  }
+
+  public async updateInternshipDates(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { begins, ends } = request.body;
+
+    const updateInternshipDatesService = container.resolve(
+      UpdateInternshipDatesService,
+    );
+
+    const internship = await updateInternshipDatesService.execute({
+      id,
+      begins,
+      ends,
     });
 
     return response.json(internship);
