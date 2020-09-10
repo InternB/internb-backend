@@ -8,9 +8,14 @@ export default class FakePreceptorsRepository
   implements IGenericUsersRepository<Preceptor> {
   private preceptors: Preceptor[] = [];
 
-  public async createUserOfType(preceptor: Preceptor): Promise<Preceptor> {
-    preceptor.id = v4();
-    preceptor.user.id = v4();
+  public async createUserOfType(
+    data: Omit<Preceptor, 'id'>,
+  ): Promise<Preceptor> {
+    const preceptor = new Preceptor();
+    Object.assign(preceptor, {
+      id: preceptor.id = v4(),
+      ...data,
+    });
     this.preceptors.push(preceptor);
     return preceptor;
   }

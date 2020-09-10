@@ -15,6 +15,9 @@ class Assessment {
   @Column({ type: 'uuid', nullable: false })
   internship_id: string;
 
+  @Column({ type: 'boolean', nullable: false })
+  ended: boolean;
+
   @Column({ type: 'smallint', array: true, nullable: false })
   class_plan: number[];
 
