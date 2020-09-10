@@ -26,17 +26,17 @@ export async function ensureProfessorAuthenticated(
   return next();
 }
 
-// export async function ensurePreceptorAuthenticated(
-//   request: Request,
-//   _: Response,
-//   next: NextFunction,
-// ): Promise<void> {
-//   const { role } = request.user;
-//   if (role !== 2)
-//     throw new AppError('Must be a Preceptor to access this service', 403);
+export async function ensurePreceptorAuthenticated(
+  request: Request,
+  _: Response,
+  next: NextFunction,
+): Promise<void> {
+  const { role } = request.user;
+  if (role !== 2)
+    throw new AppError('Must be a Preceptor to access this service', 403);
 
-//   return next();
-// }
+  return next();
+}
 
 export async function ensureStudentAuthenticated(
   request: Request,

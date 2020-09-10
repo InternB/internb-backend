@@ -12,6 +12,7 @@ import admRegionsRouter from '@modules/schools/infra/http/routes/adm_regions.rou
 import disciplinesRouter from '@modules/disciplines/infra/http/routes/disciplines.routes';
 import classesRouter from '@modules/disciplines/infra/http/routes/classes.routes';
 import internshipsRouter from '@modules/disciplines/infra/http/routes/internships.routes';
+import assessmentsRouter from '@modules/disciplines/infra/http/routes/assessments.routes';
 
 const routes = Router();
 
@@ -27,5 +28,6 @@ routes.use('/adm-regions', admRegionsRouter);
 routes.use('/disciplines', disciplinesRouter);
 routes.use('/classes', classesRouter);
 routes.use('/internships', internshipsRouter);
+routes.use('/assessments', assessmentsRouter);
 
 export default routes;
