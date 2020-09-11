@@ -29,6 +29,7 @@ describe('ListPreceptorInternships', () => {
       formation: 'nível de formação',
       user: new User(),
       school: new School(),
+      school_id: 'school-id',
       internships: [],
     });
 

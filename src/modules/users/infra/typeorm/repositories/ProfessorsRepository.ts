@@ -26,6 +26,12 @@ export default class ProfessorsRepository
     });
   }
 
+  public async findById(id: string): Promise<Professor | undefined> {
+    const professor = await this.ormRepository.findOne({ where: { id } });
+
+    return professor;
+  }
+
   public async findUserOfTypeById(id: string): Promise<Professor | undefined> {
     const professor = await this.ormRepository.findOne({
       where: { user_id: id },

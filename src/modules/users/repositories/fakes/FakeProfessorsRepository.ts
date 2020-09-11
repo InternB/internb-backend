@@ -22,6 +22,12 @@ export default class FakeProfessorsRepository
     return professor;
   }
 
+  public async findById(id: string): Promise<Professor | undefined> {
+    const professor = this.professors.find(x => x.id === id);
+
+    return professor;
+  }
+
   public async findUserOfTypeById(id: string): Promise<Professor | undefined> {
     const professor = this.professors.find(x => x.user_id === id);
 

@@ -23,6 +23,9 @@ class Preceptor {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @Column({ type: 'uuid', nullable: true })
+  school_id: string;
+
   @OneToOne(() => School)
   @JoinColumn({ name: 'school_id' })
   school: School;

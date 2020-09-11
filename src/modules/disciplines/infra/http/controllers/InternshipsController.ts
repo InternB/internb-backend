@@ -10,6 +10,7 @@ import UploadInternCompromiseService from '@modules/disciplines/services/UploadI
 import ListStudentInternshipsService from '@modules/disciplines/services/ListStudentInternshipsService';
 import UpdateInternshipDatesService from '@modules/disciplines/services/UpdateInternshipDatesService';
 import ListPreceptorInternshipsService from '@modules/disciplines/services/ListPreceptorInternshipsService';
+import RegisterInternToPreceptorService from '@modules/disciplines/services/RegisterInternToPreceptorService';
 
 export default class InternshipsController {
   public async studentInternships(
@@ -61,7 +62,7 @@ export default class InternshipsController {
     return response.status(201).json(internship);
   }
 
-  public async registerStudentToSchool(
+  public async registerInternToSchool(
     request: Request,
     response: Response,
   ): Promise<Response> {
@@ -76,6 +77,24 @@ export default class InternshipsController {
       internship_id,
       school_id,
       user_id,
+    });
+
+    return response.json(internship);
+  }
+
+  public async registerInternToPreceptor(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { internship_id, preceptor_id } = request.params;
+
+    const registerInternToPreceptorService = container.resolve(
+      RegisterInternToPreceptorService,
+    );
+
+    const internship = registerInternToPreceptorService.execute({
+      internship_id,
+      preceptor_id,
     });
 
     return response.json(internship);

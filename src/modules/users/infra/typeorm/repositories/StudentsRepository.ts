@@ -24,6 +24,12 @@ export default class StudentsRepository
     return this.ormRepository.save(student);
   }
 
+  public async findById(id: string): Promise<Student | undefined> {
+    const student = await this.ormRepository.findOne({ where: { id } });
+
+    return student;
+  }
+
   public async findUserOfTypeById(id: string): Promise<Student | undefined> {
     const student = await this.ormRepository.findOne({
       where: { user_id: id },

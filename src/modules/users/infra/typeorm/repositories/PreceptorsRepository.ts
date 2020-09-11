@@ -24,6 +24,12 @@ export default class PreceptorsRepository
     return this.ormRepository.save(preceptor);
   }
 
+  public async findById(id: string): Promise<Preceptor | undefined> {
+    const preceptor = await this.ormRepository.findOne({ where: { id } });
+
+    return preceptor;
+  }
+
   public async findUserOfTypeById(id: string): Promise<Preceptor | undefined> {
     const preceptor = await this.ormRepository.findOne({
       where: { user_id: id },

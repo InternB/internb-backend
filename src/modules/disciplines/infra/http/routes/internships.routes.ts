@@ -58,7 +58,13 @@ internshipsRouter.patch(
 internshipsRouter.patch(
   '/:id/school/:school_id',
   ensureStudentAuthenticated,
-  internshipsController.registerStudentToSchool,
+  internshipsController.registerInternToSchool,
+);
+
+internshipsRouter.patch(
+  '/preceptor/:preceptor_id',
+  ensureStudentAuthenticated,
+  internshipsController.registerInternToPreceptor,
 );
 
 internshipsRouter.patch(

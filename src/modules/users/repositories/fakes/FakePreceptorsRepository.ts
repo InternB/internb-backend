@@ -27,6 +27,12 @@ export default class FakePreceptorsRepository
     return preceptor;
   }
 
+  public async findById(id: string): Promise<Preceptor | undefined> {
+    const preceptor = this.preceptors.find(x => x.id === id);
+
+    return preceptor;
+  }
+
   public async findUserOfTypeById(id: string): Promise<Preceptor | undefined> {
     const preceptor = this.preceptors.find(x => x.user_id === id);
 
