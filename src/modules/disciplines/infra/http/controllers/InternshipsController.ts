@@ -26,6 +26,15 @@ export default class InternshipsController {
     return response.json(internships);
   }
 
+  public async preceptorInternships(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    // TODO
+
+    return response.json();
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { class_id, password } = request.body;
     const { id: user_id } = request.user;

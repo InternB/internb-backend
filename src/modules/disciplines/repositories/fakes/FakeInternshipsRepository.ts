@@ -67,4 +67,14 @@ export default class FakeInternshipsRepository
 
     return interns;
   }
+
+  public async findAllInternsOfPreceptor(
+    preceptor_id: string,
+  ): Promise<Internship[]> {
+    const interns = this.internships.filter(
+      x => x.preceptor_id === preceptor_id,
+    );
+
+    return interns;
+  }
 }
