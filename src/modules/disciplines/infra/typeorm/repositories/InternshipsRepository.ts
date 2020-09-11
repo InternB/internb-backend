@@ -72,6 +72,7 @@ export default class InternshipsRepository implements IInternshipsRepository {
   ): Promise<Internship[]> {
     const internships = await this.ormRepository.find({
       where: { preceptor_id },
+      loadEagerRelations: false,
     });
 
     return internships;

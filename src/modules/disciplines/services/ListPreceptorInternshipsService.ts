@@ -13,7 +13,7 @@ interface IRequest {
 @injectable()
 class ListPreceptorInternshipsService {
   constructor(
-    @inject('PreceptorRepository')
+    @inject('PreceptorsRepository')
     private preceptorsRepository: IGenericUsersRepository<Preceptor>,
 
     @inject('InternshipsRepository')

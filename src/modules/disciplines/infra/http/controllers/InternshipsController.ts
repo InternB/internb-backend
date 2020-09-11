@@ -9,6 +9,7 @@ import UploadInternWorkPlanService from '@modules/disciplines/services/UploadInt
 import UploadInternCompromiseService from '@modules/disciplines/services/UploadInternCompromiseService';
 import ListStudentInternshipsService from '@modules/disciplines/services/ListStudentInternshipsService';
 import UpdateInternshipDatesService from '@modules/disciplines/services/UpdateInternshipDatesService';
+import ListPreceptorInternshipsService from '@modules/disciplines/services/ListPreceptorInternshipsService';
 
 export default class InternshipsController {
   public async studentInternships(
@@ -30,9 +31,17 @@ export default class InternshipsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    // TODO
+    const { id: user_id } = request.user;
 
-    return response.json();
+    const listPreceptorInternshipsService = container.resolve(
+      ListPreceptorInternshipsService,
+    );
+
+    const internships = await listPreceptorInternshipsService.execute({
+      user_id,
+    });
+
+    return response.json(internships);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
