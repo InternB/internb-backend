@@ -12,6 +12,7 @@ import {
   OneToOne,
 } from 'typeorm';
 
+import Preceptor from '../../../../users/infra/typeorm/entities/Preceptor';
 import Class from './Class';
 import Student from '../../../../users/infra/typeorm/entities/Student';
 import Activity from './Actvitity';
@@ -46,6 +47,10 @@ class Internship {
 
   @Column({ type: 'uuid', nullable: true })
   preceptor_id: string;
+
+  @ManyToOne(() => Preceptor, x => x.internships)
+  @JoinColumn({ name: 'preceptor_id', referencedColumnName: 'id' })
+  preceptor: Preceptor;
 
   @ManyToOne(() => Class, x => x.internships, {
     onDelete: 'CASCADE',

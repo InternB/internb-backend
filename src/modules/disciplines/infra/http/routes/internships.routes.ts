@@ -6,6 +6,7 @@ import ensureAuthenticated from '../../../../users/infra/http/middlewares/ensure
 import {
   ensureStudentAuthenticated,
   ensureProfessorAuthenticated,
+  ensurePreceptorAuthenticated,
 } from '../../../../users/infra/http/middlewares/ensureRoleAuthenticated';
 
 import InternshipsController from '../controllers/InternshipsController';
@@ -22,6 +23,12 @@ internshipsRouter.get(
   '/student',
   ensureStudentAuthenticated,
   internshipsController.studentInternships,
+);
+
+internshipsRouter.get(
+  '/preceptor',
+  ensurePreceptorAuthenticated,
+  internshipsController.preceptorInternships,
 );
 
 internshipsRouter.get(

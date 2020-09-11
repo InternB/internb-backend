@@ -40,6 +40,7 @@ describe('CreateInternshipAssessment', () => {
       formation: 'nível de formação',
       user: new User(),
       school: new School(),
+      internships: [],
     });
 
     internship.preceptor_id = id;
@@ -95,6 +96,7 @@ describe('CreateInternshipAssessment', () => {
       formation: 'nível de formação',
       user: new User(),
       school: new School(),
+      internships: [],
     });
 
     await expect(
@@ -133,6 +135,7 @@ describe('CreateInternshipAssessment', () => {
       formation: 'nível de formação',
       user: new User(),
       school: new School(),
+      internships: [],
     });
 
     await expect(
