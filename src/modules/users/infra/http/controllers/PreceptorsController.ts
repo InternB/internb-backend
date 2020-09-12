@@ -1,5 +1,6 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
+import RegisterPreceptorToSchoolService from '@modules/users/services/RegisterPreceptorToSchoolService';
 
 export default class PreceptorsController {
   public async registerToSchool(
@@ -9,9 +10,15 @@ export default class PreceptorsController {
     const { id: user_id } = request.user;
     const { school_id } = request.params;
 
-    // TODO
-    console.log(user_id, school_id);
+    const registerPreceptorToSchoolService = container.resolve(
+      RegisterPreceptorToSchoolService,
+    );
 
-    return response.json();
+    const preceptor = await registerPreceptorToSchoolService.execute({
+      user_id,
+      school_id,
+    });
+
+    return response.json(preceptor);
   }
 }

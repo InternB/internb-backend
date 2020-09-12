@@ -10,7 +10,7 @@ interface IRequest {
 }
 
 @injectable()
-class RegisterPreceptorToSchool {
+class RegisterPreceptorToSchoolService {
   constructor(
     @inject('PreceptorsRepository')
     private preceptorsRepository: IGenericUsersRepository<Preceptor>,
@@ -36,4 +36,4 @@ class RegisterPreceptorToSchool {
   }
 }
 
-export default RegisterPreceptorToSchool;
+export default RegisterPreceptorToSchoolService;
