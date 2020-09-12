@@ -13,6 +13,7 @@ import disciplinesRouter from '@modules/disciplines/infra/http/routes/discipline
 import classesRouter from '@modules/disciplines/infra/http/routes/classes.routes';
 import internshipsRouter from '@modules/disciplines/infra/http/routes/internships.routes';
 import assessmentsRouter from '@modules/disciplines/infra/http/routes/assessments.routes';
+import preceptorsRouter from '@modules/users/infra/http/routes/preceptors.routes';
 
 const routes = Router();
 
@@ -20,6 +21,7 @@ routes.use('/users', usersRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/passwords', passwordRouter);
 routes.use('/profiles', profilesRouter);
+routes.use('/preceptors', preceptorsRouter);
 
 routes.use('/schools', schoolsRouter);
 routes.use('/school-managers', schoolManagersRouter);
