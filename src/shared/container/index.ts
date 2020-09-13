@@ -39,6 +39,9 @@ import InternshipsRepository from '@modules/disciplines/infra/typeorm/repositori
 import IAssessmentsRepository from '@modules/disciplines/repositories/IAssessmentsRepository';
 import AssessmentsRepository from '@modules/disciplines/infra/typeorm/repositories/AssessmentsRepository';
 
+import IActivitiesRepository from '@modules/disciplines/repositories/IActivitiesRepository';
+import ActivitiesRepository from '@modules/disciplines/infra/typeorm/repositories/ActivitiesRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -97,4 +100,9 @@ container.registerSingleton<IInternshipsRepository>(
 container.registerSingleton<IAssessmentsRepository>(
   'AssessmentsRepository',
   AssessmentsRepository,
+);
+
+container.registerSingleton<IActivitiesRepository>(
+  'ActivitiesRepository',
+  ActivitiesRepository,
 );

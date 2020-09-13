@@ -4,9 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
   DeleteDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 import AdmRegion from './AdmRegion';
@@ -23,7 +23,7 @@ class School {
   @Column('uuid')
   adm_region_id: string;
 
-  @OneToOne(() => AdmRegion, { eager: true })
+  @ManyToOne(() => AdmRegion, x => x.schools, { eager: true })
   @JoinColumn({ name: 'adm_region_id' })
   adm_region: AdmRegion;
 

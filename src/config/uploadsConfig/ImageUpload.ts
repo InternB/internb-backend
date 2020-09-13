@@ -2,7 +2,7 @@ import multer, { diskStorage } from 'multer';
 
 import upload, { imageFileFilter, uuidFilename } from '../upload';
 
-const UserAvatarUpload = {
+const ImageUpload = {
   upload: multer({
     fileFilter: imageFileFilter,
     storage: diskStorage({
@@ -12,4 +12,4 @@ const UserAvatarUpload = {
   }),
 };
 
-export default UserAvatarUpload;
+export default ImageUpload;

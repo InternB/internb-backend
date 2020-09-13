@@ -7,9 +7,9 @@ import {
   ManyToOne,
   JoinColumn,
   DeleteDateColumn,
-  ManyToMany,
   JoinTable,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 
 import Preceptor from '../../../../users/infra/typeorm/entities/Preceptor';
@@ -90,12 +90,7 @@ class Internship {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @ManyToMany(() => Activity, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinTable({
-    name: 'intern_actvities',
-    joinColumn: { name: 'internship_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'activity_id', referencedColumnName: 'id' },
-  })
+  @OneToMany(() => Activity, x => x.internship)
   activities: Activity[];
 
   @Column({ type: 'uuid', nullable: true })

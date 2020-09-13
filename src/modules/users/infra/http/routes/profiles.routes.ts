@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import userAvatar from '@config/uploadsConfig/UserAvatarUpload';
+import userAvatar from '@config/uploadsConfig/ImageUpload';
 
 import ProfilesController from '../controllers/ProfilesController';
 import UserAvatarsController from '../controllers/UserAvatarsController';

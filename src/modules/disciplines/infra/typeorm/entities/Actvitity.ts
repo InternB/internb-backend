@@ -5,7 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import Internship from './Internship';
 
 @Entity('activities')
 class Activity {
@@ -23,6 +27,13 @@ class Activity {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   photo: string;
+
+  @Column({ type: 'uuid', nullable: false })
+  internship_id: string;
+
+  @ManyToOne(() => Internship, x => x.activities)
+  @JoinColumn({ name: 'internship_id', referencedColumnName: 'id' })
+  internship: Internship;
 
   @CreateDateColumn()
   created_at: Date;

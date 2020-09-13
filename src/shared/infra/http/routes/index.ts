@@ -14,6 +14,7 @@ import classesRouter from '@modules/disciplines/infra/http/routes/classes.routes
 import internshipsRouter from '@modules/disciplines/infra/http/routes/internships.routes';
 import assessmentsRouter from '@modules/disciplines/infra/http/routes/assessments.routes';
 import preceptorsRouter from '@modules/users/infra/http/routes/preceptors.routes';
+import activitiesRouter from '@modules/disciplines/infra/http/routes/activities.routes';
 
 const routes = Router();
 
@@ -31,5 +32,6 @@ routes.use('/disciplines', disciplinesRouter);
 routes.use('/classes', classesRouter);
 routes.use('/internships', internshipsRouter);
 routes.use('/assessments', assessmentsRouter);
+routes.use('/activities', activitiesRouter);
 
 export default routes;

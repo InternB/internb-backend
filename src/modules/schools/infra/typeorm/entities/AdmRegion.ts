@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import School from './School';
 
 @Entity('adm_regions')
 class AdmRegion {
@@ -22,6 +24,9 @@ class AdmRegion {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => School, x => x.adm_region)
+  schools: School[];
 }
 
 export default AdmRegion;
