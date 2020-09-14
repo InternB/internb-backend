@@ -1,11 +1,11 @@
 import { v4 } from 'uuid';
 
 import Preceptor from '@modules/users/infra/typeorm/entities/Preceptor';
-
 import IGenericUsersRepository from '../IGenericUsersRepository';
+import IPreceptorsRepository from '../IPreceptorsRepository';
 
 export default class FakePreceptorsRepository
-  implements IGenericUsersRepository<Preceptor> {
+  implements IGenericUsersRepository<Preceptor>, IPreceptorsRepository {
   private preceptors: Preceptor[] = [];
 
   public async createUserOfType(
@@ -31,6 +31,12 @@ export default class FakePreceptorsRepository
     const preceptor = this.preceptors.find(x => x.id === id);
 
     return preceptor;
+  }
+
+  public async findBySchoolId(school_id: string): Promise<Preceptor[]> {
+    const preceptors = this.preceptors.filter(x => x.school_id === school_id);
+
+    return preceptors;
   }
 
   public async findUserOfTypeById(id: string): Promise<Preceptor | undefined> {

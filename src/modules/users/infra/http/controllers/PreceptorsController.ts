@@ -1,6 +1,9 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
+
 import RegisterPreceptorToSchoolService from '@modules/users/services/RegisterPreceptorToSchoolService';
+import ListPreceptorsOfSchoolService from '@modules/users/services/ListPreceptorsOfSchoolService';
 
 export default class PreceptorsController {
   public async registerToSchool(
@@ -20,5 +23,20 @@ export default class PreceptorsController {
     });
 
     return response.json(preceptor);
+  }
+
+  public async listPreceptorsOfSchool(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { school_id } = request.params;
+
+    const listPreceptorsOfSchool = container.resolve(
+      ListPreceptorsOfSchoolService,
+    );
+
+    const preceptors = await listPreceptorsOfSchool.execute({ school_id });
+
+    return response.json(classToClass(preceptors));
   }
 }

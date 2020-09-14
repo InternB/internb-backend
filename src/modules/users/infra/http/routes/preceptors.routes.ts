@@ -10,6 +10,11 @@ const preceptorsController = new PreceptorsController();
 
 preceptorsRouter.use(ensureAuthenticated);
 
+preceptorsRouter.get(
+  '/school/:school_id',
+  preceptorsController.listPreceptorsOfSchool,
+);
+
 preceptorsRouter.patch(
   '/school/:school_id',
   ensurePreceptorAuthenticated,

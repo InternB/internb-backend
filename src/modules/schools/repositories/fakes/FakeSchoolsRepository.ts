@@ -38,13 +38,19 @@ export default class FakeSchoolsRepository implements ISchoolsRepository {
     return school;
   }
 
-  public async findById(id: string): Promise<School | undefined> {
+  public async findById(
+    id: string,
+    eager = false,
+  ): Promise<School | undefined> {
     const findId = this.schools.find(school => school.id === id);
 
     return findId;
   }
 
-  public async findAllSchoolsRegion(adm_region_id: string): Promise<School[]> {
+  public async findAllSchoolsRegion(
+    adm_region_id: string,
+    eager = false,
+  ): Promise<School[]> {
     const schools = this.schools.filter(
       school => school.adm_region_id === adm_region_id,
     );

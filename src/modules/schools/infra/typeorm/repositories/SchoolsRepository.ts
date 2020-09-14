@@ -40,19 +40,25 @@ export default class SchoolsRepository implements ISchoolsRepository {
     return updatedSchool;
   }
 
-  public async findById(id: string): Promise<School | undefined> {
+  public async findById(
+    id: string,
+    eager = false,
+  ): Promise<School | undefined> {
     const findId = await this.ormRepository.findOne({
       where: { id },
-      loadEagerRelations: false,
+      loadEagerRelations: eager,
     });
 
     return findId;
   }
 
-  public async findAllSchoolsRegion(adm_region_id: string): Promise<School[]> {
+  public async findAllSchoolsRegion(
+    adm_region_id: string,
+    eager = false,
+  ): Promise<School[]> {
     const schools = await this.ormRepository.find({
       where: { adm_region_id },
-      loadEagerRelations: false,
+      loadEagerRelations: eager,
     });
 
     return schools;

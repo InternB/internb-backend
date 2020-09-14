@@ -2,6 +2,7 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import UpdateSchoolService from '@modules/schools/services/UpdateSchoolService';
+import ListPreceptorsOfSchoolService from '@modules/schools/services/ListPreceptorsOfSchoolService';
 import ShowSchoolService from '../../../services/ShowSchoolService';
 import CreateSchoolService from '../../../services/CreateSchoolService';
 import ListAllSchoolsService from '../../../services/ListAllSchoolsService';
