@@ -19,7 +19,7 @@ class Preceptor {
   @Column()
   user_id: string;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
