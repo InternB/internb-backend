@@ -42,6 +42,9 @@ import AssessmentsRepository from '@modules/disciplines/infra/typeorm/repositori
 import IActivitiesRepository from '@modules/disciplines/repositories/IActivitiesRepository';
 import ActivitiesRepository from '@modules/disciplines/infra/typeorm/repositories/ActivitiesRepository';
 
+import IRealizationsRepository from '@modules/disciplines/repositories/IRealizationsRepository';
+import RealizationsRepository from '@modules/disciplines/infra/typeorm/repositories/RealizationsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -105,4 +108,9 @@ container.registerSingleton<IAssessmentsRepository>(
 container.registerSingleton<IActivitiesRepository>(
   'ActivitiesRepository',
   ActivitiesRepository,
+);
+
+container.registerSingleton<IRealizationsRepository>(
+  'RealizationsRepository',
+  RealizationsRepository,
 );
