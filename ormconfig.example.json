@@ -7,16 +7,16 @@
   "username": "postgres",
   "password": "110492-Bb",
   "entities": [
-    "./src/modules/users/infra/typeorm/entities/*.ts",
-    "./src/modules/schools/infra/typeorm/entities/*.ts",
-    "./src/modules/disciplines/infra/typeorm/entities/*.ts"
+    "./dist/modules/users/infra/typeorm/entities/*.js",
+    "./dist/modules/schools/infra/typeorm/entities/*.js",
+    "./dist/modules/disciplines/infra/typeorm/entities/*.js"
   ],
   "migrations": [
-    "./src/shared/infra/typeorm/migrations/*.ts"
+    "./dist/shared/infra/typeorm/migrations/*.js"
   ],
   "cli": {
     "migrationsDir": [
-      "./src/shared/infra/typeorm/migrations"
+      "./dist/shared/infra/typeorm/migrations"
     ]
   },
   "logging": false
