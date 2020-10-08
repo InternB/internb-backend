@@ -3,3 +3,12 @@ node_modules/*
 
 yarn.lock
 yarn-error.log
+
+*.sqlite
+
+coverage/
+
+tmp/**/*.*
+!tmp/**/.gitkeep
+!tmp/images/profiles/default.png
+!tmp/__tests__/*.*
