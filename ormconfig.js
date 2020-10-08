@@ -1,9 +1,7 @@
 module.exports = {
   "name": "default",
   "type": "postgres",
-  "database": "InternB",
-  "host": process.env.DATABASE_HOST,
-  "port": process.env.DATABASE_PORT,
+  "url": process.env.DATABASE_URL,
   "username": process.env.DATABASE_USER,
   "password": process.env.DATABASE_PASS,
   "entities": [
