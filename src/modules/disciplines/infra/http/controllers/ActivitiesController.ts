@@ -11,7 +11,7 @@ export default class ActivitiesController {
       CreateActivityOfInternshipService,
     );
 
-    const activity = createActivityOfInternshipService.execute({
+    const activity = await createActivityOfInternshipService.execute({
       internship_id,
       sign,
       timestamp,
