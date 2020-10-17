@@ -4,8 +4,10 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
+import UserToken from './UserToken';
 
 @Entity('users')
 class User {
@@ -45,6 +47,9 @@ class User {
 
   @Column('varchar', { default: 'default.png ' })
   avatar: string;
+
+  @OneToMany(() => UserToken, userToken => userToken.user)
+  userTokens: UserToken[];
 
   @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {

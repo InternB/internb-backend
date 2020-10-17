@@ -16,6 +16,7 @@ import assessmentsRouter from '@modules/disciplines/infra/http/routes/assessment
 import preceptorsRouter from '@modules/users/infra/http/routes/preceptors.routes';
 import activitiesRouter from '@modules/disciplines/infra/http/routes/activities.routes';
 import realizationsRouter from '@modules/disciplines/infra/http/routes/realizations.routes';
+import calendarsRouter from '@modules/disciplines/infra/http/routes/calendars.routes';
 
 const routes = Router();
 
@@ -35,5 +36,6 @@ routes.use('/internships', internshipsRouter);
 routes.use('/assessments', assessmentsRouter);
 routes.use('/activities', activitiesRouter);
 routes.use('/realizations', realizationsRouter);
+routes.use('/calendars', calendarsRouter);
 
 export default routes;

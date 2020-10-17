@@ -62,7 +62,7 @@ internshipsRouter.patch(
 );
 
 internshipsRouter.patch(
-  '/preceptor/:preceptor_id',
+  '/:internship_id/preceptor/:preceptor_id',
   ensureStudentAuthenticated,
   internshipsController.registerInternToPreceptor,
 );

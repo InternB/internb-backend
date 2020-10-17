@@ -92,7 +92,7 @@ export default class InternshipsController {
       RegisterInternToPreceptorService,
     );
 
-    const internship = registerInternToPreceptorService.execute({
+    const internship = await registerInternToPreceptorService.execute({
       internship_id,
       preceptor_id,
     });

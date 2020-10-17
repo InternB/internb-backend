@@ -1,18 +1,22 @@
 module.exports = {
   "name": "default",
   "type": "postgres",
-  "url": process.env.DATABASE_URL,
+  "database": "InternB",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "110492-Bb",
   "entities": [
-    "./dist/modules/users/infra/typeorm/entities/*.js",
-    "./dist/modules/schools/infra/typeorm/entities/*.js",
-    "./dist/modules/disciplines/infra/typeorm/entities/*.js"
+    "./src/modules/users/infra/typeorm/entities/*.ts",
+    "./src/modules/schools/infra/typeorm/entities/*.ts",
+    "./src/modules/disciplines/infra/typeorm/entities/*.ts"
   ],
   "migrations": [
-    "./dist/shared/infra/typeorm/migrations/*.js"
+    "./src/shared/infra/typeorm/migrations/*.ts"
   ],
   "cli": {
     "migrationsDir": [
-      "./dist/shared/infra/typeorm/migrations"
+      "./src/shared/infra/typeorm/migrations"
     ]
   },
   "logging": false
