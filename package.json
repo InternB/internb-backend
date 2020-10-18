@@ -7,7 +7,9 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "start": "node ./dist/shared/infra/http/server.js",
+    "start": "npm run start:migrations && npm run start:server",
+    "start:migrations": "npx typeorm migration:run",
+    "start:server": "node ./dist/shared/infra/http/server.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
