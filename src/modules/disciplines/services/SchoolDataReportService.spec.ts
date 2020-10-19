@@ -46,8 +46,8 @@ async function createFakeInternship({
     class_id: 'class-id',
     class_discipline_id: 'class-discipline-id',
     class_professor_id: 'professor-id',
-    school_id: `school-${index}`,
-    school,
+    school_id: index !== 5 ? `school-${index}` : null,
+    school: index !== 5 ? school : null,
   });
 
   return internship;
@@ -70,7 +70,7 @@ describe('SchoolDataReport', () => {
       user: new User(),
     });
 
-    for (let i = 1; i <= 4; i += 1) {
+    for (let i = 1; i <= 5; i += 1) {
       await fakeInternshipsRepository.create(
         await createFakeInternship({
           index: i,

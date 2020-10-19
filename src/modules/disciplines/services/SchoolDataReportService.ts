@@ -39,8 +39,10 @@ class SchoolDataReportService {
     const schools: Set<School> = new Set<School>();
     const admRegions: Set<AdmRegion> = new Set<AdmRegion>();
     interns.forEach(intern => {
-      schools.add(intern.school);
-      admRegions.add(intern.school.adm_region);
+      if (intern.school) {
+        schools.add(intern.school);
+        admRegions.add(intern.school.adm_region);
+      }
     });
 
     const schoolsArr = Array.from(schools);
