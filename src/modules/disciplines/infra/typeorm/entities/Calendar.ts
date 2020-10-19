@@ -12,9 +12,6 @@ class Calendar {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'bool', array: true, nullable: false })
-  week_days: boolean[];
-
   @Column({ type: 'timestamp', array: true, nullable: false })
   starts_at: Date;
 

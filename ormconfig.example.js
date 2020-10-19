@@ -1,4 +1,4 @@
-{
+module.exports = {
   "name": "default",
   "type": "postgres",
   "database": "InternB",
@@ -6,6 +6,7 @@
   "port": 5432,
   "username": "postgres",
   "password": "110492-Bb",
+  // "url": process.env.DATABASE_URL,
   "entities": [
     "./dist/modules/users/infra/typeorm/entities/*.js",
     "./dist/modules/schools/infra/typeorm/entities/*.js",

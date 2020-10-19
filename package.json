@@ -7,7 +7,9 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "start": "node ./dist/shared/infra/http/server.js",
+    "start": "npm run start:migrations && npm run start:server",
+    "start:migrations": "npx typeorm migration:run",
+    "start:server": "node ./dist/shared/infra/http/server.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
@@ -16,7 +18,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "bcryptjs": "^2.4.3",
     "celebrate": "^12.1.1",
-    "class-transformer": "^0.2.3",
+    "class-transformer": ">=0.3.1",
     "cors": "^2.8.5",
     "date-fns": "^2.14.0",
     "dotenv": "^8.2.0",

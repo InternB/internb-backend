@@ -70,7 +70,7 @@ describe('CreateRealizationOfInternship', () => {
         type: 1,
         names: [],
       }),
-    );
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not create a realization if internship already has one', async () => {
@@ -90,7 +90,7 @@ describe('CreateRealizationOfInternship', () => {
         type: 1,
         names: [],
       }),
-    );
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it("should not create a realization if 'in group' select, but no names are given", async () => {

@@ -45,6 +45,9 @@ import ActivitiesRepository from '@modules/disciplines/infra/typeorm/repositorie
 import IRealizationsRepository from '@modules/disciplines/repositories/IRealizationsRepository';
 import RealizationsRepository from '@modules/disciplines/infra/typeorm/repositories/RealizationsRepository';
 
+import ICalendarsRepository from '@modules/disciplines/repositories/ICalendarsRepository';
+import CalendarsRepository from '@modules/disciplines/infra/typeorm/repositories/CalendarsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -113,4 +116,9 @@ container.registerSingleton<IActivitiesRepository>(
 container.registerSingleton<IRealizationsRepository>(
   'RealizationsRepository',
   RealizationsRepository,
+);
+
+container.registerSingleton<ICalendarsRepository>(
+  'CalendarsRepository',
+  CalendarsRepository,
 );
