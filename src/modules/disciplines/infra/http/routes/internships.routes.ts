@@ -43,6 +43,12 @@ internshipsRouter.get(
   reportsController.classes_data,
 );
 
+internshipsRouter.get(
+  '/reports/students-data/:professor_id',
+  ensureProfessorAuthenticated,
+  reportsController.students_data,
+);
+
 internshipsRouter.post(
   '/',
   ensureStudentAuthenticated,

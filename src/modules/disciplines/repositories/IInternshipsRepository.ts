@@ -10,6 +10,9 @@ export default interface IInternshipsRepository {
     class_id: string,
   ): Promise<Internship | undefined>;
   findAllStudentInternships(student_id: string): Promise<Internship[]>;
-  findAllInternsOfProfessor(professor_id: string): Promise<Internship[]>;
+  findAllInternsOfProfessor(
+    professor_id: string,
+    // eager?: boolean,
+  ): Promise<Internship[]>;
   findAllInternsOfPreceptor(preceptor_id: string): Promise<Internship[]>;
 }
