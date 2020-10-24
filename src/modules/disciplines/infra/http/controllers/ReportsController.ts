@@ -4,7 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import SchoolDataReportService from '@modules/disciplines/services/SchoolDataReportService';
 import ClassesReportService from '@modules/disciplines/services/ClassesReportService';
-import StudentReportService from '@modules/disciplines/services/StudentsReportService';
+import StudentsDataReportService from '@modules/disciplines/services/StudentsDataReportService';
 
 export default class ReportsController {
   public async school_data(
@@ -43,7 +43,7 @@ export default class ReportsController {
   ): Promise<Response> {
     const { professor_id } = request.params;
 
-    const studentsReportService = container.resolve(StudentReportService);
+    const studentsReportService = container.resolve(StudentsDataReportService);
 
     const report = await studentsReportService.execute({ professor_id });
 

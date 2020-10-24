@@ -18,7 +18,7 @@ class Student {
   @Column({ type: 'uuid', nullable: false })
   user_id: string;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 

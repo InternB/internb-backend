@@ -12,7 +12,8 @@ export default interface IInternshipsRepository {
   findAllStudentInternships(student_id: string): Promise<Internship[]>;
   findAllInternsOfProfessor(
     professor_id: string,
-    // eager?: boolean,
+    relations?: string[],
+    loadEagerRelations?: boolean,
   ): Promise<Internship[]>;
   findAllInternsOfPreceptor(preceptor_id: string): Promise<Internship[]>;
 }

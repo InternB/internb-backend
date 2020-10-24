@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 @injectable()
-class StudentReportService {
+class StudentsDataReportService {
   constructor(
     @inject('InternshipsRepository')
     private internshipsRepository: IInternshipsRepository,
@@ -17,6 +17,8 @@ class StudentReportService {
   public async execute({ professor_id }: IRequest): Promise<StudentsData> {
     const interns = await this.internshipsRepository.findAllInternsOfProfessor(
       professor_id,
+      ['student', 'activities', 'asssessment', 'calendar', 'class'],
+      true,
     );
 
     console.log(interns);
@@ -46,4 +48,4 @@ class StudentReportService {
   }
 }
 
-export default StudentReportService;
+export default StudentsDataReportService;
