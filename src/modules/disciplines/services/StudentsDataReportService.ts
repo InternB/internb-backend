@@ -21,8 +21,6 @@ class StudentsDataReportService {
       true,
     );
 
-    console.log(interns);
-
     const report = new StudentsData();
     interns.forEach(intern => {
       if (!report[intern.class_discipline_id])
