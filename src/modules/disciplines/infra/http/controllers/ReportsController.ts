@@ -6,6 +6,7 @@ import SchoolDataReportService from '@modules/disciplines/services/SchoolDataRep
 import ClassesReportService from '@modules/disciplines/services/ClassesReportService';
 import StudentsDataReportService from '@modules/disciplines/services/StudentsDataReportService';
 import StudentsSchoolsDataReportService from '@modules/disciplines/services/StudentsSchoolsDataReportService';
+import PreceptorsDataReportService from '@modules/disciplines/services/PreceptorsDataReportService';
 
 export default class ReportsController {
   public async school_data(
@@ -66,5 +67,20 @@ export default class ReportsController {
     });
 
     return response.json(classToClass(report));
+  }
+
+  public async preceptors_data(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { professor_id } = request.params;
+
+    const preceptorsDataReportService = container.resolve(
+      PreceptorsDataReportService,
+    );
+
+    const report = await preceptorsDataReportService.execute({ professor_id });
+
+    return response.json(report);
   }
 }

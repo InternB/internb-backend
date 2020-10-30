@@ -55,6 +55,12 @@ internshipsRouter.get(
   reportsController.students_schools_data,
 );
 
+internshipsRouter.get(
+  '/reports/preceptors-data/:professor_id',
+  ensureProfessorAuthenticated,
+  reportsController.preceptors_data,
+);
+
 internshipsRouter.post(
   '/',
   ensureStudentAuthenticated,
