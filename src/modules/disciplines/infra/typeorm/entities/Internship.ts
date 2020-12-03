@@ -11,6 +11,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
+import Professor from '../../../../users/infra/typeorm/entities/Professor';
 import Preceptor from '../../../../users/infra/typeorm/entities/Preceptor';
 import Class from './Class';
 import Student from '../../../../users/infra/typeorm/entities/Student';
@@ -43,6 +44,10 @@ class Internship {
 
   @Column({ type: 'uuid', nullable: false })
   class_professor_id: string;
+
+  @ManyToOne(() => Professor, x => x.internships, { eager: true })
+  @JoinColumn({ name: 'class_professor_id', referencedColumnName: 'id' })
+  class_professor: Professor;
 
   @Column({ type: 'uuid', nullable: true })
   preceptor_id: string;
