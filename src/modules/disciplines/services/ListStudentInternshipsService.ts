@@ -26,6 +26,7 @@ class ListStudentInternshipsService {
 
     const internships = await this.internshipsRepository.findAllStudentInternships(
       student.id,
+      true,
     );
 
     return internships;

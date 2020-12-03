@@ -1,30 +1,28 @@
 import 'reflect-metadata';
-
-import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import { v4 } from 'uuid';
 
 import AppError from '@shared/errors/AppError';
-import User from '@modules/users/infra/typeorm/entities/User';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import Professor from '@modules/users/infra/typeorm/entities/Professor';
+import User from '@modules/users/infra/typeorm/entities/User';
 import CreateClassService from './CreateClassService';
 import FakeClassesRepository from '../repositories/fakes/FakeClassesRepository';
 import FakeDisciplinesRepository from '../repositories/fakes/FakeDisciplinesRepository';
+import FakeProfessorsRepository from '../../users/repositories/fakes/FakeProfessorsRepository';
 
 let fakeClassesRepository: FakeClassesRepository;
 let fakeDisciplinesRepository: FakeDisciplinesRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let fakeProfessorsRepository: FakeProfessorsRepository;
 let fakeHashProvider: FakeHashProvider;
 let createClassService: CreateClassService;
 
-function createProfessor(active = true): User {
-  const professor = new User();
+function createProfessor(): Professor {
+  const professor = new Professor();
   Object.assign(professor, {
-    cpf: '29676193020',
-    email: 'johndoe@gmail.com',
-    password: '123456',
-    fullname: 'John Doe',
-    phone: '61999999999',
-    role: 1,
-    active,
+    id: v4(),
+    user_id: v4(),
+    user: new User(),
+    internships: [],
   });
 
   return professor;
@@ -34,12 +32,12 @@ describe('CreateClass', () => {
   beforeEach(() => {
     fakeClassesRepository = new FakeClassesRepository();
     fakeDisciplinesRepository = new FakeDisciplinesRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    fakeProfessorsRepository = new FakeProfessorsRepository();
     fakeHashProvider = new FakeHashProvider();
     createClassService = new CreateClassService(
       fakeClassesRepository,
       fakeDisciplinesRepository,
-      fakeUsersRepository,
+      fakeProfessorsRepository,
       fakeHashProvider,
     );
   });
@@ -54,7 +52,9 @@ describe('CreateClass', () => {
 
     const professor = createProfessor();
 
-    const { id: professor_id } = await fakeUsersRepository.create(professor);
+    const { user_id, id } = await fakeProfessorsRepository.createUserOfType(
+      professor,
+    );
 
     const createdClass = await createClassService.execute({
       sign: 'A',
@@ -62,7 +62,7 @@ describe('CreateClass', () => {
       password: '123456',
       total_students_enrolled: enrolled,
       discipline_id,
-      professor_id,
+      user_id,
     });
 
     expect(createdClass).toEqual(
@@ -72,7 +72,7 @@ describe('CreateClass', () => {
         total_students_enrolled: enrolled,
         total_students_registered: 0,
         discipline_id,
-        professor_id,
+        professor_id: id,
       }),
     );
   });
@@ -87,7 +87,7 @@ describe('CreateClass', () => {
         password: '123456',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
-        professor_id: 'professor-id',
+        user_id: 'professor-id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -107,7 +107,7 @@ describe('CreateClass', () => {
         password: '123456',
         total_students_enrolled: enrolled,
         discipline_id: 'CIC0123',
-        professor_id: 'professor-id',
+        user_id: 'professor-id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -122,7 +122,10 @@ describe('CreateClass', () => {
 
     const professor = createProfessor();
 
-    const { id: professor_id } = await fakeUsersRepository.create(professor);
+    const {
+      user_id,
+      id: professor_id,
+    } = await fakeProfessorsRepository.createUserOfType(professor);
 
     await fakeClassesRepository.create({
       sign: 'A',
@@ -140,7 +143,7 @@ describe('CreateClass', () => {
         password: '123456',
         total_students_enrolled: enrolled,
         discipline_id,
-        professor_id,
+        user_id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

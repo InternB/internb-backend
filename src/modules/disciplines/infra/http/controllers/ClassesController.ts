@@ -32,7 +32,7 @@ export default class ClassesController {
       total_students_enrolled,
       discipline_id,
     } = request.body;
-    const professor_id = request.user.id;
+    const user_id = request.user.id;
 
     const createClass = container.resolve(CreateClassService);
 
@@ -42,7 +42,7 @@ export default class ClassesController {
       password,
       total_students_enrolled,
       discipline_id,
-      professor_id,
+      user_id,
     });
 
     return response.status(201).json(classToClass(newClass));
