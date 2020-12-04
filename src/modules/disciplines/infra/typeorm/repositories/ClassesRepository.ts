@@ -36,8 +36,10 @@ export default class ClassesRepository implements IClassesRepository {
     return newClass;
   }
 
-  public async getAll(): Promise<Class[]> {
-    const classes = await this.ormRepository.find();
+  public async getAll(eager = false): Promise<Class[]> {
+    const classes = await this.ormRepository.find({
+      loadEagerRelations: eager,
+    });
 
     return classes;
   }
@@ -59,14 +61,26 @@ export default class ClassesRepository implements IClassesRepository {
     return classFound;
   }
 
-  public async findByDiscipline(discipline_id: string): Promise<Class[]> {
-    const classes = await this.ormRepository.find({ where: { discipline_id } });
+  public async findByDiscipline(
+    discipline_id: string,
+    eager = false,
+  ): Promise<Class[]> {
+    const classes = await this.ormRepository.find({
+      where: { discipline_id },
+      loadEagerRelations: eager,
+    });
 
     return classes;
   }
 
-  public async findByProfessor(professor_id: string): Promise<Class[]> {
-    const classes = await this.ormRepository.find({ where: { professor_id } });
+  public async findByProfessor(
+    professor_id: string,
+    eager = false,
+  ): Promise<Class[]> {
+    const classes = await this.ormRepository.find({
+      where: { professor_id },
+      loadEagerRelations: eager,
+    });
 
     return classes;
   }
@@ -74,9 +88,11 @@ export default class ClassesRepository implements IClassesRepository {
   public async findByDisciplineProfessor(
     discipline_id: string,
     professor_id: string,
+    eager = false,
   ): Promise<Class[]> {
     const classes = await this.ormRepository.find({
       where: { discipline_id, professor_id },
+      loadEagerRelations: eager,
     });
 
     return classes;

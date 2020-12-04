@@ -6,4 +6,5 @@ export default interface IDisciplinesRepository {
   getAll(): Promise<Discipline[]>;
   findById(id: string): Promise<Discipline | undefined>;
   findByName(name: string): Promise<Discipline | undefined>;
+  findByTerm(term: string): Promise<Discipline[]>;
 }

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import User from './User';
+import Class from '../../../../disciplines/infra/typeorm/entities/Class';
 import Internship from '../../../../disciplines/infra/typeorm/entities/Internship';
 
 @Entity('professors')
@@ -22,8 +23,11 @@ class Professor {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => Internship, x => x.class_professor)
+  @OneToMany(() => Internship, internship => internship.class_professor)
   internships: Internship[];
+
+  @OneToMany(() => Class, classes => classes.professor)
+  classes: Class[];
 }
 
 export default Professor;

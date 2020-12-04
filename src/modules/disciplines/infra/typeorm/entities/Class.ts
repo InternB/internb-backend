@@ -12,6 +12,7 @@ import { Exclude } from 'class-transformer';
 
 import Discipline from './Discipline';
 import Internship from './Internship';
+import Professor from '../../../../users/infra/typeorm/entities/Professor';
 
 @Entity('classes')
 class Class {
@@ -46,6 +47,10 @@ class Class {
 
   @Column({ type: 'uuid', nullable: false })
   professor_id: string;
+
+  @ManyToOne(() => Professor, professor => professor.classes, { eager: true })
+  @JoinColumn({ name: 'professor_id', referencedColumnName: 'id' })
+  professor: Professor;
 
   @CreateDateColumn()
   created_at: Date;
