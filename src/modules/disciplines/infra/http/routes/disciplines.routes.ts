@@ -13,6 +13,8 @@ disciplinesRouter.use(ensureAuthenticated);
 
 disciplinesRouter.get('/', disciplinesController.index);
 
+disciplinesRouter.get('/search', disciplinesController.search);
+
 disciplinesRouter.post(
   '/',
   ensureAdminAuthenticated,

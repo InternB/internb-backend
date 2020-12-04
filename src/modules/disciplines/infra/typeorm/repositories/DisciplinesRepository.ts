@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Like } from 'typeorm';
 
 import ICreateDisciplineDTO from '@modules/disciplines/dtos/ICreateDisciplineDTO';
 
@@ -15,8 +15,8 @@ export default class DisciplinesRepository implements IDisciplinesRepository {
   public async create({ id, name }: ICreateDisciplineDTO): Promise<Discipline> {
     let discipline = new Discipline();
     Object.assign(discipline, {
-      id,
-      name,
+      id: id.toLowerCase(),
+      name: name.toLowerCase(),
     });
 
     this.ormRepository.create(discipline);
@@ -42,6 +42,17 @@ export default class DisciplinesRepository implements IDisciplinesRepository {
     const discipline = await this.ormRepository.findOne({ where: { name } });
 
     return discipline;
+  }
+
+  public async findByTerm(term: string): Promise<Discipline[]> {
+    const disciplines = await this.ormRepository.find({
+      where: [
+        { id: Like(`%${term.toLowerCase()}%`) },
+        { name: Like(`%${term.toLowerCase()}%`) },
+      ],
+    });
+
+    return disciplines;
   }
 
   private async save(discipline: Discipline): Promise<Discipline> {

@@ -36,4 +36,14 @@ export default class FakeDisciplinesRepository
 
     return discipline;
   }
+
+  public async findByTerm(term: string): Promise<Discipline[]> {
+    const disciplines = this.disciplines.filter(
+      x =>
+        x.id.toLowerCase().includes(term.toLowerCase()) ||
+        x.name.toLowerCase().includes(term.toLowerCase()),
+    );
+
+    return disciplines;
+  }
 }
