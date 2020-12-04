@@ -22,18 +22,25 @@ class ListClassesDisciplineService {
     let classes: Class[] = [];
 
     if (!discipline_id && !professor_id)
-      classes = await this.classesRepository.getAll();
+      classes = await this.classesRepository.getAll(true);
 
     if (discipline_id && !professor_id)
-      classes = await this.classesRepository.findByDiscipline(discipline_id);
+      classes = await this.classesRepository.findByDiscipline(
+        discipline_id,
+        true,
+      );
 
     if (!discipline_id && professor_id)
-      classes = await this.classesRepository.findByProfessor(professor_id);
+      classes = await this.classesRepository.findByProfessor(
+        professor_id,
+        true,
+      );
 
     if (discipline_id && professor_id)
       classes = await this.classesRepository.findByDisciplineProfessor(
         discipline_id,
         professor_id,
+        true,
       );
 
     return classes;
