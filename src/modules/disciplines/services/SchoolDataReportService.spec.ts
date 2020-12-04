@@ -69,6 +69,7 @@ describe('SchoolDataReport', () => {
       user_id: 'user-id',
       user: new User(),
       internships: [],
+      classes: [],
     });
 
     for (let i = 1; i <= 5; i += 1) {
