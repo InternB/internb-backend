@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import pdfsUpload from '@config/uploadsConfig/PdfGuideUpload';
 import ensureAuthenticated from '../../../../users/infra/http/middlewares/ensureAuthenticated';
 import {
   ensureStudentAuthenticated,
