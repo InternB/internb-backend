@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
-import photoUpload from '@config/uploadsConfig/ImageUpload';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { ensureStudentAuthenticated } from '@modules/users/infra/http/middlewares/ensureRoleAuthenticated';
 import ActivitiesController from '../controllers/ActivitiesController';
@@ -21,9 +20,9 @@ activitiesRouter.post(
       sign: Joi.string().max(20).required(),
       timestamp: Joi.date().required(),
       description: Joi.string().required(),
+      photo: Joi.string().uuid().required(),
     },
   }),
-  photoUpload.upload.single('photo'),
   activitiesController.create,
 );
 
