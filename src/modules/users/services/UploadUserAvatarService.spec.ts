@@ -2,15 +2,12 @@ import 'reflect-metadata';
 
 import AppError from '@shared/errors/AppError';
 
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
-
 import UploadUserAvatarService from './UploadUserAvatarService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import User from '../infra/typeorm/entities/User';
 
 let uploadUserAvatar: UploadUserAvatarService;
 let fakeUsersRepository: FakeUsersRepository;
-let fakeStorageProvider: FakeStorageProvider;
 
 function createUser(active = true): User {
   const role = Math.floor(Math.random() * 4);
@@ -32,11 +29,7 @@ function createUser(active = true): User {
 describe('UploadUserAvatar', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    fakeStorageProvider = new FakeStorageProvider();
-    uploadUserAvatar = new UploadUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
+    uploadUserAvatar = new UploadUserAvatarService(fakeUsersRepository);
   });
 
   it("should be able to upload a new user's avatar image", async () => {
