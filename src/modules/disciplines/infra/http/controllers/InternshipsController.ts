@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 
 import RegisterStudentInternshipService from '@modules/disciplines/services/RegisterStudentInternshipService';
 import RegisterInternToSchoolService from '@modules/disciplines/services/RegisterInternToSchoolService';
-import AppError from '@shared/errors/AppError';
 import UploadInternContractFilesService from '@modules/disciplines/services/UploadInternContractFilesService';
 import UploadInternWorkPlanService from '@modules/disciplines/services/UploadInternWorkPlanService';
 import UploadInternCompromiseService from '@modules/disciplines/services/UploadInternCompromiseService';
