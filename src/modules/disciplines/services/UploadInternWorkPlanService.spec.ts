@@ -2,21 +2,17 @@ import 'reflect-metadata';
 
 import AppError from '@shared/errors/AppError';
 
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import UploadInternWorkPlanService from './UploadInternWorkPlanService';
 import FakeInternshipsRepository from '../repositories/fakes/FakeInternshipsRepository';
 
 let fakeInternshipsRepository: FakeInternshipsRepository;
-let fakeStorageProvider: FakeStorageProvider;
 let uploadInternWorkPlanService: UploadInternWorkPlanService;
 
 describe('UploadInternWorkPlan', () => {
   beforeEach(() => {
     fakeInternshipsRepository = new FakeInternshipsRepository();
-    fakeStorageProvider = new FakeStorageProvider();
     uploadInternWorkPlanService = new UploadInternWorkPlanService(
       fakeInternshipsRepository,
-      fakeStorageProvider,
     );
   });
 
