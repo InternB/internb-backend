@@ -91,19 +91,19 @@ internshipsRouter.patch(
 );
 
 internshipsRouter.patch(
-  '/upload/compromise',
+  '/upload/compromises',
   ensureStudentAuthenticated,
   celebrate({
     [Segments.BODY]: {
       internship_id: Joi.string().uuid().required(),
-      compromise_filename: Joi.string().uuid().required(),
+      compromise: Joi.string().uuid().required(),
     },
   }),
   internshipsController.uploadStudentCompromise,
 );
 
 internshipsRouter.patch(
-  '/upload/contract',
+  '/upload/contracts',
   ensureStudentAuthenticated,
   celebrate({
     [Segments.BODY]: {
@@ -117,7 +117,7 @@ internshipsRouter.patch(
 );
 
 internshipsRouter.patch(
-  '/upload/work-plan',
+  '/upload/work-plans',
   ensureStudentAuthenticated,
   celebrate({
     [Segments.BODY]: {

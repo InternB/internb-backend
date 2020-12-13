@@ -123,9 +123,9 @@ export default class InternshipsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { internship_id, compromise_filename } = request.body as {
+    const { internship_id, compromise } = request.body as {
       internship_id: string;
-      compromise_filename: string;
+      compromise: string;
     };
 
     const uploadInternCompromise = container.resolve(
@@ -134,7 +134,7 @@ export default class InternshipsController {
 
     const internship = await uploadInternCompromise.execute({
       internship_id,
-      compromise_filename,
+      compromise,
     });
 
     return response.json(internship);

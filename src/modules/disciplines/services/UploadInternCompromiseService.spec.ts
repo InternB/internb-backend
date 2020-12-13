@@ -26,7 +26,7 @@ describe('UploadInternCompromise', () => {
 
     const internship = await uploadInternCompromise.execute({
       internship_id,
-      compromise_filename: 'compromise.pdf',
+      compromise: 'compromise.pdf',
     });
 
     expect(internship.compromise).not.toBeNull();
@@ -37,7 +37,7 @@ describe('UploadInternCompromise', () => {
     await expect(
       uploadInternCompromise.execute({
         internship_id: 'invalid-internship',
-        compromise_filename: 'compromise.pdf',
+        compromise: 'compromise.pdf',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -57,7 +57,7 @@ describe('UploadInternCompromise', () => {
     await expect(
       uploadInternCompromise.execute({
         internship_id,
-        compromise_filename: 'compromise.pdf',
+        compromise: 'compromise.pdf',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

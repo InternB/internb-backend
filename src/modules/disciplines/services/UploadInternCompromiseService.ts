@@ -6,7 +6,7 @@ import Internship from '../infra/typeorm/entities/Internship';
 
 interface IRequest {
   internship_id: string;
-  compromise_filename: string;
+  compromise: string;
 }
 
 @injectable()
@@ -18,7 +18,7 @@ class UploadInternCompromiseService {
 
   public async execute({
     internship_id,
-    compromise_filename,
+    compromise,
   }: IRequest): Promise<Internship> {
     const internship = await this.internshipsRepository.findById(internship_id);
 
@@ -27,7 +27,7 @@ class UploadInternCompromiseService {
     if (internship.compromise)
       throw new AppError('Internship already has a compromise file');
 
-    internship.compromise = compromise_filename;
+    internship.compromise = compromise;
     await this.internshipsRepository.save(internship);
 
     return internship;
