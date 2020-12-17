@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import pdfsUpload from '@config/uploadsConfig/PdfGuideUpload';
 import ensureAuthenticated from '../../../../users/infra/http/middlewares/ensureAuthenticated';
 import {
   ensureStudentAuthenticated,
@@ -92,36 +91,40 @@ internshipsRouter.patch(
 );
 
 internshipsRouter.patch(
-  '/compromise/:internship_id',
+  '/upload/compromises',
   ensureStudentAuthenticated,
-  pdfsUpload.upload.single('compromise'),
+  celebrate({
+    [Segments.BODY]: {
+      internship_id: Joi.string().uuid().required(),
+      compromise: Joi.string().uuid().required(),
+    },
+  }),
   internshipsController.uploadStudentCompromise,
 );
 
 internshipsRouter.patch(
-  '/contract/:internship_id',
+  '/upload/contracts',
   ensureStudentAuthenticated,
-  pdfsUpload.upload.fields([
-    {
-      name: 'firstCopy',
-      maxCount: 1,
+  celebrate({
+    [Segments.BODY]: {
+      internship_id: Joi.string().uuid().required(),
+      first_copy: Joi.string().uuid().required(),
+      second_copy: Joi.string().uuid().required(),
+      third_copy: Joi.string().uuid().required(),
     },
-    {
-      name: 'secondCopy',
-      maxCount: 1,
-    },
-    {
-      name: 'thirdCopy',
-      maxCount: 1,
-    },
-  ]),
+  }),
   internshipsController.uploadStudentContract,
 );
 
 internshipsRouter.patch(
-  '/work-plan/:internship_id',
+  '/upload/work-plans',
   ensureStudentAuthenticated,
-  pdfsUpload.upload.single('work-plan'),
+  celebrate({
+    [Segments.BODY]: {
+      internship_id: Joi.string().uuid().required(),
+      work_plan: Joi.string().uuid().required(),
+    },
+  }),
   internshipsController.uploadStudentWorkPlan,
 );
 

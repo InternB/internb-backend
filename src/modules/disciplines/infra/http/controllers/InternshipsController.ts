@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 
 import RegisterStudentInternshipService from '@modules/disciplines/services/RegisterStudentInternshipService';
 import RegisterInternToSchoolService from '@modules/disciplines/services/RegisterInternToSchoolService';
-import AppError from '@shared/errors/AppError';
 import UploadInternContractFilesService from '@modules/disciplines/services/UploadInternContractFilesService';
 import UploadInternWorkPlanService from '@modules/disciplines/services/UploadInternWorkPlanService';
 import UploadInternCompromiseService from '@modules/disciplines/services/UploadInternCompromiseService';
@@ -124,14 +123,10 @@ export default class InternshipsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { internship_id } = request.params;
-    const compromise = request.file;
-
-    if (!compromise) {
-      return response
-        .status(400)
-        .json(new AppError('Must upload the compromise file'));
-    }
+    const { internship_id, compromise } = request.body as {
+      internship_id: string;
+      compromise: string;
+    };
 
     const uploadInternCompromise = container.resolve(
       UploadInternCompromiseService,
@@ -139,7 +134,7 @@ export default class InternshipsController {
 
     const internship = await uploadInternCompromise.execute({
       internship_id,
-      compromise: compromise.filename,
+      compromise,
     });
 
     return response.json(internship);
@@ -149,16 +144,17 @@ export default class InternshipsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { internship_id } = request.params;
-    const { firstCopy, secondCopy, thirdCopy } = request.files;
-
-    if (!firstCopy || !secondCopy || !thirdCopy) {
-      return response
-        .status(400)
-        .json(
-          new AppError('Must upload all three copies of the contract', 400),
-        );
-    }
+    const {
+      internship_id,
+      first_copy,
+      second_copy,
+      third_copy,
+    } = request.body as {
+      internship_id: string;
+      first_copy: string;
+      second_copy: string;
+      third_copy: string;
+    };
 
     const uploadInternContract = container.resolve(
       UploadInternContractFilesService,
@@ -166,9 +162,9 @@ export default class InternshipsController {
 
     const internship = await uploadInternContract.execute({
       internship_id,
-      firstCopy: firstCopy[0].filename,
-      secondCopy: secondCopy[0].filename,
-      thirdCopy: thirdCopy[0].filename,
+      first_copy,
+      second_copy,
+      third_copy,
     });
 
     return response.json(internship);
@@ -178,20 +174,16 @@ export default class InternshipsController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { internship_id } = request.params;
-    const work_plan = request.file;
-
-    if (!work_plan) {
-      return response
-        .status(400)
-        .json(new AppError('Must upload the work plan file', 400));
-    }
+    const { internship_id, work_plan } = request.body as {
+      internship_id: string;
+      work_plan: string;
+    };
 
     const uploadInternWorkPlan = container.resolve(UploadInternWorkPlanService);
 
     const internship = await uploadInternWorkPlan.execute({
       internship_id,
-      work_plan: work_plan.filename,
+      work_plan,
     });
 
     return response.json(internship);

@@ -4,8 +4,7 @@ import CreateActivityOfInternshipService from '@modules/disciplines/services/Cre
 
 export default class ActivitiesController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { internship_id, sign, timestamp, description } = request.body;
-    const { filename: photo } = request.file;
+    const { internship_id, sign, timestamp, description, photo } = request.body;
 
     const createActivityOfInternshipService = container.resolve(
       CreateActivityOfInternshipService,

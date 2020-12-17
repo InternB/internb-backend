@@ -7,7 +7,7 @@ import UploadUserAvatarService from '@modules/users/services/UploadUserAvatarSer
 class UserAvatarsController {
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
-    const avatar = request.file.filename;
+    const { avatar } = request.body as { avatar: string };
 
     const uploadUserAvatarService = container.resolve(UploadUserAvatarService);
 

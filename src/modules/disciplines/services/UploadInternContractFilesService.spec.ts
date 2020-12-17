@@ -2,22 +2,17 @@ import 'reflect-metadata';
 
 import AppError from '@shared/errors/AppError';
 
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
-
 import UploadInternContractFilesService from './UploadInternContractFilesService';
 import FakeInternshipsRepository from '../repositories/fakes/FakeInternshipsRepository';
 
 let fakeInternshipsRepository: FakeInternshipsRepository;
-let fakeStorageProvider: FakeStorageProvider;
 let uploadInternContractFiles: UploadInternContractFilesService;
 
 describe('UploadInternContractFiles', () => {
   beforeEach(() => {
     fakeInternshipsRepository = new FakeInternshipsRepository();
-    fakeStorageProvider = new FakeStorageProvider();
     uploadInternContractFiles = new UploadInternContractFilesService(
       fakeInternshipsRepository,
-      fakeStorageProvider,
     );
   });
 
@@ -31,9 +26,9 @@ describe('UploadInternContractFiles', () => {
 
     const internship = await uploadInternContractFiles.execute({
       internship_id,
-      firstCopy: 'firstCopy.pdf',
-      secondCopy: 'secondCopy.pdf',
-      thirdCopy: 'thirdCopy.pdf',
+      first_copy: 'firstCopy.pdf',
+      second_copy: 'secondCopy.pdf',
+      third_copy: 'thirdCopy.pdf',
     });
 
     expect(internship.contract_files).not.toBeNull();
@@ -44,9 +39,9 @@ describe('UploadInternContractFiles', () => {
     await expect(
       uploadInternContractFiles.execute({
         internship_id: 'invalid-internship',
-        firstCopy: 'firstCopy.pdf',
-        secondCopy: 'secondCopy.pdf',
-        thirdCopy: 'thirdCopy.pdf',
+        first_copy: 'firstCopy.pdf',
+        second_copy: 'secondCopy.pdf',
+        third_copy: 'thirdCopy.pdf',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -70,9 +65,9 @@ describe('UploadInternContractFiles', () => {
     await expect(
       uploadInternContractFiles.execute({
         internship_id,
-        firstCopy: 'firstCopy.pdf',
-        secondCopy: 'secondCopy.pdf',
-        thirdCopy: 'thirdCopy.pdf',
+        first_copy: 'firstCopy.pdf',
+        second_copy: 'secondCopy.pdf',
+        third_copy: 'thirdCopy.pdf',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -1,6 +1,6 @@
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
-import AppError from '@shared/errors/AppError';
 import 'reflect-metadata';
+
+import AppError from '@shared/errors/AppError';
 import FakeActivitiesRepository from '../repositories/fakes/FakeActivitiesRepository';
 import FakeInternshipsRepository from '../repositories/fakes/FakeInternshipsRepository';
 
@@ -8,18 +8,15 @@ import CreateActivityOfInternshipService from './CreateActivityOfInternshipServi
 
 let fakeInternshipsRepository: FakeInternshipsRepository;
 let fakeActivitiesRepository: FakeActivitiesRepository;
-let fakeStorageProvider: FakeStorageProvider;
 let createActivityOfInternshipService: CreateActivityOfInternshipService;
 
 describe('CreateActivityOfInternship', () => {
   beforeEach(() => {
     fakeInternshipsRepository = new FakeInternshipsRepository();
     fakeActivitiesRepository = new FakeActivitiesRepository();
-    fakeStorageProvider = new FakeStorageProvider();
     createActivityOfInternshipService = new CreateActivityOfInternshipService(
       fakeInternshipsRepository,
       fakeActivitiesRepository,
-      fakeStorageProvider,
     );
   });
 

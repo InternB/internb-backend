@@ -1,6 +1,5 @@
 import { Router } from 'express';
-
-import userAvatar from '@config/uploadsConfig/ImageUpload';
+import { celebrate, Segments, Joi } from 'celebrate';
 
 import ProfilesController from '../controllers/ProfilesController';
 import UserAvatarsController from '../controllers/UserAvatarsController';
@@ -18,7 +17,11 @@ profilesRouter.put('/', profilesController.update);
 
 profilesRouter.patch(
   '/',
-  userAvatar.upload.single('avatar'),
+  celebrate({
+    [Segments.BODY]: {
+      avatar: Joi.string().uuid().required(),
+    },
+  }),
   userAvatarsController.update,
 );
 

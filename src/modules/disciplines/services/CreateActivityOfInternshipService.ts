@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import IStorageProvider from '@shared/container/providers/StorageProvider/model/IStorageProvider';
 import AppError from '@shared/errors/AppError';
 import Activity from '../infra/typeorm/entities/Actvitity';
 import IInternshipsRepository from '../repositories/IInternshipsRepository';
@@ -22,9 +21,6 @@ class CreateActivityOfInternshipService {
 
     @inject('ActivitiesRepository')
     private activitiesRepository: IActivitiesRepository,
-
-    @inject('StorageProvider')
-    private storageProvider: IStorageProvider,
   ) {}
 
   public async execute({
@@ -41,14 +37,12 @@ class CreateActivityOfInternshipService {
     if (!internship.preceptor_id)
       throw new AppError('Intern not registered to a preceptor yet', 400);
 
-    const stored_photo = await this.storageProvider.saveFile(photo);
-
     const activity = await this.activitiesRepository.create({
       internship_id,
       sign,
       timestamp,
       description,
-      photo: stored_photo,
+      photo,
     });
 
     return activity;
